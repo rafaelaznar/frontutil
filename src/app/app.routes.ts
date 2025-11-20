@@ -7,6 +7,7 @@ import { RoutedUserView } from './component/blog/routed-user-view/routed-user-vi
 import { RoutedAdminEdit } from './component/blog/routed-admin-edit/routed-admin-edit';
 import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
+import { VisitasPage } from './component/uski/pages/visitas/visitas.page';
 
 
 export const routes: Routes = [
@@ -18,4 +19,16 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+
+  // Vladislav Uski
+  { path: 'visitas', component: VisitasPage
+    // children: [
+    //   { path: '', component: VisitasPage },
+    //   { path: '/new', component:  },
+    //   { path: '/edit', component:  },
+    //   { path: '', component:  },
+    // ]
+  }
+
 ];
+

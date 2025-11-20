@@ -1,0 +1,35 @@
+<!-- <div class="opiniones-container container my-4">
+  <h3 class="mb-4">Opiniones de usuarios</h3>
+
+  <div class="row g-4">
+
+    @for (o of opiniones; track o.id) {
+      <div class="col-md-6">
+        <div class="opinion-card card shadow-sm h-100">
+
+          <div class="card-body">
+            <h5 class="card-title fw-bold mb-2">
+              {{ o.usuario }}
+            </h5>
+
+            <p class="card-text text-muted">
+              {{ o.comentario }}
+            </p>
+          </div>
+
+          <div class="card-footer bg-white border-0 small text-muted">
+            Publicado el {{ o.fecha_creacion | date:'yyyy-MM-dd HH:mm:ss' }}
+
+            @if (o.fecha_modificacion) {
+              <div class="fst-italic mt-1">
+                actualizado ({{ o.fecha_modificacion | date:'yyyy-MM-dd HH:mm:ss' }})
+              </div>
+            }
+          </div>
+
+        </div>
+      </div>
+    }
+
+  </div>
+</div> -->
