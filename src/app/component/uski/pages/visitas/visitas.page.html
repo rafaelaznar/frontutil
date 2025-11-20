@@ -26,9 +26,13 @@
     </div>
   </div>
 
-  <div class="row g-4">
-    @for (visita of oPage?.content; track visita.id ) {
-      <app-registro-card [oVisita]="visita"> </app-registro-card>
+  <div class="list">
+    @for (oVisita of oPage?.content; track oVisita.id ) {
+    <div class="post-row mt-5">
+      <div class="post-item">
+        <app-registro-card [oVisita]="oVisita"> </app-registro-card>
+      </div>
+    </div>
     }
   </div>
 
