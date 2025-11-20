@@ -1,35 +1,41 @@
-<!-- <div class="opiniones-container container my-4">
-  <h3 class="mb-4">Opiniones de usuarios</h3>
+<div class="container my-3">
+
+  <div class="flex justify-between items-center">
+    <div class="d-flex align-items-center">
+      <h1 class="h4 mb-0">
+        <i class="bi bi-journal-text blog-icon me-2" aria-hidden="true"></i>
+        Libro de visita de usuarios
+      </h1>
+    </div>
+  
+    <div class="d-flex align-items-center mt-2 mt-md-0">
+      <a
+        class="btn btn-outline-secondary btn-sm me-3 d-none d-md-inline-flex align-items-center"
+        routerLink="/visitas/dashboard"
+        title="dashboard"
+      >
+        <i class="bi bi-gear-fill me-2" aria-hidden="true"></i>
+        Dashboard
+      </a>
+      <a
+        class="btn btn-outline-secondary btn-sm d-inline-flex d-md-none align-items-center"
+        routerLink="/visitas/dashboard"
+        title="dashboard"
+      >
+      </a>
+    </div>
+  </div>
 
   <div class="row g-4">
-
-    @for (o of opiniones; track o.id) {
-      <div class="col-md-6">
-        <div class="opinion-card card shadow-sm h-100">
-
-          <div class="card-body">
-            <h5 class="card-title fw-bold mb-2">
-              {{ o.usuario }}
-            </h5>
-
-            <p class="card-text text-muted">
-              {{ o.comentario }}
-            </p>
-          </div>
-
-          <div class="card-footer bg-white border-0 small text-muted">
-            Publicado el {{ o.fecha_creacion | date:'yyyy-MM-dd HH:mm:ss' }}
-
-            @if (o.fecha_modificacion) {
-              <div class="fst-italic mt-1">
-                actualizado ({{ o.fecha_modificacion | date:'yyyy-MM-dd HH:mm:ss' }})
-              </div>
-            }
-          </div>
-
-        </div>
-      </div>
+    @for (visita of oPage?.content; track visita.id ) {
+      <app-registro-card [oVisita]="visita"> </app-registro-card>
     }
-
   </div>
-</div> -->
+
+  <app-paginacion
+    [numPage]="numPage"
+    [numPages]="oPage?.totalPages || 1"
+    (pageChange)="goToPage($event)"
+  >
+  </app-paginacion>
+</div>
