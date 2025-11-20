@@ -1,0 +1,9 @@
+/* Estilos específicos para la vista detallada de usuario */
+.card-header h2 {
+  font-size: 1.5rem;
+}
+
+.lead {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

@@ -1,0 +1,28 @@
+<div class="container my-4">
+  <div class="d-flex justify-content-center my-5">
+    <h1>Ideas de la Comunidad</h1>
+  </div>
+
+  <div class="d-flex justify-content-center my-3">
+    <app-paginacion
+      [numPage]="numPage"
+      [numPages]="oPage?.totalPages || 1"
+      (pageChange)="goToPage($event)"
+    >
+    </app-paginacion>
+  </div>
+
+  <div class="row">
+    @for (oIdea of oPage?.content; track oIdea.id) {
+      <div class="col-12">
+        <app-fernandez-unrouted-user-view [oIdea]="oIdea"></app-fernandez-unrouted-user-view>
+      </div>
+    }
+  </div>
+
+  @if (oPage?.content && oPage.content.length === 0) {
+    <div class="alert alert-info text-center" role="alert">
+      No hay ideas disponibles en este momento.
+    </div>
+  }
+</div>
