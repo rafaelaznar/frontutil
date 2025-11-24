@@ -19,23 +19,23 @@ export class PavonService {
     if (direction === '') {
       direction = 'asc';
     }
-    return this.oHttp.get<IPage<IRecurso>>(serverURL + `/blog?page=${page}&size=${rpp}&sort=${order},${direction}`);
+    return this.oHttp.get<IPage<IRecurso>>(serverURL + `/recurso?page=${page}&size=${rpp}&sort=${order},${direction}`);
   }
 
   get(id: number): Observable<IRecurso> {
-    return this.oHttp.get<IRecurso>(serverURL + '/blog/' + id);
+    return this.oHttp.get<IRecurso>(serverURL + '/recurso/' + id);
   }
 
-  create(blog: Partial<IRecurso>): Observable<number> {
-    return this.oHttp.post<number>(serverURL + '/blog', blog);
+  create(recurso: Partial<IRecurso>): Observable<number> {
+    return this.oHttp.post<number>(serverURL + '/recurso', recurso);
   }
 
-  update(blog: Partial<IRecurso>): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/blog', blog);
+  update(recurso: Partial<IRecurso>): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/recurso', recurso);
   }
 
   delete(id: number): Observable<number> {
-    return this.oHttp.delete<number>(serverURL + '/blog/' + id);
+    return this.oHttp.delete<number>(serverURL + '/recurso/' + id);
   }
 
 }
