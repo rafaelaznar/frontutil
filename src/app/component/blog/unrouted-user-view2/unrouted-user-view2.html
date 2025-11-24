@@ -9,7 +9,10 @@
       <a [routerLink]="['/blog/post', oBlog?.id]" class="btn btn-sm btn-outline-primary">Leer</a>
     </div>
     <div class="d-flex justify-content-end">
-      <small class="text-muted me-3">Publicado el {{ oBlog?.fechaCreacion }}</small>
+      <small class="text-muted me-3">
+        Publicado el {{ oBlog?.fechaCreacion | datetime : 'solofechacompleta' }}
+        a las {{ oBlog?.fechaCreacion | datetime : 'solohora' }}
+      </small>
     </div>
 
     <div class="d-flex justify-content-end">
