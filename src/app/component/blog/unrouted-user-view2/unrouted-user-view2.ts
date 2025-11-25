@@ -2,10 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IBlog } from '../../../model/blog';
 import { TrimPipe } from "../../../pipe/trim-pipe";
+import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
   selector: 'app-unrouted-user-view2',
-  imports: [TrimPipe, RouterLink],
+  imports: [TrimPipe, RouterLink, DatetimePipe],
   templateUrl: './unrouted-user-view2.html',
   styleUrl: './unrouted-user-view2.css',
 })
