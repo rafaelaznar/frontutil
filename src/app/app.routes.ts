@@ -18,4 +18,6 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+  { path: 'garcia', component: RoutedUserPlist},
+  { path: 'garcia/post/:id', component: RoutedUserView }
 ];
