@@ -1,47 +1,64 @@
-<div class="container my-4 edit-form">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-8">
-      <div class="form-card">
-        <h1 class="my-5">Detalle de Item</h1>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="row">{{ oCalinescu?.id }}</th>
-            </tr>
-            <tr>
-              <th scope="col">Nombre</th>
-              <td>{{ oCalinescu?.nombre }}</td>
-            </tr>
-            <tr>
-              <th scope="col" class="align-middle">Contenido</th>
-              <td>{{ oCalinescu?.contenido }}</td>
-            </tr>
-            <tr>
-              <th scope="col">Fecha Compra Esperada</th>
-              <td>{{ oCalinescu?.fecha_compra_esperada }}</td>
-            </tr>
-            <tr>
-              <th scope="col">Creación</th>
-              <td>{{ oCalinescu?.fecha_creacion }}</td>
-            </tr>
-            <tr>
-              <th scope="col">Modificación</th>
-              <td>{{ oCalinescu?.fecha_modificacion }}</td>
-            </tr>
-            <tr>
-              <th scope="col">Publicado</th>
-              <td>
-                @if (oCalinescu?.publicado) {
-                  <i class="bi bi-check-circle-fill text-success"></i> Sí
-                } @else {
-                  <i class="bi bi-x-circle-fill text-danger"></i> No
-                }
-              </td>
-            </tr>
-          </thead>
-        </table>
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <h2 class="h5 mb-0">
+      <i class="bi bi-info-circle me-2"></i>Detalle de Item
+    </h2>
+  </div>
+  <div class="card-body">
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">ID:</strong>
+          <span class="badge bg-secondary">{{ oCalinescu?.id }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-start">
+          <strong class="text-muted" style="min-width: 200px;">Nombre:</strong>
+          <span>{{ oCalinescu?.nombre }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-start">
+          <strong class="text-muted" style="min-width: 200px;">Contenido:</strong>
+          <div class="flex-fill">
+            <div class="p-3 bg-light rounded">
+              {{ oCalinescu?.contenido }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">Fecha Compra Esperada:</strong>
+          <span>{{ oCalinescu?.fecha_compra_esperada }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">Fecha Creación:</strong>
+          <span>{{ oCalinescu?.fecha_creacion }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">Fecha Modificación:</strong>
+          <span>{{ oCalinescu?.fecha_modificacion }}</span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">Estado:</strong>
+          @if (oCalinescu?.publicado) {
+          <span class="badge bg-success">
+            <i class="bi bi-check-circle-fill me-1"></i>Publicado
+          </span>
+          } @else {
+          <span class="badge bg-danger">
+            <i class="bi bi-x-circle-fill me-1"></i>No Publicado
+          </span>
+          }
+        </div>
       </div>
     </div>
   </div>
