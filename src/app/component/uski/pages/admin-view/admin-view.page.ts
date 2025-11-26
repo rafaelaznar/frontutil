@@ -6,12 +6,12 @@ import { VisitasService } from '../../services/visitas';
 import { IVisita } from '../../types/visitas';
 
 @Component({
-  selector: 'app-visita-view-page',
+  selector: 'app-admin-view-page',
   imports: [CommonModule],
-  templateUrl: './visita-view.page.html',
-  styleUrl: './visita-view.page.css',
+  templateUrl: './admin-view.page.html',
+  styleUrl: './admin-view.page.css',
 })
-export class UskiVisitaViewPage implements OnInit {
+export class UskiAdminViewPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private visitasService = inject(VisitasService);

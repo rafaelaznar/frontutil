@@ -9,8 +9,8 @@ import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-n
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
 import { UskiVisitasPage } from './component/uski/pages/visitas/visitas.page';
 import { UskiAdminPage } from './component/uski/pages/admin/admin.page';
-import { UskiVisitaRemovePage } from './component/uski/pages/visita-remove/visita-remove.page';
-import { UskiVisitaViewPage } from './component/uski/pages/visita-view/visita-view.page';
+import { UskiAdminRemovePage } from './component/uski/pages/admin-remove/admin-remove.page';
+import { UskiAdminViewPage } from './component/uski/pages/admin-view/admin-view.page';
 
 
 export const routes: Routes = [
@@ -26,7 +26,7 @@ export const routes: Routes = [
   // Vladislav Uski
   { path: 'visitas', component: UskiVisitasPage},
   { path: 'visitas/dashboard', component: UskiAdminPage },
-  { path: 'visitas/view/:id', component: UskiVisitaViewPage },
-  { path: 'visitas/remove/:id', component: UskiVisitaRemovePage },
+  { path: 'visitas/view/:id', component: UskiAdminViewPage },
+  { path: 'visitas/remove/:id', component: UskiAdminRemovePage },
 
 ];

@@ -6,12 +6,12 @@ import { VisitasService } from '../../services/visitas';
 import { IVisita } from '../../types/visitas';
 
 @Component({
-  selector: 'app-visita-remove-page',
+  selector: 'app-admin-remove-page',
   imports: [CommonModule],
-  templateUrl: './visita-remove.page.html',
-  styleUrl: './visita-remove.page.css',
+  templateUrl: './admin-remove.page.html',
+  styleUrl: './admin-remove.page.css',
 })
-export class UskiVisitaRemovePage implements OnInit {
+export class UskiAdminRemovePage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private visitasService = inject(VisitasService);

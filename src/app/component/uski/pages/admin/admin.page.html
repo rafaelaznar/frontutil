@@ -9,7 +9,7 @@
     <a
       class="btn btn-outline-secondary btn-sm me-3 d-none d-md-inline-flex align-items-center"
       routerLink="/visitas"
-      title="dashboard"
+      title="Back to public list"
     >
       <i class="bi bi-arrow-left-square me-2" aria-hidden="true"></i>
       Volver
@@ -22,15 +22,15 @@
         <div class="p-4 text-center text-muted">No hay registros.</div>
       } @else {
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0 visitas-table">
+          <table class="table table-hover align-middle mb-0" style="table-layout: fixed; width: 100%;">
             <colgroup>
-              <col class="col-id" />
-              <col class="col-nombre" />
-              <col class="col-comentario" />
-              <col class="col-estado" />
-              <col class="col-fecha" />
-              <col class="col-fecha" />
-              <col class="col-acciones" />
+              <col style="width: 80px;" />
+              <col style="width: 180px;" />
+              <col style="width: 320px;" />
+              <col style="width: 120px;" />
+              <col style="width: 160px;" />
+              <col style="width: 160px;" />
+              <col style="width: 160px;" />
             </colgroup>
             <thead class="table-light">
               <tr>
@@ -54,7 +54,7 @@
     </div>
   </div>
 
-  <div class="d-flex justify-content-center pagination-wrapper">
+  <div class="d-flex justify-content-center mt-3">
     <app-paginacion
       [numPage]="numPage"
       [numPages]="oPage?.totalPages || 1"
