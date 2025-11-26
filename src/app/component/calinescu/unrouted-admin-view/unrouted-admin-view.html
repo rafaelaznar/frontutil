@@ -1,0 +1,48 @@
+<div class="container my-4 edit-form">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <div class="form-card">
+        <h1 class="my-5">Detalle de Item</h1>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="row">{{ oCalinescu?.id }}</th>
+            </tr>
+            <tr>
+              <th scope="col">Nombre</th>
+              <td>{{ oCalinescu?.nombre }}</td>
+            </tr>
+            <tr>
+              <th scope="col" class="align-middle">Contenido</th>
+              <td>{{ oCalinescu?.contenido }}</td>
+            </tr>
+            <tr>
+              <th scope="col">Fecha Compra Esperada</th>
+              <td>{{ oCalinescu?.fecha_compra_esperada }}</td>
+            </tr>
+            <tr>
+              <th scope="col">Creación</th>
+              <td>{{ oCalinescu?.fecha_creacion }}</td>
+            </tr>
+            <tr>
+              <th scope="col">Modificación</th>
+              <td>{{ oCalinescu?.fecha_modificacion }}</td>
+            </tr>
+            <tr>
+              <th scope="col">Publicado</th>
+              <td>
+                @if (oCalinescu?.publicado) {
+                  <i class="bi bi-check-circle-fill text-success"></i> Sí
+                } @else {
+                  <i class="bi bi-x-circle-fill text-danger"></i> No
+                }
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
