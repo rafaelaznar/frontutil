@@ -4,16 +4,16 @@ import { IPage } from '../../../model/plist';
 import { IGarcia } from '../../../model/garcia/garcia';
 import { GarciaService } from '../../../service/garcia/garcia';
 import { Paginacion } from "../../shared/paginacion/paginacion";
-import { UnroutedUserView2 } from "../unrouted-user-view2/unrouted-user-view2";
+import { UnroutedUserView2Garcia } from "../unrouted-user-view2Garcia/Garciaunrouted-user-view2";
 
 
 @Component({
-  selector: 'app-routed-user-plist',
-  imports: [Paginacion, UnroutedUserView2],
-  templateUrl: './routed-user-plist.html',
-  styleUrl: './routed-user-plist.css',
+  selector: 'app-Garciarouted-user-plist',
+  imports: [Paginacion, UnroutedUserView2Garcia],
+  templateUrl: './Garciarouted-user-plist.html',
+  styleUrl: './Garciarouted-user-plist.css',
 })
-export class RoutedUserPlist {
+export class RoutedUserPlistGarcia {
   oPage: IPage<IGarcia> | null = null;
   numPage: number = 0;
   numRpp: number = 2;

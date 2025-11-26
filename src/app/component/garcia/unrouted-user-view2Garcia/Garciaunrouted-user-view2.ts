@@ -5,12 +5,12 @@ import { TrimPipe } from "../../../pipe/trim-pipe";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
-  selector: 'app-unrouted-user-view2',
+  selector: 'app-Garciaunrouted-user-view2',
   imports: [TrimPipe, RouterLink, DatetimePipe],
-  templateUrl: './unrouted-user-view2.html',
-  styleUrl: './unrouted-user-view2.css',
+  templateUrl: './Garciaunrouted-user-view2.html',
+  styleUrl: './Garciaunrouted-user-view2.css',
 })
-export class UnroutedUserView2 implements OnInit {
+export class UnroutedUserView2Garcia implements OnInit {
   @Input() oGarcia: IGarcia | null = null;
 
   iconClass: string = 'bi bi-newspaper';

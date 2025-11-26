@@ -3,12 +3,12 @@ import { IGarcia } from '../../../model/garcia/garcia';
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
-  selector: 'app-unrouted-user-view',
+  selector: 'app-Garciaunrouted-user-view',
   imports: [DatetimePipe],
-  templateUrl: './unrouted-user-view.html',
-  styleUrl: './unrouted-user-view.css',
+  templateUrl: './Garciaunrouted-user-view.html',
+  styleUrl: './Garciaunrouted-user-view.css',
 })
-export class UnroutedUserView {
+export class UnroutedUserViewGarcia {
   @Input() oGarcia: IGarcia | null = null;
   
 }

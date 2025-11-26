@@ -3,15 +3,15 @@ import { IGarcia } from '../../../model/garcia/garcia';
 import { GarciaService } from '../../../service/garcia/garcia';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnroutedUserView } from "../unrouted-user-view/unrouted-user-view";
+import { UnroutedUserViewGarcia } from "../unrouted-user-viewGarcia/Garciaunrouted-user-view";
 
 @Component({
-  selector: 'app-routed-user-view',
-  imports: [UnroutedUserView],
-  templateUrl: './routed-user-view.html',
-  styleUrls: ['./routed-user-view.css'],
+  selector: 'app-Garciarouted-user-view',
+  imports: [UnroutedUserViewGarcia],
+  templateUrl: './Garciarouted-user-view.html',
+  styleUrls: ['./Garciarouted-user-view.css'],
 })
-export class RoutedUserView {
+export class RoutedUserViewGarcia {
   oGarcia: IGarcia | null = null;
 
   constructor(private oGarciaService: GarciaService, private route: ActivatedRoute) {
