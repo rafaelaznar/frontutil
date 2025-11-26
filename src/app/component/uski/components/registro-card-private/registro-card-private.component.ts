@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { IVisita } from '../../types/visitas';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { VisitasService } from '../../services/visitas';
 
 @Component({
   selector: 'app-registro-card-private',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './registro-card-private.component.html',
   styleUrl: './registro-card-private.component.css',
   standalone: true

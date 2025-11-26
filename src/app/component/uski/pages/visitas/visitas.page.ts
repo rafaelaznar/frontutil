@@ -13,7 +13,7 @@ import { RegistroCardPublicComponent } from '../../components/registro-card-publ
   templateUrl: './visitas.page.html',
   styleUrl: './visitas.page.css',
 })
-export class VisitasPage {
+export class UskiVisitasPage {
   oPage: IPage<IVisita> | null = null;
   numPage: number = 0;
   numRpp: number = 6;
