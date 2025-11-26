@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { VisitasService } from '../../services/visitas';
 import { Paginacion } from '../../../shared/paginacion/paginacion';
 import { IPage } from '../../types/pageView';
 import { IVisita } from '../../types/visitas';
 import { RouterLink } from "@angular/router";
-import { RegistroCardPrivateComponent } from '../../components/registro-card-private/registro-card-private.component';
+import { RegistroTablaComponent } from '../../components/registro-tabla-private/registro-tabla-private.component';
 
 @Component({
   selector: 'app-admin.page',
-  imports: [RouterLink, Paginacion, RegistroCardPrivateComponent],
+  imports: [CommonModule, RouterLink, Paginacion, RegistroTablaComponent],
   templateUrl: './admin.page.html',
   styleUrl: './admin.page.css',
 })

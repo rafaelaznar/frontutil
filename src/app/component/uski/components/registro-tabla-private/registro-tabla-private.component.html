@@ -1,0 +1,29 @@
+<th scope="row">{{ visita.id }}</th>
+<td class="fw-semibold">{{ visita.nombre }}</td>
+<td class="text-truncate" style="max-width: 320px;" title="{{ visita.comentario }}">{{ visita.comentario }}</td>
+<td>
+  @if (visita.estaPublicado) {
+    <span class="badge bg-success">Publicado</span>
+  } @else {
+    <span class="badge bg-secondary">Oculto</span>
+  }
+</td>
+<td class="text-nowrap">{{ visita.fechaCreacion }}</td>
+<td class="text-nowrap">{{ visita.fechaModificacion || '' }}</td>
+<td class="text-end">
+  <div class="btn-group btn-group-sm" role="group">
+    <a [routerLink]="['/visitas/view', visita.id]" class="btn btn-outline-primary" title="Ver">
+      <i class="bi bi-info-circle"></i>
+    </a>
+    <button class="btn btn-outline-secondary" (click)="onTogglePublish()" title="Publicar/Ocultar">
+      @if (visita.estaPublicado) {
+        <i class="bi bi-eye-slash text-danger"></i>
+      } @else {
+        <i class="bi bi-eye text-success"></i>
+      }
+    </button>
+    <a [routerLink]="['/visitas/remove', visita.id]" class="btn btn-outline-danger" title="Borrar">
+      <i class="bi bi-trash"></i>
+    </a>
+  </div>
+</td>

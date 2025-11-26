@@ -1,0 +1,31 @@
+.visitas-table {
+  table-layout: fixed;
+}
+
+.visitas-table .col-id {
+  width: 80px;
+}
+
+.visitas-table .col-nombre {
+  width: 180px;
+}
+
+.visitas-table .col-comentario {
+  width: 320px;
+}
+
+.visitas-table .col-estado {
+  width: 120px;
+}
+
+.visitas-table .col-fecha {
+  width: 160px;
+}
+
+.visitas-table .col-acciones {
+  width: 160px;
+}
+
+.pagination-wrapper {
+  margin-top: 1rem;
+}
