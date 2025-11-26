@@ -38,4 +38,8 @@ export class BlogService {
     return this.oHttp.delete<number>(serverURL + '/blog/' + id);
   }
 
+  rellenaBlog(numPosts: number): Observable<number> {
+    return this.oHttp.get<number>(serverURL + '/blog/rellena/' + numPosts);
+  }
+
 }
