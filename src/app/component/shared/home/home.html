@@ -69,5 +69,26 @@
 				</div>
 			</div>
 		</div>
+		<!-- castanyera Journal cards -->
+		<div class="col-12 col-sm-6 col-lg-4">
+			<div class="card h-100 shadow-lg border-1">
+				<div class="card-body d-flex flex-column">
+					<div class="d-flex align-items-center mb-3">
+						<div class="icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:48px;height:48px;">
+							<i class="bi bi-journal-text fs-5"></i>
+						</div>
+						<div>
+							<h5 class="card-title mb-0">Journal</h5>
+							<small class="text-muted">By: Lucia Castañera</small>
+						</div>
+					</div>
+					<p class="card-text text-secondary small flex-grow-1">Lee sobre el diario de los eventos que ha vivido</p>
+					<div class="mt-3 d-flex gap-2">
+						<a class="btn btn-outline-primary btn-sm" [routerLink]="['/castanyera']"><i class="bi bi-eye me-2"></i>Ver journal</a>
+						<a class="btn btn-warning btn-sm" [routerLink]="['/castanyera/plist']"><i class="bi bi-gear-fill me-2"></i>Administrar</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
