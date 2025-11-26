@@ -11,14 +11,18 @@ import { Observable } from 'rxjs';
 export class FernandezIdeaService {
   private readonly http = inject(HttpClient);
 
-  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IFernandezIdea>> {
+  getPage(page: number, rpp: number, order: string = '', direction: string = '', publico?: boolean): Observable<IPage<IFernandezIdea>> {
     if (order === '') {
       order = 'id';
     }
     if (direction === '') {
       direction = 'asc';
     }
-    return this.http.get<IPage<IFernandezIdea>>(serverURL + `/idea?page=${page}&size=${rpp}&sort=${order},${direction}`);
+    let url = serverURL + `/idea?page=${page}&size=${rpp}&sort=${order},${direction}`;
+    if (publico !== undefined) {
+      url += `&publico=${publico}`;
+    }
+    return this.http.get<IPage<IFernandezIdea>>(url);
   }
 
   get(id: number): Observable<IFernandezIdea> {
@@ -40,4 +44,9 @@ export class FernandezIdeaService {
   count(): Observable<number> {
     return this.http.get<number>(serverURL + '/idea/count');
   }
+
+    bulkCreate(amount: number = 20): Observable<number> {
+      // El backend debe tener un endpoint tipo /idea/bulk/{amount}
+      return this.http.post<number>(serverURL + `/idea/bulk/${amount}`, {});
+    }
 }

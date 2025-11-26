@@ -9,13 +9,19 @@
       </div>
       }
 
-      @if (error) {
-      <div class="alert alert-danger" role="alert">
-        <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
-      </div>
-      }
+  @if (error) {
+  <!-- No mostrar nada si no hay idea pública -->
+  }
 
-      @if (!loading && !error && oIdea) {
+  @if (!loading && !error && oIdea) {
+      <div class="d-flex justify-content-center my-3">
+        <app-paginacion
+          [numPage]="numPage"
+          [numPages]="oPage?.totalPages || 1"
+          (pageChange)="goToPage($event)"
+        ></app-paginacion>
+        <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+      </div>
       <div class="card shadow">
         <div class="card-header bg-primary text-white">
           <div class="d-flex justify-content-between align-items-center">
@@ -47,7 +53,7 @@
           <div class="row mt-3">
             <div class="col-md-6">
               <strong><i class="bi bi-tag me-2"></i>Categoría:</strong>
-              <span class="badge ms-2" 
+              <span class="badge ms-2"
                 [class.bg-primary]="oIdea.categoria === 'IDEA'"
                 [class.bg-success]="oIdea.categoria === 'MEJORA'"
                 [class.bg-danger]="oIdea.categoria === 'BUG'">
@@ -65,6 +71,20 @@
                   <i class="bi bi-lock me-1"></i>Privado
                 </span>
               }
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="d-flex flex-wrap gap-2 justify-content-center">
+                @for (idea of oPage?.content; track idea.id) {
+                  <button class="btn btn-outline-secondary btn-sm"
+                    [class.active]="idea.id === oIdea?.id"
+                    (click)="goToIdea(idea.id)">
+                    {{ idea.titulo }}
+                  </button>
+                }
+              </div>
             </div>
           </div>
         </div>

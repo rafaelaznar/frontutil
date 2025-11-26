@@ -3,14 +3,20 @@
     <h1>Ideas de la Comunidad</h1>
   </div>
 
-  <div class="d-flex justify-content-center my-3">
-    <app-paginacion
-      [numPage]="numPage"
-      [numPages]="oPage?.totalPages || 1"
-      (pageChange)="goToPage($event)"
-    >
-    </app-paginacion>
-  </div>
+  @if (oPage && oPage.content && oPage.content.length > 0) {
+    <div class="d-flex justify-content-center align-items-center my-3 gap-4">
+      <div>
+        <app-paginacion
+          [numPage]="numPage"
+          [numPages]="oPage?.totalPages || 1"
+          (pageChange)="goToPage($event)"
+        ></app-paginacion>
+      </div>
+      <div>
+        <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+      </div>
+    </div>
+  }
 
   <div class="row">
     @for (oIdea of oPage?.content; track oIdea.id) {
@@ -20,7 +26,7 @@
     }
   </div>
 
-  @if (oPage?.content && oPage.content.length === 0) {
+  @if (oPage && oPage.content && oPage.content.length === 0) {
     <div class="alert alert-info text-center" role="alert">
       No hay ideas disponibles en este momento.
     </div>

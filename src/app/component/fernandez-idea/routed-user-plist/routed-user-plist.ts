@@ -5,10 +5,11 @@ import { IFernandezIdea } from '../../../model/fernandez-idea';
 import { FernandezIdeaService } from '../../../service/fernandez-idea.service';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { FernandezUnroutedUserView } from "../unrouted-user-view/unrouted-user-view";
+import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 
 @Component({
   selector: 'app-fernandez-routed-user-plist',
-  imports: [Paginacion, FernandezUnroutedUserView],
+  imports: [Paginacion, FernandezUnroutedUserView, BotoneraRpp],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })
@@ -24,7 +25,7 @@ export class FernandezRoutedUserPlist {
   }
 
   getPage() {
-    this.oIdeaService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oIdeaService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc', true).subscribe({
       next: (data: IPage<IFernandezIdea>) => {
         this.oPage = data;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
@@ -44,4 +45,10 @@ export class FernandezRoutedUserPlist {
     this.getPage();
     return false;
   }
+  
+    onRppChange(n: number) {
+      this.numRpp = n;
+      this.getPage();
+      return false;
+    }
 }

@@ -51,4 +51,16 @@ export class FernandezRoutedAdminPlist {
     this.getPage();
     return false;
   }
+  
+    bulkCreateIdeas(amount: number = 20) {
+      this.oIdeaService.bulkCreate(amount).subscribe({
+        next: () => {
+          this.getPage();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert('Error al crear ideas fake');
+          console.error(error);
+        },
+      });
+    }
 }
