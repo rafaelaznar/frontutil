@@ -8,6 +8,14 @@ import { RoutedAdminEdit } from './component/blog/routed-admin-edit/routed-admin
 import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
 
+// Reyna (Frases Motivacionales) imports
+import { RoutedAdminPlist as ReynaAdminPlist } from './component/reyna/reyna-routed-admin-plist/routed-admin-plist';
+import { RoutedAdminView as ReynaAdminView } from './component/reyna/reyna-routed-admin-view/routed-admin-view';
+import { RoutedUserPlist as ReynaUserPlist } from './component/reyna/reyna-routed-user-plist/routed-user-plist';
+import { RoutedUserView as ReynaUserView } from './component/reyna/reyna-routed-user-view/routed-user-view';
+import { RoutedAdminEdit as ReynaAdminEdit } from './component/reyna/reyna-routed-admin-edit/routed-admin-edit';
+import { RoutedAdminNew as ReynaAdminNew } from './component/reyna/reyna-routed-admin-new/routed-admin-new';
+import { RoutedAdminRemove as ReynaAdminRemove } from './component/reyna/reyna-routed-admin-remove/routed-admin-remove';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -18,4 +26,13 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+
+  // Reyna (Frases Motivacionales) routes
+  { path: 'reyna', component: ReynaUserPlist },
+  { path: 'reyna/post/:id', component: ReynaUserView },
+  { path: 'reyna/plist', component: ReynaAdminPlist },
+  { path: 'reyna/view/:id', component: ReynaAdminView },
+  { path: 'reyna/new', component: ReynaAdminNew },
+  { path: 'reyna/edit/:id', component: ReynaAdminEdit },
+  { path: 'reyna/remove/:id', component: ReynaAdminRemove },
 ];
