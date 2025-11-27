@@ -45,9 +45,10 @@ export class RoutedUserPlistCalinescu {
   /**
    * Obtiene la página actual de items desde el servidor.
    * Los items se ordenan por ID descendente para mostrar los más recientes primero.
+   * Solo carga items publicados (soloPublicados=true).
    */
   obtenerPagina() {
-    this.oCalinescuService.getPage(this.numPage, this.numRpp, 'id', 'desc').subscribe({
+    this.oCalinescuService.getPage(this.numPage, this.numRpp, 'id', 'desc', true).subscribe({
       next: (data: IPage<ICalinescu>) => {
         this.oPage = data;
         console.log('Datos recibidos:', data); // Para debug
@@ -92,7 +93,7 @@ export class RoutedUserPlistCalinescu {
   }
 
   cargarTotalGlobal() {
-    this.oCalinescuService.getTotalPrecios().subscribe({
+    this.oCalinescuService.getTotalPrecios(true).subscribe({
       next: (total: number) => {
         this.totalGlobal = total;
       },
