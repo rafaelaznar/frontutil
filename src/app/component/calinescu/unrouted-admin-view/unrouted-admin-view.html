@@ -56,6 +56,14 @@
       </div>
       <div class="col-12">
         <div class="d-flex align-items-center">
+          <strong class="text-muted" style="min-width: 200px;">Cantidad:</strong>
+          <span class="badge bg-secondary">
+            <i class="bi bi-123 me-1"></i>{{ oCalinescu?.cantidad || 1 }} {{ (oCalinescu?.cantidad || 1) === 1 ? 'unidad' : 'unidades' }}
+          </span>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
           <strong class="text-muted" style="min-width: 200px;">Estado:</strong>
           @if (oCalinescu?.publicado) {
           <span class="badge bg-success">

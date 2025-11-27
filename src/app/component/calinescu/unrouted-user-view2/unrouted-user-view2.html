@@ -15,6 +15,12 @@
         {{ oCalinescu?.precio | number: '1.2-2' }} €
       </span>
       }
+      @if (oCalinescu && oCalinescu.cantidad) {
+      <span class="badge bg-primary bg-opacity-10 text-primary">
+        <i class="bi bi-123 me-1"></i>
+        {{ oCalinescu?.cantidad }} {{ oCalinescu?.cantidad === 1 ? 'unidad' : 'unidades' }}
+      </span>
+      }
       @if (oCalinescu?.fecha_compra_esperada) {
       <span class="badge bg-info bg-opacity-10 text-info">
         <i class="bi bi-calendar-check me-1"></i>
