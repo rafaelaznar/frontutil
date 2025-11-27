@@ -11,10 +11,6 @@
 
     <section class="post-content my-5">
       <div>
-        <p style="font-weight: bold;">Etiquetas</p>
-        <pre [innerHTML]="oZanon?.etiquetas"></pre>
-      </div>
-      <div>
         <p style="font-weight: bold;">Duración:</p>
         <pre [innerHTML]="oZanon?.duracion"></pre>
       </div>
@@ -32,7 +28,8 @@
       <div class="post-meta text-muted small">
         <span class="tags"><i class="bi bi-tags"></i> {{ oZanon?.etiquetas }}</span>
       </div>
-      <!-- Añadir botón de "Volver atrás" -->
     </footer>
+
+    <a [href]="['/zanon']">Volver atrás</a>
   </article>
 </div>
