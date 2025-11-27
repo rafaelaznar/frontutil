@@ -51,12 +51,12 @@ export class RoutedAdminEditGarcia {
 
     loadGarcia(id: number): void {
         this.garciaService.get(id).subscribe({
-            next: (blog: IGarcia) => {
-                this.originalGarcia = blog;
+            next: (garcia: IGarcia) => {
+                this.originalGarcia = garcia;
                 this.garciaForm.patchValue({
-                    titulo: blog.titulo,
-                    objetivo: blog.objetivo,
-                    progreso: blog.progreso,
+                    titulo: garcia.titulo,
+                    objetivo: garcia.objetivo,
+                    progreso: garcia.progreso,
                 });
                 this.loading = false;
             },
