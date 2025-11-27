@@ -23,6 +23,8 @@ export class UskiAdminPage {
   rellenando: boolean = false;
   rellenaOk: number | null = null;
   rellenaError: string | null = null;
+  column: string = 'fechaCreacion';
+  direction: 'asc' | 'desc' = 'desc';
 
   constructor(private oVisitasService: VisitasService) { }
 
@@ -33,7 +35,7 @@ export class UskiAdminPage {
   }
 
   getPage() {
-    this.oVisitasService.getPagePrivate(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oVisitasService.getPagePrivate(this.numPage, this.numRpp, this.column, this.direction).subscribe({
       next: (data: IPage<IVisita>) => {
         this.oPage = data;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
@@ -61,6 +63,13 @@ export class UskiAdminPage {
 
   onCantidadChange(value: string) {
     this.rellenaCantidad = +value;
+    return false;
+  }
+
+  setSortColumn(column: string) {
+    this.column = column;
+    this.direction = this.direction === 'asc' ? 'desc' : 'asc';
+    this.getPage()
     return false;
   }
 

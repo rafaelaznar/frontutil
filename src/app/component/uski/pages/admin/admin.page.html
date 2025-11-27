@@ -80,13 +80,12 @@
             </colgroup>
             <thead class="table-light">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Comentario</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Creado</th>
-                <th scope="col">Modificado</th>
-                <th scope="col" class="text-end">Acciones</th>
+                <th scope="col" (click)="setSortColumn('id')" class="sortable">ID</th>
+                <th scope="col" (click)="setSortColumn('nombre')" class="sortable">Nombre</th>
+                <th scope="col" (click)="setSortColumn('comentario')" class="sortable">Comentario</th>
+                <th scope="col" (click)="setSortColumn('estaPublicado')" class="sortable">Estado</th>
+                <th scope="col" (click)="setSortColumn('fechaCreacion')" class="sortable">Creado</th>
+                <th scope="col" (click)="setSortColumn('fechaModificacion')" class="sortable">Modificado</th>
               </tr>
             </thead>
             <tbody>
