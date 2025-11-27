@@ -1,21 +1,21 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BlogService } from '../../../service/castanyera';
-import { IBlog } from '../../../model/castanyera';
+import { CastanyeraService } from '../../../service/castanyera';
+import { ICastanyera } from '../../../model/castanyera';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-    selector: 'app-routed-admin-edit',
+    selector: 'castanyera-app-routed-admin-edit',
     imports: [ReactiveFormsModule, RouterLink],
     templateUrl: './routed-admin-edit.html',
     styleUrl: './routed-admin-edit.css',
 })
-export class RoutedAdminEdit implements OnInit {
+export class CastanyeraRoutedAdminEdit implements OnInit {
     private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private blogService = inject(CastanyeraService);
+    private castanyeraService = inject(CastanyeraService);
 
     castanyeraForm!: FormGroup;
    castanyeraId: number | null = null;

@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IBlog } from '../../../model/blog';
+import { ICastanyera } from '../../../model/castanyera';
 import { TrimPipe } from "../../../pipe/trim-pipe";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
-  selector: 'app-unrouted-user-view2',
+  selector: 'castanyera-app-unrouted-user-view2',
   imports: [TrimPipe, RouterLink, DatetimePipe],
   templateUrl: './unrouted-user-view2.html',
   styleUrl: './unrouted-user-view2.css',
 })
-export class UnroutedUserView2 implements OnInit {
-  @Input() oBlog: IBlog | null = null;
+export class CastanyeraUnroutedUserView2 implements OnInit {
+  @Input() oCastanyera: ICastanyera | null = null;
 
   iconClass: string = 'bi bi-newspaper';
 

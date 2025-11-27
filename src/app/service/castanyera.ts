@@ -2,44 +2,44 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { serverURL } from '../environment/environment';
 import { IPage } from '../model/plist';
-import { IBlog } from '../model/blog';
+import { ICastanyera } from '../model/castanyera';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BlogService {
+export class CastanyeraService {
 
   constructor(private oHttp: HttpClient) { }
 
-  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IBlog>> {
+  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<ICastanyera>> {
     if (order === '') {
       order = 'id';
     }
     if (direction === '') {
       direction = 'asc';
     }
-    return this.oHttp.get<IPage<IBlog>>(serverURL + `/blog?page=${page}&size=${rpp}&sort=${order},${direction}`);
+    return this.oHttp.get<IPage<ICastanyera>>(serverURL + `/castanyera?page=${page}&size=${rpp}&sort=${order},${direction}`);
   }
 
-  get(id: number): Observable<IBlog> {
-    return this.oHttp.get<IBlog>(serverURL + '/blog/' + id);
+  get(id: number): Observable<ICastanyera> {
+    return this.oHttp.get<ICastanyera>(serverURL + '/castanyera/' + id);
   }
 
-  create(blog: Partial<IBlog>): Observable<number> {
-    return this.oHttp.post<number>(serverURL + '/blog', blog);
+  create(castanyera: Partial<ICastanyera>): Observable<number> {
+    return this.oHttp.post<number>(serverURL + '/castanyera', castanyera);
   }
 
-  update(blog: Partial<IBlog>): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/blog', blog);
+  update(castanyera: Partial<ICastanyera>): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/castanyera', castanyera);
   }
 
   delete(id: number): Observable<number> {
-    return this.oHttp.delete<number>(serverURL + '/blog/' + id);
+    return this.oHttp.delete<number>(serverURL + '/castanyera/' + id);
   }
 
-  rellenaBlog(numPosts: number): Observable<number> {
-    return this.oHttp.get<number>(serverURL + '/blog/rellena/' + numPosts);
+  rellenaCastanyera(numPosts: number): Observable<number> {
+    return this.oHttp.get<number>(serverURL + '/castanyera/rellena/' + numPosts);
   }
 
 }

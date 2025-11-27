@@ -1,5 +1,5 @@
 
-export interface IBlog {
+export interface ICastanyera {
   id: number
   titulo: string
   contenido: string

@@ -3,15 +3,15 @@ import { ICastanyera } from '../../../model/castanyera';
 import { CastanyeraService } from '../../../service/castanyera';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnroutedUserView } from "../castanyera-unrouted-user-view/unrouted-user-view";
+import { CastanyeraUnroutedUserView } from "../castanyera-unrouted-user-view/unrouted-user-view";
 
 @Component({
-  selector: 'app-routed-user-view',
-  imports: [UnroutedUserView],
+  selector: 'castanyera-app-routed-user-view',
+  imports: [CastanyeraUnroutedUserView],
   templateUrl: './routed-user-view.html',
   styleUrls: ['./routed-user-view.css'],
 })
-export class RoutedUserView {
+export class CastanyeraRoutedUserView {
   oCastanyera: ICastanyera | null = null;
 
   constructor(private oCastanyeraService: CastanyeraService, private route: ActivatedRoute) {

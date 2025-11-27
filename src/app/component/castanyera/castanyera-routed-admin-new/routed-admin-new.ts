@@ -6,12 +6,12 @@ import { ICastanyera } from '../../../model/castanyera';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-routed-admin-new',
+  selector: 'castanyera-app-routed-admin-new',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './routed-admin-new.html',
   styleUrl: './routed-admin-new.css',
 })
-export class RoutedAdminNew implements OnInit {
+export class CastanyeraRoutedAdminNew implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private castanyeraService = inject(CastanyeraService);

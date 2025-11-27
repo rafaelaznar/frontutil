@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { IBlog } from '../../../model/blog';
+import { ICastanyera } from '../../../model/castanyera';
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
-  selector: 'app-unrouted-user-view',
+  selector: 'castanyera-app-unrouted-user-view',
   imports: [DatetimePipe],
   templateUrl: './unrouted-user-view.html',
   styleUrl: './unrouted-user-view.css',
 })
-export class UnroutedUserView {
-  @Input() oBlog: IBlog | null = null;
+export class CastanyeraUnroutedUserView {
+  @Input() oCastanyera: ICastanyera | null = null;
   
 }

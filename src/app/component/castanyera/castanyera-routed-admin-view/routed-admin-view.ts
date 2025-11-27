@@ -3,15 +3,15 @@ import { ICastanyera } from '../../../model/castanyera';
 import { CastanyeraService } from '../../../service/castanyera';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnroutedAdminView } from "../castanyera-unrouted-admin-view/unrouted-admin-view";
+import { CastanyeraUnroutedAdminView } from "../castanyera-unrouted-admin-view/unrouted-admin-view";
 
 @Component({
-  selector: 'app-routed-admin-view',
-  imports: [UnroutedAdminView],
+  selector: 'castanyera-app-routed-admin-view',
+  imports: [CastanyeraUnroutedAdminView],
   templateUrl: './routed-admin-view.html',
   styleUrl: './routed-admin-view.css',
 })
-export class RoutedAdminView {
+export class CastanyeraRoutedAdminView {
   oCastanyera: ICastanyera | null = null;
 
   constructor(private oCastanyeraService: CastanyeraService, private route: ActivatedRoute) {

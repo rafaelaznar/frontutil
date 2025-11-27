@@ -3,15 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CastanyeraService } from '../../../service/castanyera';
 import { ICastanyera } from '../../../model/castanyera';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnroutedAdminView } from "../castanyera-unrouted-admin-view/unrouted-admin-view";
+import { CastanyeraUnroutedAdminView } from "../castanyera-unrouted-admin-view/unrouted-admin-view";
 
 @Component({
-  selector: 'app-routed-admin-remove',
-  imports: [UnroutedAdminView],
+  selector: 'castanyera-app-routed-admin-remove',
+  imports: [CastanyeraUnroutedAdminView],
   templateUrl: './routed-admin-remove.html',
   styleUrl: './routed-admin-remove.css'
 })
-export class RoutedAdminRemove implements OnInit {
+export class CastanyeraRoutedAdminRemove implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private castanyeraService = inject(CastanyeraService);

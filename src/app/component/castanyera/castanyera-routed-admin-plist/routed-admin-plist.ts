@@ -9,12 +9,12 @@ import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
-  selector: 'app-routed-admin-plist',
+  selector: 'castanyera-app-routed-admin-plist',
   imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
-export class RoutedAdminPlist {
+export class CastanyeraRoutedAdminPlist {
   oPage: IPage<ICastanyera> | null = null;
   numPage: number = 0;
   numRpp: number = 5;

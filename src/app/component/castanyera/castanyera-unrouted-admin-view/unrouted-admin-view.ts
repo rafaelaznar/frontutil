@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { IBlog } from '../../../model/blog';
+import { ICastanyera } from '../../../model/castanyera';
 
 @Component({
-  selector: 'app-unrouted-admin-view',
+  selector: 'castanyera-app-unrouted-admin-view',
   imports: [],
   templateUrl: './unrouted-admin-view.html',
   styleUrl: './unrouted-admin-view.css',
 })
-export class UnroutedAdminView {
-  @Input() oBlog: IBlog | null = null;
+export class CastanyeraUnroutedAdminView {
+  @Input() oCastanyera: ICastanyera | null = null;
 
 }

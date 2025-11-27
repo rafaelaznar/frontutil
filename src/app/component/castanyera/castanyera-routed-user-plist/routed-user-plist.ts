@@ -4,16 +4,16 @@ import { IPage } from '../../../model/plist';
 import { ICastanyera } from '../../../model/castanyera';
 import { CastanyeraService } from '../../../service/castanyera';
 import { Paginacion } from "../../shared/paginacion/paginacion";
-import { UnroutedUserView2 } from "../castanyera-unrouted-user-view2/unrouted-user-view2";
+import { CastanyeraUnroutedUserView2 } from "../castanyera-unrouted-user-view2/unrouted-user-view2";
 
 
 @Component({
-  selector: 'app-routed-user-plist',
-  imports: [Paginacion, UnroutedUserView2],
+  selector: 'castanyera-app-routed-user-plist',
+  imports: [Paginacion, CastanyeraUnroutedUserView2],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })
-export class RoutedUserPlist {
+export class CastanyeraRoutedUserPlist {
   oPage: IPage<ICastanyera> | null = null;
   numPage: number = 0;
   numRpp: number = 2;
