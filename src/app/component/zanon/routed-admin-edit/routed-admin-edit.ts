@@ -22,7 +22,7 @@ export class RoutedAdminEditZanon implements OnInit {
     loading: boolean = true;
     error: string | null = null;
     submitting: boolean = false;
-    private originalBlog: IZanon | null = null;
+    private originalZanon: IZanon | null = null;
 
     ngOnInit(): void {
         this.initForm();
@@ -46,17 +46,24 @@ export class RoutedAdminEditZanon implements OnInit {
                 Validators.required,
                 Validators.minLength(10)]],
             etiquetas: ['', [Validators.maxLength(100)]],
+            duracion: ['', [
+                Validators.required,
+                Validators.min(0),
+            ]],
+            dificultad: ['', [Validators.required]],
         });
     }
 
     loadZanon(id: number): void {
         this.ZanonService.get(id).subscribe({
-            next: (blog: IZanon) => {
-                this.originalBlog = blog;
+            next: (zanon: IZanon) => {
+                this.originalZanon = zanon;
                 this.zanonForm.patchValue({
-                    titulo: blog.titulo,
-                    contenido: blog.contenido,
-                    etiquetas: blog.etiquetas,
+                    titulo: zanon.titulo,
+                    contenido: zanon.contenido,
+                    etiquetas: zanon.etiquetas,
+                    duracion: zanon.duracion,
+                    dificultad: zanon.dificultad,
                 });
                 this.loading = false;
             },
@@ -79,7 +86,9 @@ export class RoutedAdminEditZanon implements OnInit {
             id: this.zanonId!,
             titulo: this.zanonForm.value.titulo,
             contenido: this.zanonForm.value.contenido,
-            etiquetas: this.zanonForm.value.etiquetas
+            etiquetas: this.zanonForm.value.etiquetas,
+            duracion: this.zanonForm.value.duracion,
+            dificultad: this.zanonForm.value.dificultad
         };
 
         this.ZanonService.update(payload).subscribe({
@@ -105,5 +114,13 @@ export class RoutedAdminEditZanon implements OnInit {
 
     get etiquetas() {
         return this.zanonForm.get('etiquetas');
+    }
+
+    get duracion() {
+        return this.zanonForm.get('duracion');
+    }
+
+    get dificultad() {
+        return this.zanonForm.get('dificultad');
     }
 }

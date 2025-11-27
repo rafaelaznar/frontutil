@@ -32,7 +32,7 @@
               [class.is-valid]="titulo?.valid && titulo?.touched"
               id="titulo"
               formControlName="titulo"
-              placeholder="Introduce el título del post"
+              placeholder="..."
             />
             @if (titulo?.invalid && titulo?.touched) {
             <div class="invalid-feedback">
@@ -59,7 +59,7 @@
               id="contenido"
               formControlName="contenido"
               rows="8"
-              placeholder="Escribe el contenido del post"
+              placeholder="..."
             ></textarea>
             @if (contenido?.invalid && contenido?.touched) {
             <div class="invalid-feedback">
@@ -83,7 +83,7 @@
               [class.is-valid]="etiquetas?.valid && etiquetas?.touched"
               id="etiquetas"
               formControlName="etiquetas"
-              placeholder="Etiquetas separadas por comas"
+              placeholder="..."
             />
             @if (etiquetas?.invalid && etiquetas?.touched) {
             <div class="invalid-feedback">
@@ -92,14 +92,56 @@
               }
             </div>
             }
-            <small class="form-text text-muted">Ejemplo: angular, typescript, web</small>
+            <small class="form-text text-muted">Ejemplo: ...</small>
           </div>
 
           <!-- Duración -->
-          
+          <div class="mb-4">
+            <label for="duracion" class="form-label">Duración (en minutos) <span class="text-danger">*</span></label>
+            <input
+              type="number"
+              class="form-control"
+              [class.is-invalid]="duracion.invalid && duracion?.touched"
+              [class.is-valid]="duracion?.valid && duracion?.touched"
+              id="duracion"
+              formControlName="duracion"
+              placeholder="..."
+            />
+            @if (duracion?.invalid && duracion?.touched) {
+            <div class="invalid-feedback">
+              @if (duracion?.errors?.['required']) {
+              <span>La duración es obligatoria.</span>
+              }
+              @if (duracion?.errors?.['min']) {
+              <span>La duración debe ser mayor a 0.</span>
+              }
+            </div>
+            }
+          </div>
 
           <!-- Dificultad -->
-          
+          <div class="mb-4">
+            <label for="dificultad" class="form-label">Dificultad <span class="text-danger">*</span></label>
+            <select
+              id="dificultad"
+              class="form-select"
+              [class.is-invalid]="dificultad?.invalid && dificultad?.touched"
+              [class.is-valid]="dificultad?.valid && dificultad?.touched"
+              formControlName="dificultad"
+            >
+            <option value="" disabled selected>Seleccione una dificultad:</option>
+            <option value="facil">Baja</option>
+            <option value="media">Media</option>
+            <option value="dificil">Alta</option>
+            </select>
+            @if (dificultad?.invalid && dificultad?.touched) {
+              <div class="invalid-feedback">
+                @if (dificultad?.errors?.['required']) {
+                  <span>La dificultad es obligatoria.</span>
+                }
+              </div>
+            }
+          </div>
 
           <!-- Botones -->
           <div class="d-flex justify-content-between align-items-center mt-4">
