@@ -87,13 +87,13 @@
           <td>{{ oGarcia.fechaFinal | datetime }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <a [routerLink]="['/blog/view', oGarcia.id]" class="btn btn-outline-primary">
+              <a [routerLink]="['/garcia/view', oGarcia.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
               </a>
-              <a [routerLink]="['/blog/edit', oGarcia.id]" class="btn btn-outline-secondary">
+              <a [routerLink]="['/garcia/edit', oGarcia.id]" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a [routerLink]="['/blog/remove', oGarcia.id]" class="btn btn-outline-danger">
+              <a [routerLink]="['/garcia/remove', oGarcia.id]" class="btn btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
             </div>
