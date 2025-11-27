@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IZanon } from '../../../model/zanon/zanon';
-import { TrimPipe } from "../../../pipe/trim-pipe";
 
 @Component({
   selector: 'app-unrouted-user-view2',
-  imports: [TrimPipe, RouterLink],
+  imports: [RouterLink],
   templateUrl: './unrouted-user-view2.html',
   styleUrl: './unrouted-user-view2.css',
 })

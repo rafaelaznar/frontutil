@@ -5,9 +5,23 @@
     </header>
 
     <section class="post-content my-5">
-      <!-- icono de comillas -->
       <i class="bi bi-quote"></i>
-      <p [innerHTML]="oZanon?.contenido"></p>
+      <pre [innerHTML]="oZanon?.contenido"></pre>
+    </section>
+
+    <section class="post-content my-5">
+      <div>
+        <p style="font-weight: bold;">Etiquetas</p>
+        <pre [innerHTML]="oZanon?.etiquetas"></pre>
+      </div>
+      <div>
+        <p style="font-weight: bold;">Duración:</p>
+        <pre [innerHTML]="oZanon?.duracion"></pre>
+      </div>
+      <div>
+        <p style="font-weight: bold;">Dificultad:</p>
+        <pre [innerHTML]="oZanon?.dificultad"></pre>
+      </div>
     </section>
 
     <footer class="post-footer my-5 d-flex justify-content-between align-items-center">
@@ -18,6 +32,7 @@
       <div class="post-meta text-muted small">
         <span class="tags"><i class="bi bi-tags"></i> {{ oZanon?.etiquetas }}</span>
       </div>
+      <!-- Añadir botón de "Volver atrás" -->
     </footer>
   </article>
 </div>

@@ -1,10 +1,14 @@
 <div class="container my-2">
   <div class="d-flex justify-content-center my-5">
-    <h1>Mantenimiento del Blog</h1>
+    <h1>Mantenimiento</h1>
+  </div>
+
+  <div class="d-flex justify-content-center my-5">
+    <h5>Visualiza, edita y elimina rutinas</h5>
   </div>
 
   <div class="d-flex justify-content-center  my-3">
-    <a [routerLink]="['/blog/new']" class="btn btn-success btn-sm">
+    <a [routerLink]="['/zanon/new']" class="btn btn-success btn-sm">
       <i class="bi bi-plus-circle me-2"></i>Crear un nuevo Post
     </a>
   </div>
@@ -33,22 +37,22 @@
         </tr>
       </thead>
       <tbody>
-        @for (oBlog of oPage?.content; track oBlog.id ) {
+        @for (oZanon of oPage?.content; track oZanon.id ) {
         <tr>
-          <th scope="row">{{ oBlog.id }}</th>
-          <td>{{ oBlog.titulo }}</td>
-          <td>{{ oBlog.etiquetas }}</td>
-          <td>{{ oBlog.fechaCreacion }}</td>
-          <td>{{ oBlog.fechaModificacion }}</td>
+          <th scope="row">{{ oZanon.id }}</th>
+          <td>{{ oZanon.titulo }}</td>
+          <td>{{ oZanon.etiquetas }}</td>
+          <td>{{ oZanon.fechaCreacion }}</td>
+          <td>{{ oZanon.fechaModificacion }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <a [routerLink]="['/blog/view', oBlog.id]" class="btn btn-outline-primary">
+              <a [routerLink]="['/zanon/view', oZanon.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
               </a>
-              <a [routerLink]="['/blog/edit', oBlog.id]" class="btn btn-outline-secondary">
+              <a [routerLink]="['/zanon/edit', oZanon.id]" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a [routerLink]="['/blog/remove', oBlog.id]" class="btn btn-outline-danger">
+              <a [routerLink]="['/zanon/remove', oZanon.id]" class="btn btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
             </div>
