@@ -1,45 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { serverURL } from '../../environment/environment';
-import { IPage } from '../../model/plist';
-import { IGarcia } from '../../model/garcia/garcia';
 import { Observable } from 'rxjs';
+import { IGarcia } from '../../model/garcia/garcia';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GarciaService {
+  private url = 'http://localhost:8085/garcia'; // 👈 Añade esta línea
 
-  constructor(private oHttp: HttpClient) { }
-
-  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IGarcia>> {
-    if (order === '') {
-      order = 'id';
-    }
-    if (direction === '') {
-      direction = 'asc';
-    }
-    return this.oHttp.get<IPage<IGarcia>>(serverURL + `/garcia?page=${page}&size=${rpp}&sort=${order},${direction}`);
-  }
+  constructor(private http: HttpClient) { }
 
   get(id: number): Observable<IGarcia> {
-    return this.oHttp.get<IGarcia>(serverURL + '/garcia/' + id);
+    return this.http.get<IGarcia>(`${this.url}/${id}`);
   }
 
   create(garcia: Partial<IGarcia>): Observable<number> {
-    return this.oHttp.post<number>(serverURL + '/garcia', garcia);
+    return this.http.post<number>(this.url, garcia);
   }
 
   update(garcia: Partial<IGarcia>): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/garcia', garcia);
+    return this.http.put<number>(this.url, garcia);
   }
 
   delete(id: number): Observable<number> {
-    return this.oHttp.delete<number>(serverURL + '/garcia/' + id);
+    return this.http.delete<number>(`${this.url}/${id}`);
   }
 
-  rellenaBlog(numPosts: number): Observable<number> {
-    return this.oHttp.get<number>(serverURL + '/garcia/rellena/' + numPosts);
+  getPage(page: number, size: number): Observable<any> {
+    return this.http.get<any>(`${this.url}?page=${page}&size=${size}`);
   }
 
+  count(): Observable<number> {
+    return this.http.get<number>(`${this.url}/count`);
+  }
+
+  createRandom(cantidad: number): Observable<number> {
+    return this.http.post<number>(`${this.url}/random/${cantidad}`, null);
+  }
 }

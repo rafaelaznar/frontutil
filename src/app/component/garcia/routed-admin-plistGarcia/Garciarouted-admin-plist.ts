@@ -69,7 +69,7 @@ export class RoutedAdminPlistGarcia {
     this.rellenaOk = null;
     this.rellenaError = null;
     this.rellenando = true;
-    this.oGarciaService.rellenaBlog(this.rellenaCantidad).subscribe({
+    this.oGarciaService.createRandom(this.rellenaCantidad).subscribe({  // 👈 Cambia aquí
       next: (count: number) => {
         this.rellenando = false;
         this.rellenaOk = count;
