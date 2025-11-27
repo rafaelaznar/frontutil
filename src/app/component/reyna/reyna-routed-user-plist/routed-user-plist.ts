@@ -8,7 +8,7 @@ import { UnroutedUserView2 } from '../reyna-unrouted-user-view2/unrouted-user-vi
 
 @Component({
   selector: 'app-routed-user-plist',
-  imports: [Paginacion, UnroutedUserView2],
+  imports: [UnroutedUserView2],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })

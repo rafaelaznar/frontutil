@@ -47,4 +47,8 @@ export class ReynaService {
   count(): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/frasesmotivacionales/count');
   }
+
+  rellenaReyna(numFrases: number): Observable<number> {
+    return this.oHttp.get<number>(serverURL + '/frasesmotivacionales/rellena/' + numFrases);
+  }
 }
