@@ -8,6 +8,15 @@ import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
+/**
+ * Componente para mostrar el listado paginado de items de la lista de compras (vista admin).
+ * 
+ * Proporciona funcionalidades de administración como:
+ * - Visualización de items en tabla paginada
+ * - Control de registros por página (RPP)
+ * - Generación de datos de prueba
+ * - Enlaces a edición, visualización y eliminación de items
+ */
 @Component({
   selector: 'app-routed-admin-plist',
   imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
@@ -15,12 +24,25 @@ import { DatetimePipe } from "../../../pipe/datetime-pipe";
   styleUrl: './routed-admin-plist.css',
 })
 export class RoutedAdminPlistCalinescu {
+  /** Objeto de página con los items y metadatos de paginación */
   oPage: IPage<ICalinescu> | null = null;
+  
+  /** Número de página actual (base 0) */
   numPage: number = 0;
+  
+  /** Cantidad de registros por página */
   numRpp: number = 5;
+  
+  /** Cantidad de items a generar en la función de relleno */
   rellenaCantidad: number = 10;
+  
+  /** Indica si se está ejecutando la operación de relleno */
   rellenando: boolean = false;
+  
+  /** Número de items creados exitosamente en el último relleno */
   rellenaOk: number | null = null;
+  
+  /** Mensaje de error si falla la operación de relleno */
   rellenaError: string | null = null;
 
   constructor(private oCalinescuService: CalinescuService) { }
@@ -31,6 +53,10 @@ export class RoutedAdminPlistCalinescu {
     this.obtenerPagina();
   }
 
+  /**
+   * Obtiene la página actual de items desde el servidor.
+   * Valida que la página solicitada exista y ajusta si es necesario.
+   */
   obtenerPagina() {
     this.oCalinescuService.getPage(this.numPage, this.numRpp).subscribe({
       next: (data: IPage<ICalinescu>) => {
@@ -48,23 +74,45 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Navega a una página específica del listado.
+   * 
+   * @param numPage - Número de página a mostrar
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   irAPagina(numPage: number) {
     this.numPage = numPage;
     this.obtenerPagina();
     return false;
   }
 
+  /**
+   * Cambia la cantidad de registros mostrados por página.
+   * 
+   * @param n - Nueva cantidad de registros por página
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   cambiarRpp(n: number) {
     this.numRpp = n;
     this.obtenerPagina();
     return false;
   }
 
+  /**
+   * Actualiza la cantidad de items a generar en el relleno.
+   * 
+   * @param value - Nuevo valor de cantidad como string
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   cambiarCantidad(value: string) {
     this.rellenaCantidad = +value;
     return false;
   }
 
+  /**
+   * Genera datos de prueba (fake data) en la lista de compras.
+   * Llama al servicio para crear items aleatorios y refresca el listado.
+   */
   generarDatosFalsos() {
     this.rellenaOk = null;
     this.rellenaError = null;

@@ -5,6 +5,16 @@ import { CalinescuService } from '../../../service/calinescu.service';
 import { ICalinescu } from '../../../model/calinescu';
 import { HttpErrorResponse } from '@angular/common/http';
 
+/**
+ * Componente para editar un item existente de la lista de compras (vista admin).
+ * 
+ * Proporciona un formulario reactivo para modificar los datos de un item,
+ * incluyendo:
+ * - Carga del item existente desde el servidor
+ * - Validación de campos
+ * - Conversión de formatos de fecha
+ * - Actualización en el backend
+ */
 @Component({
     selector: 'app-routed-admin-edit-calinescu',
     imports: [ReactiveFormsModule, RouterLink],
@@ -17,11 +27,22 @@ export class RoutedAdminEditCalinescu implements OnInit {
     private router = inject(Router);
     private calinescuService = inject(CalinescuService);
 
+    /** Formulario reactivo para editar el item */
     calinescuForm!: FormGroup;
+    
+    /** ID del item que se está editando */
     itemId: number | null = null;
+    
+    /** Indica si se está cargando el item desde el servidor */
     loading: boolean = true;
+    
+    /** Mensaje de error si falla la carga o actualización */
     error: string | null = null;
+    
+    /** Indica si se está enviando el formulario */
     submitting: boolean = false;
+    
+    /** Copia del item original cargado desde el servidor */
     private originalItem: ICalinescu | null = null;
 
     ngOnInit(): void {
@@ -36,6 +57,9 @@ export class RoutedAdminEditCalinescu implements OnInit {
         }
     }
 
+    /**
+     * Inicializa el formulario reactivo con los campos y validaciones.
+     */
     inicializarFormulario(): void {
         this.calinescuForm = this.fb.group({
             nombre: ['', [
@@ -50,6 +74,12 @@ export class RoutedAdminEditCalinescu implements OnInit {
         });
     }
 
+    /**
+     * Carga los datos del item desde el servidor y los establece en el formulario.
+     * Convierte el formato de fecha del backend al formato del input datetime-local.
+     * 
+     * @param id - ID del item a cargar
+     */
     cargarItem(id: number): void {
         this.calinescuService.get(id).subscribe({
             next: (item: ICalinescu) => {
@@ -77,11 +107,21 @@ export class RoutedAdminEditCalinescu implements OnInit {
         });
     }
 
+    /**
+     * Convierte una fecha del formato del backend al formato requerido por input datetime-local.
+     * 
+     * @param fechaBackend - Fecha en formato "yyyy-MM-dd HH:mm:ss"
+     * @returns Fecha en formato "yyyy-MM-ddTHH:mm"
+     */
     convertirFechaParaInput(fechaBackend: string): string {
         // Convierte "2025-11-26 20:30:00" a "2025-11-26T20:30"
         return fechaBackend.replace(' ', 'T').substring(0, 16);
     }
 
+    /**
+     * Procesa y envía el formulario de edición al servidor.
+     * Valida los datos, formatea la fecha y actualiza el item.
+     */
     enviarFormulario(): void {
         if (!this.calinescuForm.valid || !this.itemId) {
             this.calinescuForm.markAllAsTouched();
@@ -118,6 +158,12 @@ export class RoutedAdminEditCalinescu implements OnInit {
         });
     }
 
+    /**
+     * Formatea un objeto Date al formato esperado por el backend.
+     * 
+     * @param fecha - Objeto Date a formatear
+     * @returns Fecha en formato "yyyy-MM-dd HH:mm:ss"
+     */
     formatearFecha(fecha: Date): string {
         const year = fecha.getFullYear();
         const month = String(fecha.getMonth() + 1).padStart(2, '0');
@@ -128,18 +174,22 @@ export class RoutedAdminEditCalinescu implements OnInit {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
+    /** Getter para acceder al control 'nombre' del formulario */
     get nombre() {
         return this.calinescuForm.get('nombre');
     }
 
+    /** Getter para acceder al control 'contenido' del formulario */
     get contenido() {
         return this.calinescuForm.get('contenido');
     }
 
+    /** Getter para acceder al control 'fechaCompraEsperada' del formulario */
     get fechaCompraEsperada() {
         return this.calinescuForm.get('fechaCompraEsperada');
     }
 
+    /** Getter para acceder al control 'publicado' del formulario */
     get publicado() {
         return this.calinescuForm.get('publicado');
     }

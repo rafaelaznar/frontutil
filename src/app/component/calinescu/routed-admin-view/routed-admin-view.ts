@@ -5,6 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnroutedAdminViewCalinescu } from "../unrouted-admin-view/unrouted-admin-view";
 
+/**
+ * Componente para visualizar los detalles de un item de la lista de compras (vista admin).
+ * 
+ * Obtiene y muestra la información completa de un item específico,
+ * utilizando el componente unrouted-admin-view para la presentación.
+ */
 @Component({
   selector: 'app-routed-admin-view-calinescu',
   imports: [UnroutedAdminViewCalinescu],
@@ -12,6 +18,7 @@ import { UnroutedAdminViewCalinescu } from "../unrouted-admin-view/unrouted-admi
   styleUrl: './routed-admin-view.css',
 })
 export class RoutedAdminViewCalinescu {
+  /** Item que se está visualizando */
   oCalinescu: ICalinescu | null = null;
 
   constructor(private oCalinescuService: CalinescuService, private route: ActivatedRoute) {
@@ -26,6 +33,11 @@ export class RoutedAdminViewCalinescu {
 
   ngOnInit() { }
 
+  /**
+   * Obtiene los datos del item desde el servidor.
+   * 
+   * @param id - ID del item a obtener
+   */
   getCalinescu(id: number) {
     this.oCalinescuService.get(id).subscribe({
       next: (data: ICalinescu) => {
