@@ -40,6 +40,9 @@ export class RoutedAdminNewGarcia implements OnInit {
         Validators.minLength(3),
         Validators.maxLength(1024)
       ]],
+      fechaFinal: ['', [
+        Validators.required
+      ]],
     });
   }
 
@@ -54,6 +57,7 @@ export class RoutedAdminNewGarcia implements OnInit {
       titulo: this.garciaForm.value.titulo,
       objetivo: this.garciaForm.value.objetivo,
       progreso: this.garciaForm.value.progreso,
+      fechaFinal: this.garciaForm.value.fechaFinal,
     };
 
     this.garciaService.create(payload).subscribe({
@@ -79,5 +83,9 @@ export class RoutedAdminNewGarcia implements OnInit {
 
   get progreso() {
     return this.garciaForm.get('progreso');
+  }
+
+  get fechaFinal() {
+    return this.garciaForm.get('fechaFinal');
   }
 }
