@@ -5,11 +5,12 @@ import { IGarcia } from '../../../model/garcia/garcia';
 import { GarciaService } from '../../../service/garcia/garcia';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { UnroutedUserView2Garcia } from "../unrouted-user-view2Garcia/Garciaunrouted-user-view2";
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-Garciarouted-user-plist',
-  imports: [Paginacion, UnroutedUserView2Garcia],
+  imports: [Paginacion, UnroutedUserView2Garcia, RouterLink],
   templateUrl: './Garciarouted-user-plist.html',
   styleUrl: './Garciarouted-user-plist.css',
 })
