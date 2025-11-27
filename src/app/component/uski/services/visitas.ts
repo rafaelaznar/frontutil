@@ -13,15 +13,13 @@ export class VisitasService {
   constructor(private oHttp: HttpClient) { }
 
   getPagePublic(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IVisita>> {
-    const primarySort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
-    const stableSort = 'id,desc'; // asegura un orden determinista para la paginación
-    return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas?page=${page}&size=${rpp}&sort=${primarySort}&sort=${stableSort}`);
+    const sort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
+    return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas?page=${page}&size=${rpp}&sort=${sort}`);
   }
 
-  getPagePrivate(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IVisita>> {
-    const primarySort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
-    const stableSort = 'id,desc'; // asegura un orden determinista para la paginación
-    return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas/dashboard?page=${page}&size=${rpp}&sort=${primarySort}&sort=${stableSort}`);
+  getPagePrivate(page: number, rpp: number, order: string, direction: string): Observable<IPage<IVisita>> {
+    const sort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
+    return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas/dashboard?page=${page}&size=${rpp}&sort=${sort}`);
   }
 
   get(id: number): Observable<IVisita> {

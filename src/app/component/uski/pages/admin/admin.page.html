@@ -80,12 +80,31 @@
             </colgroup>
             <thead class="table-light">
               <tr>
-                <th scope="col" (click)="setSortColumn('id')" class="sortable">ID</th>
-                <th scope="col" (click)="setSortColumn('nombre')" class="sortable">Nombre</th>
-                <th scope="col" (click)="setSortColumn('comentario')" class="sortable">Comentario</th>
-                <th scope="col" (click)="setSortColumn('estaPublicado')" class="sortable">Estado</th>
-                <th scope="col" (click)="setSortColumn('fechaCreacion')" class="sortable">Creado</th>
-                <th scope="col" (click)="setSortColumn('fechaModificacion')" class="sortable">Modificado</th>
+                <th scope="col" (click)="setSortColumn('id')" class="sortable" [class.sortable-active]="column === 'id'">
+                  <span>ID</span>
+                  <i class="bi" [ngClass]="column === 'id' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col" (click)="setSortColumn('nombre')" class="sortable" [class.sortable-active]="column === 'nombre'">
+                  <span>Nombre</span>
+                  <i class="bi" [ngClass]="column === 'nombre' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col" (click)="setSortColumn('comentario')" class="sortable" [class.sortable-active]="column === 'comentario'">
+                  <span>Comentario</span>
+                  <i class="bi" [ngClass]="column === 'comentario' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col" (click)="setSortColumn('estaPublicado')" class="sortable" [class.sortable-active]="column === 'estaPublicado'">
+                  <span>Estado</span>
+                  <i class="bi" [ngClass]="column === 'estaPublicado' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col" (click)="setSortColumn('fechaCreacion')" class="sortable" [class.sortable-active]="column === 'fechaCreacion'">
+                  <span>Creado</span>
+                  <i class="bi" [ngClass]="column === 'fechaCreacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col" (click)="setSortColumn('fechaModificacion')" class="sortable" [class.sortable-active]="column === 'fechaModificacion'">
+                  <span>Modificado</span>
+                  <i class="bi" [ngClass]="column === 'fechaModificacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                </th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
