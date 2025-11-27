@@ -25,6 +25,7 @@ export class FernandezRoutedUserView {
   oPage: IPage<IFernandezIdea> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
+  rppOptions: number[] = [5, 10, 20, 50, 100];
   ideaId: number = NaN;
 
   constructor() {
@@ -43,26 +44,29 @@ export class FernandezRoutedUserView {
 
   getPage() {
     this.loading = true;
-    // Siempre obtener el detalle de la idea por id, solo si es pública
+    // Obtener el detalle de la idea por id, solo si es pública
     this.oIdeaService.get(this.ideaId).subscribe({
       next: (idea: IFernandezIdea) => {
         if (idea.publico) {
           this.oIdea = idea;
+          this.error = null;
         } else {
           this.oIdea = null;
+          this.error = 'Esta idea no es pública.';
         }
-        this.error = null;
         this.loading = false;
       },
       error: () => {
         this.oIdea = null;
-        this.error = null;
+        this.error = 'No se pudo cargar la idea.';
         this.loading = false;
       }
     });
-    // También cargar la página para la navegación y paginación
-    this.oIdeaService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc', true).subscribe({
+    // Cargar la página para la navegación y paginación, solo ideas públicas
+  this.oIdeaService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc', true).subscribe({
       next: (data: IPage<IFernandezIdea>) => {
+        // Elimina cualquier idea privada por seguridad (aunque el backend ya filtra)
+        data.content = data.content.filter(idea => idea.publico);
         this.oPage = data;
       },
       error: (error: HttpErrorResponse) => {
@@ -84,7 +88,7 @@ export class FernandezRoutedUserView {
   }
 
   goToIdea(id: number) {
-    // Navega a la idea seleccionada
-    window.location.href = `/fernandez-idea/user/view/${id}`;
+    // Navega a la idea seleccionada usando el router
+    location.assign(`/fernandez-idea/user/view/${id}`);
   }
 }

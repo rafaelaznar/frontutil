@@ -78,11 +78,13 @@
             <div class="col-12">
               <div class="d-flex flex-wrap gap-2 justify-content-center">
                 @for (idea of oPage?.content; track idea.id) {
-                  <button class="btn btn-outline-secondary btn-sm"
-                    [class.active]="idea.id === oIdea?.id"
-                    (click)="goToIdea(idea.id)">
-                    {{ idea.titulo }}
-                  </button>
+                  @if (idea.publico) {
+                    <button class="btn btn-outline-secondary btn-sm"
+                      [class.active]="idea.id === oIdea?.id"
+                      (click)="goToIdea(idea.id)">
+                      {{ idea.titulo }}
+                    </button>
+                  }
                 }
               </div>
             </div>

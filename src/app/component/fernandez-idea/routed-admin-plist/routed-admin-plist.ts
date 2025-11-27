@@ -19,13 +19,18 @@ export class FernandezRoutedAdminPlist {
   oPage: IPage<IFernandezIdea> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
+  // Search / filter / sort for admin (admin can see all)
+  searchTerm: string = '';
+  categoriaFilter: string = 'ALL';
+  orderField: string = 'fechaCreacion';
+  orderDirection: string = 'desc';
 
   ngOnInit() {
     this.getPage();
   }
 
   getPage() {
-    this.oIdeaService.getPage(this.numPage, this.numRpp).subscribe({
+  this.oIdeaService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection, undefined, this.searchTerm, this.categoriaFilter).subscribe({
       next: (data: IPage<IFernandezIdea>) => {
         this.oPage = data;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
@@ -48,6 +53,34 @@ export class FernandezRoutedAdminPlist {
 
   onRppChange(n: number) {
     this.numRpp = n;
+    this.getPage();
+    return false;
+  }
+  
+  onSearch(term: string) {
+    this.searchTerm = term || '';
+    this.numPage = 0;
+    this.getPage();
+    return false;
+  }
+
+  onCategoriaChange(cat: string) {
+    this.categoriaFilter = cat || 'ALL';
+    this.numPage = 0;
+    this.getPage();
+    return false;
+  }
+
+  onOrderChange(field: string) {
+    this.orderField = field || 'fechaCreacion';
+    this.numPage = 0;
+    this.getPage();
+    return false;
+  }
+
+  toggleDirection() {
+    this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    this.numPage = 0;
     this.getPage();
     return false;
   }

@@ -2,9 +2,26 @@
   <div class="d-flex justify-content-center my-5">
     <h1>Ideas de la Comunidad</h1>
   </div>
-
-  @if (oPage && oPage.content && oPage.content.length > 0) {
-    <div class="d-flex justify-content-center align-items-center my-3 gap-4">
+  <!-- Toolbar: search / category / order (always visible) -->
+  <div class="d-flex justify-content-between align-items-center my-3 gap-4">
+    <div class="d-flex gap-2 align-items-center">
+      <input type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." (input)="onSearch($event.target.value)" />
+      <select class="form-select form-select-sm" (change)="onCategoriaChange($event.target.value)">
+        <option value="ALL">Todas</option>
+        <option value="IDEA">IDEA</option>
+        <option value="MEJORA">MEJORA</option>
+        <option value="BUG">BUG</option>
+      </select>
+      <select class="form-select form-select-sm" (change)="onOrderChange($event.target.value)">
+        <option value="fechaCreacion">Fecha</option>
+        <option value="categoria">Categoría</option>
+        <option value="titulo">Título</option>
+      </select>
+      <button class="btn btn-sm btn-outline-secondary" (click)="toggleDirection()">
+        <i class="bi" [class.bi-sort-alpha-down]="orderDirection==='asc'" [class.bi-sort-alpha-up]="orderDirection==='desc'"></i>
+      </button>
+    </div>
+    <div class="d-flex align-items-center">
       <div>
         <app-paginacion
           [numPage]="numPage"
@@ -16,13 +33,15 @@
         <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
       </div>
     </div>
-  }
+  </div>
 
   <div class="row">
     @for (oIdea of oPage?.content; track oIdea.id) {
-      <div class="col-12">
-        <app-fernandez-unrouted-user-view [oIdea]="oIdea"></app-fernandez-unrouted-user-view>
-      </div>
+      @if (oIdea.publico) {
+        <div class="col-12">
+          <app-fernandez-unrouted-user-view [oIdea]="oIdea"></app-fernandez-unrouted-user-view>
+        </div>
+      }
     }
   </div>
 
