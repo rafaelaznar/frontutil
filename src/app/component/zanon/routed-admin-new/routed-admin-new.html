@@ -24,7 +24,7 @@
               [class.is-valid]="titulo?.valid && titulo?.touched"
               id="titulo"
               formControlName="titulo"
-              placeholder="Introduce el título del post"
+              placeholder="Introduce un TÍTULO"
             />
             @if (titulo?.invalid && titulo?.touched) {
             <div class="invalid-feedback">
@@ -51,7 +51,7 @@
               id="contenido"
               formControlName="contenido"
               rows="8"
-              placeholder="Escribe el contenido del post"
+              placeholder="Escribe el CONTENIDO"
             ></textarea>
             @if (contenido?.invalid && contenido?.touched) {
             <div class="invalid-feedback">
@@ -75,7 +75,7 @@
               [class.is-valid]="etiquetas?.valid && etiquetas?.touched"
               id="etiquetas"
               formControlName="etiquetas"
-              placeholder="Etiquetas separadas por comas"
+              placeholder="Escribe PALABRAS SUELTAS del CONTENIDO (separadas por comas)"
             />
             @if (etiquetas?.invalid && etiquetas?.touched) {
             <div class="invalid-feedback">
@@ -84,7 +84,7 @@
               }
             </div>
             }
-            <small class="form-text text-muted">Ejemplo: angular, typescript, web</small>
+            <small class="form-text text-muted">Ejemplo: press, militar, elevaciones</small>
           </div>
 
           <!-- Duración -->
@@ -97,7 +97,7 @@
               [class.is-valid]="duracion?.valid && duracion?.touched"
               id="duracion"
               formControlName="duracion"
-              placeholder="..."
+              placeholder="Introduce un NÚMERO"
             />
             @if (duracion?.invalid && duracion?.touched) {
             <div class="invalid-feedback">
