@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { serverURL } from '../../environment/environment';
+import { IPage } from '../../model/plist';
 import { Observable } from 'rxjs';
 import { IGarcia } from '../../model/garcia/garcia';
 
@@ -7,12 +9,22 @@ import { IGarcia } from '../../model/garcia/garcia';
   providedIn: 'root'
 })
 export class GarciaService {
-  private url = 'http://localhost:8085/garcia';
+  private url = 'http://localhost:8089/garcia';
 
   constructor(private http: HttpClient) { }
 
+  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IGarcia>> {
+    if (order === '') {
+      order = 'id';
+    }
+    if (direction === '') {
+      direction = 'asc';
+    }
+    return this.http.get<IPage<IGarcia>>(serverURL + `/garcia?page=${page}&size=${rpp}&sort=${order},${direction}`);
+  }
+
   get(id: number): Observable<IGarcia> {
-    return this.http.get<IGarcia>(`${this.url}/${id}`);
+   return this.http.get<IGarcia>(serverURL + '/garcia/' + id);
   }
 
   create(garcia: Partial<IGarcia>): Observable<number> {
@@ -20,15 +32,15 @@ export class GarciaService {
   }
 
   update(garcia: Partial<IGarcia>): Observable<number> {
-    return this.http.put<number>(this.url, garcia);
+   return this.http.put<number>(serverURL + '/garcia', garcia);
   }
 
   delete(id: number): Observable<number> {
-    return this.http.delete<number>(`${this.url}/${id}`);
+    return this.http.delete<number>(serverURL + '/garcia/' + id);
   }
 
-  getPage(page: number, size: number): Observable<any> {
-    return this.http.get<any>(`${this.url}?page=${page}&size=${size}`);
+  rellenaBlog(numPosts: number): Observable<number> {
+    return this.http.get<number>(serverURL + '/garcia/rellena/' + numPosts);
   }
 
   count(): Observable<number> {
