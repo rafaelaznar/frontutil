@@ -47,6 +47,7 @@ export class RoutedAdminEditCalinescu implements OnInit {
                 Validators.minLength(3)]],
             fechaCompraEsperada: [''],
             publicado: [true],
+            precio: [0, [Validators.min(0)]],
         });
     }
 
@@ -66,6 +67,7 @@ export class RoutedAdminEditCalinescu implements OnInit {
                     contenido: item.contenido,
                     fechaCompraEsperada: fechaParaInput,
                     publicado: item.publicado,
+                    precio: item.precio || 0,
                 });
                 this.loading = false;
             },
@@ -103,6 +105,7 @@ export class RoutedAdminEditCalinescu implements OnInit {
             contenido: this.calinescuForm.value.contenido,
             fecha_compra_esperada: fechaFormateada,
             publicado: this.calinescuForm.value.publicado,
+            precio: this.calinescuForm.value.precio || 0,
         };
 
         this.calinescuService.update(payload).subscribe({
@@ -142,5 +145,9 @@ export class RoutedAdminEditCalinescu implements OnInit {
 
     get publicado() {
         return this.calinescuForm.get('publicado');
+    }
+
+    get precio() {
+        return this.calinescuForm.get('precio');
     }
 }

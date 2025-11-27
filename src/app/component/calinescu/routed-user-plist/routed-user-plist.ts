@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { IPage } from '../../../model/plist';
 import { ICalinescu } from '../../../model/calinescu';
 import { CalinescuService } from '../../../service/calinescu.service';
@@ -9,7 +10,7 @@ import { UnroutedUserView2Calinescu } from "../unrouted-user-view2/unrouted-user
 
 @Component({
   selector: 'app-routed-user-plist-calinescu',
-  imports: [Paginacion, UnroutedUserView2Calinescu],
+  imports: [Paginacion, UnroutedUserView2Calinescu, DecimalPipe],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })
@@ -17,6 +18,7 @@ export class RoutedUserPlistCalinescu {
   oPage: IPage<ICalinescu> | null = null;
   numPage: number = 0;
   numRpp: number = 2;
+  totalGlobal: number = 0;
 
   constructor(private oCalinescuService: CalinescuService) { }
 
@@ -24,6 +26,7 @@ export class RoutedUserPlistCalinescu {
 
   ngOnInit() {
     this.obtenerPagina();
+    this.cargarTotalGlobal();
   }
 
   obtenerPagina() {
@@ -52,5 +55,21 @@ export class RoutedUserPlistCalinescu {
     this.numRpp = n;
     this.obtenerPagina();
     return false;
+  }
+
+  calcularTotal(): number {
+    if (!this.oPage || !this.oPage.content) return 0;
+    return this.oPage.content.reduce((sum, item) => sum + (item.precio || 0), 0);
+  }
+
+  cargarTotalGlobal() {
+    this.oCalinescuService.getTotalPrecios().subscribe({
+      next: (total: number) => {
+        this.totalGlobal = total;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error al cargar total global:', error);
+      },
+    });
   }
 }

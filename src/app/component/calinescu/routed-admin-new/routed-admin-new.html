@@ -80,6 +80,30 @@
             <small class="form-text text-muted">Opcional: indica cuándo esperas comprar este item</small>
           </div>
 
+          <!-- Precio -->
+          <div class="mb-4">
+            <label for="precio" class="form-label">Precio Estimado (€)</label>
+            <input
+              type="number"
+              class="form-control"
+              [class.is-invalid]="precio?.invalid && precio?.touched"
+              [class.is-valid]="precio?.valid && precio?.touched"
+              id="precio"
+              formControlName="precio"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+            />
+            @if (precio?.invalid && precio?.touched) {
+            <div class="invalid-feedback">
+              @if (precio?.errors?.['min']) {
+                <span>El precio no puede ser negativo.</span>
+              }
+            </div>
+            }
+            <small class="form-text text-muted">Opcional: precio estimado del producto</small>
+          </div>
+
           <!-- Publicado -->
           <div class="mb-4 form-check">
             <input

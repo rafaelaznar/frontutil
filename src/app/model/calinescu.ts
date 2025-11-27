@@ -7,4 +7,5 @@ export interface ICalinescu {
   fecha_creacion: string
   fecha_modificacion: any
   publicado: boolean
+  precio: number
 }

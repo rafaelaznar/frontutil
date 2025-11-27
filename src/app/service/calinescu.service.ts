@@ -42,4 +42,12 @@ export class CalinescuService {
     return this.oHttp.get<number>(serverURL + '/calinescuListaCompra/rellena/' + numItems);
   }
 
+  getTotalPrecios(): Observable<number> {
+    return this.oHttp.get<number>(serverURL + '/calinescuListaCompra/total');
+  }
+
+  deleteAll(): Observable<number> {
+    return this.oHttp.delete<number>(serverURL + '/calinescuListaCompra/all');
+  }
+
 }
