@@ -25,26 +25,26 @@ export class RoutedAdminNewGarcia implements OnInit {
   }
 
   initForm(): void {
-  this.garciaForm = this.fb.group({
-    titulo: ['', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(1024)
-    ]],
-    objetivo: ['', [
-      Validators.required,
-      Validators.minLength(3),
-    ]],
-    progreso: [0, [
-      Validators.required,
-      Validators.min(0),
-      Validators.max(100)
-    ]],
-    fechaFinal: ['', [
-      Validators.required
-    ]],
-  });
-}
+    this.garciaForm = this.fb.group({
+      titulo: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(1024)
+      ]],
+      objetivo: ['', [
+        Validators.required,
+        Validators.minLength(3),
+      ]],
+      progreso: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(1024)
+      ]],
+      fechaFinal: ['', [
+        Validators.required
+      ]],
+    });
+  }
 
   onSubmit(): void {
     if (!this.garciaForm.valid) {

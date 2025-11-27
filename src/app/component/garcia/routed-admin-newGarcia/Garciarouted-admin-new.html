@@ -67,39 +67,24 @@
 
           <!-- Progreso -->
           <div class="mb-4">
-            <label for="progreso" class="form-label">
-              Progreso <span class="text-danger">*</span>
-              <span class="badge bg-primary ms-2">{{ garciaForm.get('progreso')?.value || 0 }}%</span>
-            </label>
+            <label for="progreso" class="form-label">Progreso</label>
             <input
-              type="range"
-              class="form-range"
+              type="text"
+              class="form-control"
+              [class.is-invalid]="progreso?.invalid && progreso?.touched"
+              [class.is-valid]="progreso?.valid && progreso?.touched"
               id="progreso"
               formControlName="progreso"
-              min="0"
-              max="100"
-              step="5"
+              placeholder="progreso separadas por comas"
             />
-            <div class="d-flex justify-content-between text-muted small mt-1">
-              <span>0%</span>
-              <span>25%</span>
-              <span>50%</span>
-              <span>75%</span>
-              <span>100%</span>
-            </div>
             @if (progreso?.invalid && progreso?.touched) {
-            <div class="invalid-feedback d-block">
-              @if (progreso?.errors?.['required']) {
-                <span>El progreso es obligatorio.</span>
-              }
-              @if (progreso?.errors?.['min']) {
-                <span>El progreso mínimo es 0%.</span>
-              }
-              @if (progreso?.errors?.['max']) {
-                <span>El progreso máximo es 100%.</span>
+            <div class="invalid-feedback">
+              @if (progreso?.errors?.['maxlength']) {
+                <span>Las progreso no pueden superar 100 caracteres.</span>
               }
             </div>
             }
+            <small class="form-text text-muted">Ejemplo: angular, typescript, web</small>
           </div>
 
           <!-- Fecha Final -->
