@@ -12,38 +12,31 @@
       </button>
   </div>
 
-  <div class="d-flex justify-content-between my-2 align-items-center">
-    <div class="d-flex gap-2 align-items-center">
-      <input type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." (input)="onSearch($event.target.value)" />
-      <select class="form-select form-select-sm" (change)="onCategoriaChange($event.target.value)">
-        <option value="ALL">Todas</option>
-        <option value="IDEA">IDEA</option>
-        <option value="MEJORA">MEJORA</option>
-        <option value="BUG">BUG</option>
-      </select>
-      <select class="form-select form-select-sm" (change)="onOrderChange($event.target.value)">
-        <option value="fechaCreacion">Fecha</option>
-        <option value="categoria">Categoría</option>
-        <option value="titulo">Título</option>
-      </select>
-      <button class="btn btn-sm btn-outline-secondary" (click)="toggleDirection()">
-        <i class="bi" [class.bi-sort-alpha-down]="orderDirection==='asc'" [class.bi-sort-alpha-up]="orderDirection==='desc'"></i>
-      </button>
-    </div>
-    <div>
-      <!-- placeholder for other actions -->
-    </div>
+  <div class="d-flex justify-content-center my-2">
+    <a [routerLink]="['/fernandez-idea/user/plist']" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-globe me-1"></i>Ver versión pública
+    </a>
   </div>
 
-  <div class="d-flex justify-content-between my-1">
-    <app-paginacion
-      [numPage]="numPage"
-      [numPages]="oPage?.totalPages || 1"
-      (pageChange)="goToPage($event)"
-    >
-    </app-paginacion>
+  <div class="d-flex justify-content-between align-items-center my-3 toolbar-grid">
+    <div class="toolbar-left d-flex gap-2 align-items-center">
+      <input #searchBox type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." aria-label="Buscar ideas" (input)="onSearch(searchBox.value)" (keyup.enter)="onSearchImmediate(searchBox.value)" />
+    </div>
 
-    <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
+    <div class="toolbar-center d-flex justify-content-center align-items-center">
+      <app-paginacion
+        [numPage]="numPage"
+        [numPages]="oPage?.totalPages || 1"
+        (pageChange)="goToPage($event)"
+      ></app-paginacion>
+    </div>
+
+    <div class="toolbar-right d-flex align-items-center justify-content-end gap-2">
+      <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
+      <a [routerLink]="['/fernandez-idea/user/plist']" class="btn btn-outline-primary btn-sm ms-2 maintenance-btn-admin">
+        <i class="bi bi-globe me-1"></i>Ver versión pública
+      </a>
+    </div>
   </div>
 
   <div class="d-flex justify-content-center">

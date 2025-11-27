@@ -6,6 +6,7 @@ import { IFernandezIdea } from '../../../model/fernandez-idea';
 import { FernandezIdeaService } from '../../../service/fernandez-idea.service';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-fernandez-routed-admin-plist',
@@ -24,18 +25,81 @@ export class FernandezRoutedAdminPlist {
   categoriaFilter: string = 'ALL';
   orderField: string = 'fechaCreacion';
   orderDirection: string = 'desc';
+  private searchTimer: any = null;
 
   ngOnInit() {
     this.getPage();
   }
 
+  /**
+   * Scan all pages (up to a cap) to compute total matching records for the active search (admin view).
+   */
+  private async scanAndUpdateTotals(serverTotalPages: number | undefined, publico: boolean | undefined) {
+    if (!this.searchTerm || this.searchTerm.trim() === '') return;
+    const totalPagesToScan = Math.min((serverTotalPages && serverTotalPages > 0) ? serverTotalPages : 200, 500);
+    if (totalPagesToScan <= 0) return;
+    console.debug('Admin scanAndUpdateTotals: scanning', totalPagesToScan, 'pages for term:', this.searchTerm);
+    let totalMatches = 0;
+    const q = this.searchTerm.toLowerCase();
+    for (let p = 0; p < totalPagesToScan; p++) {
+      try {
+        const pageData = await firstValueFrom(this.oIdeaService.getPage(p, this.numRpp, this.orderField, this.orderDirection, publico, this.searchTerm, this.categoriaFilter));
+        const matches = (pageData.content || []).filter(i => {
+          const title = (i.titulo || '').toLowerCase();
+          const desc = (i.comentario || '').toLowerCase();
+          return title.includes(q) || desc.includes(q);
+        }).length;
+        totalMatches += matches;
+      } catch (err: unknown) {
+        console.error('Admin scanAndUpdateTotals: error fetching page', p, err);
+        break;
+      }
+    }
+    if (this.oPage) {
+      this.oPage.totalElements = totalMatches;
+      this.oPage.totalPages = Math.max(1, Math.ceil(totalMatches / this.numRpp));
+      console.debug('Admin scanAndUpdateTotals: totalMatches=', totalMatches, 'totalPages=', this.oPage.totalPages);
+    }
+  }
+
   getPage() {
   this.oIdeaService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection, undefined, this.searchTerm, this.categoriaFilter).subscribe({
       next: (data: IPage<IFernandezIdea>) => {
-        this.oPage = data;
+        // Debug: log search term and incoming page size
+        console.debug('Admin getPage - searchTerm:', this.searchTerm, 'received items:', data.content?.length);
+        // If there is an active search term, collect ALL matching records across pages (up to a cap)
+        if (this.searchTerm && this.searchTerm.trim() !== '') {
+          (async () => {
+            try {
+              const matches = await this.collectAllMatches(data.totalPages, undefined);
+              const totalMatches = matches.length;
+              const totalPages = Math.max(1, Math.ceil(totalMatches / this.numRpp));
+              const start = this.numPage * this.numRpp;
+              const pageSlice = matches.slice(start, start + this.numRpp);
+              const result: IPage<IFernandezIdea> = {
+                ...data,
+                content: pageSlice,
+                totalElements: totalMatches,
+                totalPages: totalPages,
+                size: this.numRpp,
+                number: this.numPage,
+              };
+              this.oPage = result;
+            } catch (err) {
+              console.error('Error collecting matches for admin search:', err);
+              // fallback: show server page (possibly filtered)
+              this.oPage = data;
+            }
+          })();
+        } else {
+          this.oPage = data;
+        }
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
-        if (this.numPage > 0 && this.numPage >= data.totalPages) {
-          this.numPage = data.totalPages - 1;
+        // If the currently requested page index is out of range relative to the current pagination totals,
+        // adjust to the last available page. Use the oPage totals if available (they may be updated by the async collector).
+        const currentTotalPages = this.oPage?.totalPages ?? data.totalPages;
+        if (this.numPage > 0 && this.numPage >= currentTotalPages) {
+          this.numPage = Math.max(0, currentTotalPages - 1);
           this.getPage();
         }
       },
@@ -43,6 +107,36 @@ export class FernandezRoutedAdminPlist {
         console.error(error);
       },
     });
+  }
+
+  /**
+   * Collect all matching records for the current searchTerm by scanning pages sequentially.
+   * Returns an array of matching IFernandezIdea. Uses a safe page cap to avoid overload.
+   */
+  private async collectAllMatches(serverTotalPages: number | undefined, publico: boolean | undefined): Promise<IFernandezIdea[]> {
+    const matches: IFernandezIdea[] = [];
+    if (!this.searchTerm || this.searchTerm.trim() === '') return matches;
+    const q = this.searchTerm.toLowerCase();
+    const capPages = Math.min((serverTotalPages && serverTotalPages > 0) ? serverTotalPages : 200, 500);
+    for (let p = 0; p < capPages; p++) {
+      try {
+        const pageData = await firstValueFrom(this.oIdeaService.getPage(p, this.numRpp, this.orderField, this.orderDirection, publico, this.searchTerm, this.categoriaFilter));
+        const pageMatches = (pageData.content || []).filter(i => {
+          const title = (i.titulo || '').toLowerCase();
+          const desc = (i.comentario || '').toLowerCase();
+          return title.includes(q) || desc.includes(q);
+        });
+        matches.push(...pageMatches);
+        // If server indicates fewer pages than cap, we can stop early
+        if (serverTotalPages && p >= serverTotalPages - 1) break;
+        // Small optimization: if matches already exceed a large threshold, we can stop (avoid giant arrays)
+        if (matches.length > 20000) break;
+      } catch (err) {
+        console.error('collectAllMatches: error fetching page', p, err);
+        break;
+      }
+    }
+    return matches;
   }
 
   goToPage(numPage: number) {
@@ -58,8 +152,27 @@ export class FernandezRoutedAdminPlist {
   }
   
   onSearch(term: string) {
-    this.searchTerm = term || '';
+    this.searchTerm = term ? term.trim() : '';
     this.numPage = 0;
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+    this.searchTimer = setTimeout(() => {
+      this.getPage();
+    }, 350);
+    return false;
+  }
+
+  /**
+   * Execute search immediately (used for Enter key)
+   */
+  onSearchImmediate(term: string) {
+    this.searchTerm = term ? term.trim() : '';
+    this.numPage = 0;
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+      this.searchTimer = null;
+    }
     this.getPage();
     return false;
   }

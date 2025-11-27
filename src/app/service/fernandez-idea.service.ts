@@ -34,6 +34,8 @@ export class FernandezIdeaService {
     }
 
     const pageRequest$ = this.http.get<IPage<IFernandezIdea>>(serverURL + '/idea', { params });
+  // Debug: log the request params so we can verify 'search' is being sent
+  console.debug('FernandezIdeaService.getPage params:', params.toString(), 'url:', serverURL + '/idea');
     // Si se pasa 'publico' pedimos el conteo filtrado; si no, pedimos el conteo general
   const countRequest$ = this.count(publico, search, categoria);
 

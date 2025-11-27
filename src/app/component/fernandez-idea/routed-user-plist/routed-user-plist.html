@@ -3,35 +3,27 @@
     <h1>Ideas de la Comunidad</h1>
   </div>
   <!-- Toolbar: search / category / order (always visible) -->
-  <div class="d-flex justify-content-between align-items-center my-3 gap-4">
-    <div class="d-flex gap-2 align-items-center">
-      <input type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." (input)="onSearch($event.target.value)" />
-      <select class="form-select form-select-sm" (change)="onCategoriaChange($event.target.value)">
-        <option value="ALL">Todas</option>
-        <option value="IDEA">IDEA</option>
-        <option value="MEJORA">MEJORA</option>
-        <option value="BUG">BUG</option>
-      </select>
-      <select class="form-select form-select-sm" (change)="onOrderChange($event.target.value)">
-        <option value="fechaCreacion">Fecha</option>
-        <option value="categoria">Categoría</option>
-        <option value="titulo">Título</option>
-      </select>
-      <button class="btn btn-sm btn-outline-secondary" (click)="toggleDirection()">
-        <i class="bi" [class.bi-sort-alpha-down]="orderDirection==='asc'" [class.bi-sort-alpha-up]="orderDirection==='desc'"></i>
-      </button>
+  <div class="d-flex justify-content-between align-items-center my-3 gap-4 toolbar-grid">
+    <!-- left: search -->
+    <div class="toolbar-left d-flex gap-2 align-items-center">
+      <input #searchBox type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." aria-label="Buscar ideas" (input)="onSearch(searchBox.value)" (keyup.enter)="onSearchImmediate(searchBox.value)" />
     </div>
-    <div class="d-flex align-items-center">
-      <div>
-        <app-paginacion
-          [numPage]="numPage"
-          [numPages]="oPage?.totalPages || 1"
-          (pageChange)="goToPage($event)"
-        ></app-paginacion>
-      </div>
-      <div>
-        <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
-      </div>
+
+    <!-- center: pagination -->
+    <div class="toolbar-center d-flex justify-content-center align-items-center">
+      <app-paginacion
+        [numPage]="numPage"
+        [numPages]="oPage?.totalPages || 1"
+        (pageChange)="goToPage($event)"
+      ></app-paginacion>
+    </div>
+
+    <!-- right: rpp + maintenance -->
+    <div class="toolbar-right d-flex align-items-center justify-content-end gap-2">
+      <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+      <a [routerLink]="['/fernandez-idea/admin/plist']" class="btn btn-sm btn-outline-dark maintenance-btn ms-3">
+        <i class="bi bi-tools me-1"></i>Mantenimiento
+      </a>
     </div>
   </div>
 
