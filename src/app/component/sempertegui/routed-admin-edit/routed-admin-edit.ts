@@ -1,0 +1,109 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BlogService } from '../../../service/blog';
+import { IBlog } from '../../../model/blog';
+import { HttpErrorResponse } from '@angular/common/http';
+
+@Component({
+    selector: 'app-routed-admin-edit',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './routed-admin-edit.html',
+    styleUrl: './routed-admin-edit.css',
+})
+export class RoutedAdminEdit implements OnInit {
+    private fb = inject(FormBuilder);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private blogService = inject(BlogService);
+
+    blogForm!: FormGroup;
+    blogId: number | null = null;
+    loading: boolean = true;
+    error: string | null = null;
+    submitting: boolean = false;
+    private originalBlog: IBlog | null = null;
+
+    ngOnInit(): void {
+        this.initForm();
+        const id = this.route.snapshot.paramMap.get('id');
+        if (id) {
+            this.blogId = +id;
+            this.loadBlog(+id);
+        } else {
+            this.loading = false;
+            this.error = 'ID de post no válido';
+        }
+    }
+
+    initForm(): void {
+        this.blogForm = this.fb.group({
+            titulo: ['', [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(200)]],
+            contenido: ['', [
+                Validators.required,
+                Validators.minLength(10)]],
+            etiquetas: ['', [Validators.maxLength(100)]],
+        });
+    }
+
+    loadBlog(id: number): void {
+        this.blogService.get(id).subscribe({
+            next: (blog: IBlog) => {
+                this.originalBlog = blog;
+                this.blogForm.patchValue({
+                    titulo: blog.titulo,
+                    contenido: blog.contenido,
+                    etiquetas: blog.etiquetas,
+                });
+                this.loading = false;
+            },
+            error: (err: HttpErrorResponse) => {
+                this.error = 'Error al cargar el post';
+                this.loading = false;
+                console.error(err);
+            },
+        });
+    }
+
+    onSubmit(): void {
+        if (!this.blogForm.valid || !this.blogId) {
+            this.blogForm.markAllAsTouched();
+            return;
+        }
+
+        this.submitting = true;
+        const payload: Partial<IBlog> = {
+            id: this.blogId!,
+            titulo: this.blogForm.value.titulo,
+            contenido: this.blogForm.value.contenido,
+            etiquetas: this.blogForm.value.etiquetas
+        };
+
+        this.blogService.update(payload).subscribe({
+            next: () => {
+                this.submitting = false;
+                this.router.navigate(['/blog/plist']);
+            },
+            error: (err: HttpErrorResponse) => {
+                this.submitting = false;
+                this.error = 'Error al guardar el post';
+                console.error(err);
+            },
+        });
+    }
+
+    get titulo() {
+        return this.blogForm.get('titulo');
+    }
+
+    get contenido() {
+        return this.blogForm.get('contenido');
+    }
+
+    get etiquetas() {
+        return this.blogForm.get('etiquetas');
+    }
+}

@@ -1,0 +1,28 @@
+<div class="movie-card">
+  <div class="movie-cover">
+    <img src="#" [alt]="'Portada de ' + movie.nombre">
+    
+    <div class="cover-footer">
+      <button class="trailer-btn"><i class="bi bi-play"></i> Trailer</button>
+      <button class="synopsis-btn"><i class="bi bi-journal-text blog-icon me-2" aria-hidden="true"></i> Sinopsis</button>
+    </div>
+  </div>
+
+  <div class="movie-details">
+    <h3 class="movie-title">{{ movie.nombre }}</h3>
+    <span class="movie-director"><strong>Director:</strong> {{ movie.director }}</span>
+    <span class="movie-director"><strong>Año:</strong> {{ movie.director }}</span>
+    <span class="movie-director"><strong>Duración:</strong> {{ movie.director }}</span>
+    
+    <div class="movie-rating">
+      <span class="rating-value">⭐️ {{ movie.puntuacion }} / 10</span>
+      <!-- @if(movie?.duration){
+      <span class="movie-duration">
+        | {{ movie?.duration }} min.
+      </span>
+      } -->
+    </div>
+    
+    <button class="read-more-btn">Ver Más / Leer</button>
+  </div>
+</div>
