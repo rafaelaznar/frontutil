@@ -5,6 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnroutedUserViewCalinescu } from "../unrouted-user-view/unrouted-user-view";
 
+/**
+ * Componente para visualizar los detalles de un item de la lista de compras (vista usuario).
+ * 
+ * Muestra la información completa de un item específico en un formato
+ * orientado al usuario final, utilizando el componente unrouted-user-view.
+ */
 @Component({
   selector: 'app-routed-user-view-calinescu',
   imports: [UnroutedUserViewCalinescu],
@@ -12,6 +18,7 @@ import { UnroutedUserViewCalinescu } from "../unrouted-user-view/unrouted-user-v
   styleUrls: ['./routed-user-view.css'],
 })
 export class RoutedUserViewCalinescu {
+  /** Item que se está visualizando */
   oCalinescu: ICalinescu | null = null;
 
   constructor(private oCalinescuService: CalinescuService, private route: ActivatedRoute) {
@@ -26,6 +33,11 @@ export class RoutedUserViewCalinescu {
 
   ngOnInit() { }
 
+  /**
+   * Obtiene los datos del item desde el servidor.
+   * 
+   * @param id - ID del item a obtener
+   */
   obtenerCalinescu(id: number) {
     this.oCalinescuService.get(id).subscribe({
       next: (data: ICalinescu) => {
