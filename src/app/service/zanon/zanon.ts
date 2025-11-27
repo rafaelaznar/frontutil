@@ -41,4 +41,8 @@ export class ZanonService {
     delete(id: number): Observable<number> {
         return this.oHttp.delete<number>(serverURL + '/zanon/' + id);
     }
+
+    rellenaBlog(numPosts: number): Observable<number> {
+        return this.oHttp.get<number>(serverURL + '/zanon/rellena/' + numPosts);
+    }
 }
