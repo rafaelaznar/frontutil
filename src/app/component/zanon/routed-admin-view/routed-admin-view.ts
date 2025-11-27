@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IBlog } from '../../../model/blog';
-import { BlogService } from '../../../service/blog';
+import { IZanon } from '../../../model/zanon/zanon';
+import { ZanonService } from '../../../service/zanon/zanon';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
@@ -11,26 +11,28 @@ import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
   templateUrl: './routed-admin-view.html',
   styleUrl: './routed-admin-view.css',
 })
-export class RoutedAdminView {
-  oBlog: IBlog | null = null;
+export class RoutedAdminViewZanon {
+  oZanon: IZanon | null = null;
 
-  constructor(private oBlogService: BlogService, private route: ActivatedRoute) {
+  constructor(private oZanonService: ZanonService, private route: ActivatedRoute) {
     // Obtener el ID del blog desde la ruta
     const idParam = this.route.snapshot.paramMap.get('id');
-    const blogId = idParam ? Number(idParam) : NaN;
-    if (isNaN(blogId)) {
+    const zanonId = idParam ? Number(idParam) : NaN;
+    if (isNaN(zanonId)) {
       console.error('Invalid blog id:', idParam);
       return;
     }
-    this.getBlog(blogId);
+    this.getBlog(zanonId);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
 
-  getBlog(blogId: number) {
-    this.oBlogService.get(blogId).subscribe({
-      next: (data: IBlog) => {
-        this.oBlog = data;
+  }
+
+  getBlog(zanonId: number) {
+    this.oZanonService.get(zanonId).subscribe({
+      next: (data: IZanon) => {
+        this.oZanon = data;
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching blog:', error);

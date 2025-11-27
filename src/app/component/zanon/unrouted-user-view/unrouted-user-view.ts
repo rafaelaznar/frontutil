@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IBlog } from '../../../model/blog';
+import { IZanon } from '../../../model/zanon/zanon';
 
 @Component({
   selector: 'app-unrouted-user-view',
@@ -8,6 +8,5 @@ import { IBlog } from '../../../model/blog';
   styleUrl: './unrouted-user-view.css',
 })
 export class UnroutedUserView {
-  @Input() oBlog: IBlog | null = null;
-  
+  @Input() oZanon: IZanon | null = null;
 }

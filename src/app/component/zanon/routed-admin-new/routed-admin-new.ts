@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BlogService } from '../../../service/blog';
-import { IBlog } from '../../../model/blog';
+import { ZanonService } from '../../../service/zanon/zanon';
+import { IZanon } from '../../../model/zanon/zanon';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,12 +11,12 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './routed-admin-new.html',
   styleUrl: './routed-admin-new.css',
 })
-export class RoutedAdminNew implements OnInit {
+export class RoutedAdminNewZanon implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  private blogService = inject(BlogService);
+  private ZanonService = inject(ZanonService);
 
-  blogForm!: FormGroup;
+  zanonForm!: FormGroup;
   error: string | null = null;
   submitting: boolean = false;
 
@@ -25,7 +25,7 @@ export class RoutedAdminNew implements OnInit {
   }
 
   initForm(): void {
-    this.blogForm = this.fb.group({
+    this.zanonForm = this.fb.group({
       titulo: ['', [
         Validators.required,
         Validators.minLength(3),
@@ -44,22 +44,22 @@ export class RoutedAdminNew implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.blogForm.valid) {
-      this.blogForm.markAllAsTouched();
+    if (!this.zanonForm.valid) {
+      this.zanonForm.markAllAsTouched();
       return;
     }
 
     this.submitting = true;
-    const payload: Partial<IBlog> = {
-      titulo: this.blogForm.value.titulo,
-      contenido: this.blogForm.value.contenido,
-      etiquetas: this.blogForm.value.etiquetas,
+    const payload: Partial<IZanon> = {
+      titulo: this.zanonForm.value.titulo,
+      contenido: this.zanonForm.value.contenido,
+      etiquetas: this.zanonForm.value.etiquetas,
     };
 
-    this.blogService.create(payload).subscribe({
+    this.ZanonService.create(payload).subscribe({
       next: () => {
         this.submitting = false;
-        this.router.navigate(['/blog/plist']);
+        this.router.navigate(['/zanon/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
@@ -70,14 +70,14 @@ export class RoutedAdminNew implements OnInit {
   }
 
   get titulo() {
-    return this.blogForm.get('titulo');
+    return this.zanonForm.get('titulo');
   }
 
   get contenido() {
-    return this.blogForm.get('contenido');
+    return this.zanonForm.get('contenido');
   }
 
   get etiquetas() {
-    return this.blogForm.get('etiquetas');
+    return this.zanonForm.get('etiquetas');
   }
 }

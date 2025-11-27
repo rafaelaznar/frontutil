@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BlogService } from '../../../service/blog';
-import { IBlog } from '../../../model/blog';
+import { ZanonService } from '../../../service/zanon/zanon';
+import { IZanon } from '../../../model/zanon/zanon';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
 
@@ -11,12 +11,12 @@ import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
   templateUrl: './routed-admin-remove.html',
   styleUrl: './routed-admin-remove.css'
 })
-export class RoutedAdminRemove implements OnInit {
+export class RoutedAdminRemoveZanon implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private blogService = inject(BlogService);
+  private ZanonService = inject(ZanonService);
 
-  oBlog: IBlog | null = null;
+  oZanon: IZanon | null = null;
   loading: boolean = true;
   error: string | null = null;
   deleting: boolean = false;
@@ -32,9 +32,9 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   load(id: number) {
-    this.blogService.get(id).subscribe({
-      next: (data: IBlog) => {
-        this.oBlog = data;
+    this.ZanonService.get(id).subscribe({
+      next: (data: IZanon) => {
+        this.oZanon = data;
         this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -46,12 +46,12 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   confirmDelete() {
-    if (!this.oBlog) return;
+    if (!this.oZanon) return;
     this.deleting = true;
-    this.blogService.delete(this.oBlog.id).subscribe({
+    this.ZanonService.delete(this.oZanon.id).subscribe({
       next: () => {
         this.deleting = false;
-        this.router.navigate(['/blog/plist']);
+        this.router.navigate(['/zanon/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
@@ -62,6 +62,6 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/blog/plist']);
+    this.router.navigate(['/zanon/plist']);
   }
 }

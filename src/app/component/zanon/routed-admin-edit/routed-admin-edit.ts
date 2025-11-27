@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BlogService } from '../../../service/blog';
-import { IBlog } from '../../../model/blog';
+import { ZanonService } from '../../../service/zanon/zanon';
+import { IZanon } from '../../../model/zanon/zanon';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,25 +11,25 @@ import { HttpErrorResponse } from '@angular/common/http';
     templateUrl: './routed-admin-edit.html',
     styleUrl: './routed-admin-edit.css',
 })
-export class RoutedAdminEdit implements OnInit {
+export class RoutedAdminEditZanon implements OnInit {
     private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
-    private blogService = inject(BlogService);
+    private ZanonService = inject(ZanonService);
 
-    blogForm!: FormGroup;
-    blogId: number | null = null;
+    zanonForm!: FormGroup;
+    zanonId: number | null = null;
     loading: boolean = true;
     error: string | null = null;
     submitting: boolean = false;
-    private originalBlog: IBlog | null = null;
+    private originalBlog: IZanon | null = null;
 
     ngOnInit(): void {
         this.initForm();
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
-            this.blogId = +id;
-            this.loadBlog(+id);
+            this.zanonId = +id;
+            this.loadZanon(+id);
         } else {
             this.loading = false;
             this.error = 'ID de post no válido';
@@ -37,7 +37,7 @@ export class RoutedAdminEdit implements OnInit {
     }
 
     initForm(): void {
-        this.blogForm = this.fb.group({
+        this.zanonForm = this.fb.group({
             titulo: ['', [
                 Validators.required,
                 Validators.minLength(3),
@@ -49,11 +49,11 @@ export class RoutedAdminEdit implements OnInit {
         });
     }
 
-    loadBlog(id: number): void {
-        this.blogService.get(id).subscribe({
-            next: (blog: IBlog) => {
+    loadZanon(id: number): void {
+        this.ZanonService.get(id).subscribe({
+            next: (blog: IZanon) => {
                 this.originalBlog = blog;
-                this.blogForm.patchValue({
+                this.zanonForm.patchValue({
                     titulo: blog.titulo,
                     contenido: blog.contenido,
                     etiquetas: blog.etiquetas,
@@ -69,23 +69,23 @@ export class RoutedAdminEdit implements OnInit {
     }
 
     onSubmit(): void {
-        if (!this.blogForm.valid || !this.blogId) {
-            this.blogForm.markAllAsTouched();
+        if (!this.zanonForm.valid || !this.zanonId) {
+            this.zanonForm.markAllAsTouched();
             return;
         }
 
         this.submitting = true;
-        const payload: Partial<IBlog> = {
-            id: this.blogId!,
-            titulo: this.blogForm.value.titulo,
-            contenido: this.blogForm.value.contenido,
-            etiquetas: this.blogForm.value.etiquetas
+        const payload: Partial<IZanon> = {
+            id: this.zanonId!,
+            titulo: this.zanonForm.value.titulo,
+            contenido: this.zanonForm.value.contenido,
+            etiquetas: this.zanonForm.value.etiquetas
         };
 
-        this.blogService.update(payload).subscribe({
+        this.ZanonService.update(payload).subscribe({
             next: () => {
                 this.submitting = false;
-                this.router.navigate(['/blog/plist']);
+                this.router.navigate(['/zanon/plist']);
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
@@ -96,14 +96,14 @@ export class RoutedAdminEdit implements OnInit {
     }
 
     get titulo() {
-        return this.blogForm.get('titulo');
+        return this.zanonForm.get('titulo');
     }
 
     get contenido() {
-        return this.blogForm.get('contenido');
+        return this.zanonForm.get('contenido');
     }
 
     get etiquetas() {
-        return this.blogForm.get('etiquetas');
+        return this.zanonForm.get('etiquetas');
     }
 }

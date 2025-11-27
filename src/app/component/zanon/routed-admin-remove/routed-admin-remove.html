@@ -11,9 +11,9 @@
       <div class="alert alert-danger" role="alert">
         <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
       </div>
-      } @if (!loading && !error && oBlog) {
+      } @if (!loading && !error && oZanon) {
 
-      <app-unrouted-admin-view [oBlog]="oBlog"> </app-unrouted-admin-view>
+      <app-unrouted-admin-view [oZanon]="oZanon"></app-unrouted-admin-view>
 
       <div class="confirm-box p-4 border rounded bg-light">
         <h2 class="h5 mb-3">Confirmar borrado</h2>

@@ -1,22 +1,22 @@
 <div class="container m-5 post-view">
   <article class="post-card p-5 border rounded shadow-sm">
     <header class="post-header my-5">
-      <h1 class="post-title">{{ oBlog?.titulo }}</h1>
+      <h1 class="post-title">{{ oZanon?.titulo }}</h1>
     </header>
 
     <section class="post-content my-5">
       <!-- icono de comillas -->
       <i class="bi bi-quote"></i>
-      <p [innerHTML]="oBlog?.contenido"></p>
+      <p [innerHTML]="oZanon?.contenido"></p>
     </section>
 
     <footer class="post-footer my-5 d-flex justify-content-between align-items-center">
       <div class="post-meta text-muted small">
-        <span class="me-3"><i class="bi bi-calendar3"></i> {{ oBlog?.fechaCreacion }}</span>
-        <span class="me-3"><i class="bi bi-clock"></i> {{ oBlog?.fechaModificacion }}</span>
+        <span class="me-3"><i class="bi bi-calendar3"></i> {{ oZanon?.fechaCreacion }}</span>
+        <span class="me-3"><i class="bi bi-clock"></i> {{ oZanon?.fechaModificacion }}</span>
       </div>
       <div class="post-meta text-muted small">
-        <span class="tags"><i class="bi bi-tags"></i> {{ oBlog?.etiquetas }}</span>
+        <span class="tags"><i class="bi bi-tags"></i> {{ oZanon?.etiquetas }}</span>
       </div>
     </footer>
   </article>

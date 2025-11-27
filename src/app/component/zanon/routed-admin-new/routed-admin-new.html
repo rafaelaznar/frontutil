@@ -13,7 +13,7 @@
         </div>
         }
 
-        <form [formGroup]="blogForm" (ngSubmit)="onSubmit()" novalidate>
+        <form [formGroup]="zanonForm" (ngSubmit)="onSubmit()" novalidate>
           <!-- Título -->
           <div class="mb-4">
             <label for="titulo" class="form-label">Título <span class="text-danger">*</span></label>
@@ -95,7 +95,7 @@
             <button 
               type="submit" 
               class="btn btn-primary"
-              [disabled]="submitting || blogForm.invalid"
+              [disabled]="submitting || zanonForm.invalid"
             >
               @if (submitting) {
                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

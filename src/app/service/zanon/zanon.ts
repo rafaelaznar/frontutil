@@ -23,22 +23,22 @@ export class ZanonService {
             direction = 'asc';
         }
 
-        return this.oHttp.get<IPage<IZanon>>(serverURL + `/blog?page=${page}&size=${rpp}&sort=${order},${direction}`);
+        return this.oHttp.get<IPage<IZanon>>(serverURL + `/zanon?page=${page}&size=${rpp}&sort=${order},${direction}`);
     }
 
     get(id: number): Observable<IZanon> {
-        return this.oHttp.get<IZanon>(serverURL + '/blog/' + id);
+        return this.oHttp.get<IZanon>(serverURL + '/zanon/' + id);
     }
 
-    create(blog: Partial<IZanon>): Observable<number> {
-        return this.oHttp.post<number>(serverURL + '/blog', blog);
+    create(zanon: Partial<IZanon>): Observable<number> {
+        return this.oHttp.post<number>(serverURL + '/zanon', zanon);
     }
 
-    update(blog: Partial<IZanon>): Observable<number> {
-        return this.oHttp.put<number>(serverURL + '/blog', blog);
+    update(zanon: Partial<IZanon>): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/zanon', zanon);
     }
 
     delete(id: number): Observable<number> {
-        return this.oHttp.delete<number>(serverURL + '/blog/' + id);
+        return this.oHttp.delete<number>(serverURL + '/zanon/' + id);
     }
 }

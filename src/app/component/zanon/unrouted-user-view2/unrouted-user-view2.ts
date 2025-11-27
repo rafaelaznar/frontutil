@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IBlog } from '../../../model/blog';
+import { IZanon } from '../../../model/zanon/zanon';
 import { TrimPipe } from "../../../pipe/trim-pipe";
 
 @Component({
@@ -10,7 +10,7 @@ import { TrimPipe } from "../../../pipe/trim-pipe";
   styleUrl: './unrouted-user-view2.css',
 })
 export class UnroutedUserView2 implements OnInit {
-  @Input() oBlog: IBlog | null = null;
+  @Input() oZanon: IZanon | null = null;
 
   iconClass: string = 'bi bi-newspaper';
 
@@ -25,5 +25,4 @@ export class UnroutedUserView2 implements OnInit {
     ];
     this.iconClass = icons[Math.floor(Math.random() * icons.length)];
   }
-
 }

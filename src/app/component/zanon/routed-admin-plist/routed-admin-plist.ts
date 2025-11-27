@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPage } from '../../../model/plist';
-import { IBlog } from '../../../model/blog';
-import { BlogService } from '../../../service/blog';
+import { IZanon } from '../../../model/zanon/zanon';
+import { ZanonService } from '../../../service/zanon/zanon';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 
@@ -13,12 +13,14 @@ import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
-export class RoutedAdminPlist {
-  oPage: IPage<IBlog> | null = null;
+export class RoutedAdminPlistZanon {
+  oPage: IPage<IZanon> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
 
-  constructor(private oBlogService: BlogService) { }
+  constructor(private oZanonService: ZanonService) {
+    
+  }
 
   oBotonera: string[] = [];
 
@@ -27,8 +29,8 @@ export class RoutedAdminPlist {
   }
 
   getPage() {
-    this.oBlogService.getPage(this.numPage, this.numRpp).subscribe({
-      next: (data: IPage<IBlog>) => {
+    this.oZanonService.getPage(this.numPage, this.numRpp).subscribe({
+      next: (data: IPage<IZanon>) => {
         this.oPage = data;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {

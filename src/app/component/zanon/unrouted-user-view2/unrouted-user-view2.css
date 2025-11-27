@@ -1,6 +1,3 @@
-
-
-
 /* Style for Bootstrap icon <i class="bi ..."> */
 .front-view-post .thumb i{
 	width:200px;
@@ -29,4 +26,3 @@
 	.front-view-post .thumb img{ width:100%; height:auto; border-radius:8px; }
 	.front-view-post{ flex-direction:column; gap:0.5rem }
 }
-
