@@ -36,19 +36,22 @@ export class RoutedAdminEditGarcia {
         }
     }
 
-    initForm(): void {
-        this.garciaForm = this.fb.group({
-            titulo: ['', [
-                Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(200)]],
-            objetivo: ['', [
-                Validators.required,
-                Validators.minLength(10)]],
-            progreso: ['', [Validators.maxLength(100)]],
-            fechaFinal: ['', [Validators.required]],
-        });
-    }
+   initForm(): void {
+  this.garciaForm = this.fb.group({
+    titulo: ['', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(200)]],
+    objetivo: ['', [
+      Validators.required,
+      Validators.minLength(10)]],
+    progreso: [0, [
+      Validators.required,
+      Validators.min(0),
+      Validators.max(100)]],
+    fechaFinal: ['', [Validators.required]],
+  });
+}
 
     loadGarcia(id: number): void {
         this.garciaService.get(id).subscribe({
