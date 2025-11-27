@@ -93,6 +93,15 @@
               <a [routerLink]="['/reyna/edit', oReyna.id]" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil-square"></i>
               </a>
+              <button
+                (click)="togglePublica(oReyna)"
+                class="btn"
+                [class.btn-outline-success]="!oReyna.esPublica"
+                [class.btn-outline-warning]="oReyna.esPublica"
+                [attr.title]="oReyna.esPublica ? 'Hacer privada' : 'Hacer pública'"
+              >
+                <i [class.bi-unlock]="!oReyna.esPublica" [class.bi-lock]="oReyna.esPublica"></i>
+              </button>
               <a [routerLink]="['/reyna/remove', oReyna.id]" class="btn btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>

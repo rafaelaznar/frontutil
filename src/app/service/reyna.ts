@@ -51,4 +51,9 @@ export class ReynaService {
   rellenaReyna(numFrases: number): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/frasesmotivacionales/rellena/' + numFrases);
   }
+
+  togglePublica(reyna: IReyna): Observable<number> {
+    const updated = { ...reyna, esPublica: !reyna.esPublica };
+    return this.oHttp.put<number>(serverURL + '/frasesmotivacionales', updated);
+  }
 }

@@ -82,4 +82,15 @@ export class RoutedAdminPlist {
       },
     });
   }
+
+  togglePublica(oReyna: IReyna) {
+    this.oReynaService.togglePublica(oReyna).subscribe({
+      next: (id: number) => {
+        this.getPage(); // refrescamos listado
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+      },
+    });
+  }
 }
