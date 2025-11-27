@@ -6,13 +6,13 @@ import { IGarcia } from '../../../model/garcia/garcia';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-Garciarouted-admin-edit',
-  imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './Garciarouted-admin-edit.html',
-  styleUrl: './Garciarouted-admin-edit.css',
+    selector: 'app-Garciarouted-admin-edit',
+    imports: [ReactiveFormsModule, RouterLink],
+    templateUrl: './Garciarouted-admin-edit.html',
+    styleUrl: './Garciarouted-admin-edit.css',
 })
 export class RoutedAdminEditGarcia {
-  private fb = inject(FormBuilder);
+    private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private garciaService = inject(GarciaService);
@@ -57,14 +57,12 @@ export class RoutedAdminEditGarcia {
         this.garciaService.get(id).subscribe({
             next: (garcia: IGarcia) => {
                 this.originalGarcia = garcia;
-                
-                // Convertir fechaFinal a formato de input date (YYYY-MM-DD)
+
                 let fechaFinalFormatted = '';
                 if (garcia.fechaFinal) {
-                    // Asumiendo que viene como "2025-11-28" o "2025-11-28 23:59:59"
                     fechaFinalFormatted = garcia.fechaFinal.split(' ')[0];
                 }
-                
+
                 this.garciaForm.patchValue({
                     titulo: garcia.titulo,
                     objetivo: garcia.objetivo,

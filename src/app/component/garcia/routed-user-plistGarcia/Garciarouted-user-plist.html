@@ -10,30 +10,20 @@
     <div class="d-flex align-items-center mt-2 mt-md-0">
 
       <!-- Botón Mantenimiento (pantallas grandes) -->
-      <a
-        class="btn btn-outline-secondary btn-sm me-3 d-none d-md-inline-flex align-items-center"
-        [routerLink]="['/garcia/plist']"
-        title="Mantenimiento de los objetivos"
-      >
+      <a class="btn btn-outline-secondary btn-sm me-3 d-none d-md-inline-flex align-items-center"
+        [routerLink]="['/garcia/plist']" title="Mantenimiento de los objetivos">
         <i class="bi bi-gear-fill me-2" aria-hidden="true"></i>
         Mantenimiento
       </a>
 
       <!-- Botón Mantenimiento (pantallas pequeñas) -->
-      <a
-        class="btn btn-outline-secondary btn-sm d-inline-flex d-md-none align-items-center me-3"
-        [routerLink]="['/garcia/plist']"
-        title="Mantenimiento"
-      >
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex d-md-none align-items-center me-3"
+        [routerLink]="['/garcia/plist']" title="Mantenimiento">
         <i class="bi bi-gear-fill"></i>
       </a>
 
       <!-- ⭐ Botón Volver -->
-      <a
-        class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
-        [routerLink]="['/']"
-        title="Volver"
-      >
+      <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center" [routerLink]="['/']" title="Volver">
         <i class="bi bi-arrow-left me-2"></i>
         Volver
       </a>
@@ -43,19 +33,16 @@
 
   <div class="list">
     @for (oGarcia of oPage?.content; track oGarcia.id ) {
-      <div class="post-row mt-5">
-        <div class="post-item">
-          <app-Garciaunrouted-user-view2 [oGarcia]="oGarcia"></app-Garciaunrouted-user-view2>
-        </div>
+    <div class="post-row mt-5">
+      <div class="post-item">
+        <app-Garciaunrouted-user-view2 [oGarcia]="oGarcia"></app-Garciaunrouted-user-view2>
       </div>
+    </div>
     }
   </div>
 
   <div class="d-flex justify-content-center mt-5">
-    <app-paginacion
-      [numPage]="numPage"
-      [numPages]="oPage?.totalPages || 1"
-      (pageChange)="goToPage($event)"
-    ></app-paginacion>
+    <app-paginacion [numPage]="numPage" [numPages]="oPage?.totalPages || 1"
+      (pageChange)="goToPage($event)"></app-paginacion>
   </div>
 </div>

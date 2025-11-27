@@ -34,7 +34,9 @@
 }
 
 @media (max-width: 768px) {
-  .remove-post .post-card, .remove-post .confirm-box {
+
+  .remove-post .post-card,
+  .remove-post .confirm-box {
     padding: 1.25rem;
   }
 }

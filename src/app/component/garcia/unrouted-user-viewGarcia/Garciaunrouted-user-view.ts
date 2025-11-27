@@ -11,5 +11,5 @@ import { RouterLink } from '@angular/router';
 })
 export class UnroutedUserViewGarcia {
   @Input() oGarcia: IGarcia | null = null;
-  
+
 }

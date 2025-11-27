@@ -69,11 +69,11 @@ export class RoutedAdminPlistGarcia {
     this.rellenaOk = null;
     this.rellenaError = null;
     this.rellenando = true;
-    this.oGarciaService.createRandom(this.rellenaCantidad).subscribe({  // 👈 Cambia aquí
+    this.oGarciaService.createRandom(this.rellenaCantidad).subscribe({
       next: (count: number) => {
         this.rellenando = false;
         this.rellenaOk = count;
-        this.getPage(); // refrescamos listado
+        this.getPage(); // refresca el listado
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;

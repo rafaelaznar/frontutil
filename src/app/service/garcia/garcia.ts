@@ -7,7 +7,7 @@ import { IGarcia } from '../../model/garcia/garcia';
   providedIn: 'root'
 })
 export class GarciaService {
-  private url = 'http://localhost:8085/garcia'; // 👈 Añade esta línea
+  private url = 'http://localhost:8085/garcia';
 
   constructor(private http: HttpClient) { }
 
