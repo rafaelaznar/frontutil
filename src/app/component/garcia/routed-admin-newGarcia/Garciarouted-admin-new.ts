@@ -59,7 +59,7 @@ export class RoutedAdminNewGarcia implements OnInit {
     this.garciaService.create(payload).subscribe({
       next: () => {
         this.submitting = false;
-        this.router.navigate(['/blog/plist']);
+        this.router.navigate(['/garcia/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
