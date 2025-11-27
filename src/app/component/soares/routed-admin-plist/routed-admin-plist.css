@@ -1,0 +1,38 @@
+.container {
+    padding-top: 20px;
+}
+
+.table thead th {
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.table thead th i {
+    margin-left: 5px;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+.btn-group .btn {
+    margin-right: 5px;
+}
+
+.badge {
+    font-size: 0.85em;
+    padding: 0.4em 0.6em;
+}
+
+/* Estilo para el botón de bulk creation */
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}

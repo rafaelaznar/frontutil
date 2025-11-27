@@ -1,0 +1,105 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">Gestión de Preguntas al Universo (Admin)</h1>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <button class="btn btn-success" [routerLink]="['/admin/soares/new']">
+                <i class="bi bi-plus-circle"></i> Nueva Pregunta
+            </button>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="input-group">
+                <span class="input-group-text">Generar datos de prueba:</span>
+                <select class="form-select" [(ngModel)]="numPopulate">
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+                <button class="btn btn-outline-primary" (click)="onPopulate(numPopulate)">
+                    <i class="bi bi-gear"></i> Generar
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <button class="btn btn-danger" (click)="onEmpty()">
+                <i class="bi bi-trash"></i> Vaciar Tabla
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Filtrar por pregunta..." [(ngModel)]="filter"
+                    (keyup.enter)="onFilterChange(filter)">
+                <button class="btn btn-outline-secondary" type="button" (click)="onFilterChange(filter)">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th (click)="onOrder('id')">ID <i class="bi"
+                            [ngClass]="{'bi-arrow-up': orderField === 'id' && orderDirection === 'asc', 'bi-arrow-down': orderField === 'id' && orderDirection === 'desc'}"></i>
+                    </th>
+                    <th (click)="onOrder('preguntas')">Pregunta <i class="bi"
+                            [ngClass]="{'bi-arrow-up': orderField === 'preguntas' && orderDirection === 'asc', 'bi-arrow-down': orderField === 'preguntas' && orderDirection === 'desc'}"></i>
+                    </th>
+                    <th (click)="onOrder('fechaCreacion')">Creación <i class="bi"
+                            [ngClass]="{'bi-arrow-up': orderField === 'fechaCreacion' && orderDirection === 'asc', 'bi-arrow-down': orderField === 'fechaCreacion' && orderDirection === 'desc'}"></i>
+                    </th>
+                    <th (click)="onOrder('fechaModificacion')">Modificación <i class="bi"
+                            [ngClass]="{'bi-arrow-up': orderField === 'fechaModificacion' && orderDirection === 'asc', 'bi-arrow-down': orderField === 'fechaModificacion' && orderDirection === 'desc'}"></i>
+                    </th>
+                    <th (click)="onOrder('publicacion')">Publicación <i class="bi"
+                            [ngClass]="{'bi-arrow-up': orderField === 'publicacion' && orderDirection === 'asc', 'bi-arrow-down': orderField === 'publicacion' && orderDirection === 'desc'}"></i>
+                    </th>
+                    <th>Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let oSoares of oPage?.content">
+                    <td>{{ oSoares.id }}</td>
+                    <td>{{ oSoares.preguntas }}</td>
+                    <td>{{ oSoares.fechaCreacion | datetime }}</td>
+                    <td>{{ oSoares.fechaModificacion | datetime }}</td>
+                    <td>
+                        <span class="badge"
+                            [ngClass]="{'bg-success': oSoares.publicacion, 'bg-warning text-dark': !oSoares.publicacion}">
+                            {{ oSoares.publicacion ? 'Sí' : 'No' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-primary" [routerLink]="['/admin/soares/edit', oSoares.id]">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" [routerLink]="['/admin/soares/remove', oSoares.id]">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <app-paginacion [numPage]="numPage" [numPages]="numTotalPages"
+                (pageChange)="onPageChange($event)"></app-paginacion>
+        </div>
+    </div>
+</div>

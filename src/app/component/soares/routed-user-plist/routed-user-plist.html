@@ -1,0 +1,49 @@
+<div class="container mt-5">
+    <div class="header-forum">
+        <h1 class="title-forum">Preguntas al Universo(Pollyanna Soares)</h1>
+        <p class="subtitle-forum">Un foro de preguntas al universo</p>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+        </div>
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" class="form-control search-input"
+                    placeholder="Busca una pregunta que resuene contigo..." [(ngModel)]="filter"
+                    (keyup.enter)="onFilterChange(filter)">
+                <button class="btn btn-primary search-button" type="button" (click)="onFilterChange(filter)">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="questions-grid">
+        <div class="question-card" *ngFor="let oSoares of oPage?.content">
+            <div class="card-body">
+                <p class="question-text">{{ oSoares.preguntas }}</p>
+                <div class="card-footer-info">
+                    <span class="badge bg-info text-dark">Pregunta #{{ oSoares.id }}</span>
+                    <span class="text-muted small">Publicado: {{ oSoares.fechaCreacion | datetime }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <app-paginacion [numPage]="numPage" [numPages]="numTotalPages"
+                (pageChange)="onPageChange($event)"></app-paginacion>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12 text-center">
+            <a [routerLink]="['/admin/soares/new']" class="btn btn-lg btn-outline-success">
+                <i class="bi bi-lightbulb"></i> Proponer una Nueva Pregunta
+            </a>
+        </div>
+    </div>
+</div>
