@@ -7,11 +7,11 @@ import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Paginacion } from '../../shared/paginacion/paginacion';
 import { BotoneraRpp } from '../../shared/botonera-rpp/botonera-rpp';
-import { FechaFiltrar } from '../fecha-filtrar/fecha-filtrar';
+
 
 @Component({
   selector: 'app-pallas-plist',
-  imports: [RouterLink, DatePipe, Paginacion, BotoneraRpp, FechaFiltrar],
+  imports: [RouterLink, DatePipe, Paginacion, BotoneraRpp],
   templateUrl: './pallas-plist.html',
   styleUrl: './pallas-plist.css',
 })
@@ -25,6 +25,7 @@ export class PallasPlist implements OnInit {
   constructor(
     private oPallasService: PallasService
   ) { }
+
 
   ngOnInit() {
     this.getPage(); // Al arrancar, cargamos la primera página

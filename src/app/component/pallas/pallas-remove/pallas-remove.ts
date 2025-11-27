@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pallas-remove',
-  imports: [RouterLink, DatePipe],
+  imports: [DatePipe],
   templateUrl: './pallas-remove.html',
   styleUrl: './pallas-remove.css',
 })

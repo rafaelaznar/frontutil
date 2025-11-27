@@ -12,12 +12,12 @@
 
       <div class="d-flex justify-content-between align-items-center mb-3">
         
-        <app-fecha-filtrar></app-fecha-filtrar>
-       
+        
         <app-botonera-rpp 
-            [numRpp]="nRpp" 
-            (rppChange)="onSetRpp($event)">
-        </app-botonera-rpp>
+        [numRpp]="nRpp" 
+        (rppChange)="onSetRpp($event)">
+      </app-botonera-rpp>
+
 
         <div>
           <button class="btn btn-warning mx-2" (click)="rellenar()">
