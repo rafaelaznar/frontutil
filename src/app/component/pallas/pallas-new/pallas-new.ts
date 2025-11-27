@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { PallasService } from '../../../service/pallasService';
 import { IPallas } from '../../../model/pallas';
 
 @Component({
   selector: 'app-pallas-new',
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './pallas-new.html',
-  styleUrls: ['./pallas-new.css']
+  styleUrls: ['./pallas-new.css'],
+  standalone: true
 })
 export class PallasNew implements OnInit {
 
@@ -21,11 +23,10 @@ export class PallasNew implements OnInit {
   ) { 
     // Inicializamos el formulario vacío
     this.oForm = <FormGroup>this.oFormBuilder.group({
-      id: [''], // El ID va vacío porque lo crea la base de datos
+      id: [''],
       titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       contenido: ['', [Validators.required, Validators.minLength(5)]],
-      publicada: [false], // Checkbox empieza desmarcado
-      // Las fechas no se ponen aquí porque las pone el servidor automáticamente
+      publicado: [false], 
     });
   }
 
@@ -34,10 +35,7 @@ export class PallasNew implements OnInit {
 
   onSubmit() {
     if (this.oForm.valid) {
-      // Preparamos los datos para enviar
-      // OJO: id, fechaCreacion y fechaModificacion no los enviamos (o van null), 
-      // el backend se encarga.
-      
+
       this.oPallasService.create(this.oForm.value).subscribe({
         next: (id: number) => {
           // Si todo va bien:

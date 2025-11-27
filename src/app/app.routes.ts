@@ -12,6 +12,8 @@ import {PallasView} from './component/pallas/pallas-view/pallas-view'
 import {PallasNew} from './component/pallas/pallas-new/pallas-new'
 import {PallasUpdate} from './component/pallas/pallas-update/pallas-update'
 import {PallasRemove} from './component/pallas/pallas-remove/pallas-remove'
+import { PallasHome } from './component/pallas/pallas-home/pallas-home';
+import { FechaFiltrar } from './component/pallas/fecha-filtrar/fecha-filtrar';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -26,4 +28,6 @@ export const routes: Routes = [
   { path: 'pallas/view/:id', component: PallasView },
   { path: 'pallas/edit/:id', component: PallasUpdate },
   { path: 'pallas/remove/:id', component: PallasRemove },
+  { path: 'pallas', component: PallasHome },
+  { path: 'pallas/fecha-filtrar', component: FechaFiltrar }
 ];

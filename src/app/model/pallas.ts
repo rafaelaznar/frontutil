@@ -3,6 +3,6 @@ export interface IPallas {
   titulo: string
   contenido: string
   fechaCreacion: string
-  fechaModificacion: any
+  fechaModificacion: string
   publicado: boolean
 }
