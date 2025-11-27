@@ -3,7 +3,7 @@ import { ICastanyera } from '../../../model/castanyera';
 import { CastanyeraService } from '../../../service/castanyera';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CastanyeraUnroutedUserView } from "../castanyera-unrouted-user-view/unrouted-user-view";
+import { CastanyeraUnroutedUserView } from '../castanyera-unrouted-user-view/unrouted-user-view';
 
 @Component({
   selector: 'castanyera-app-routed-user-view',
@@ -13,6 +13,7 @@ import { CastanyeraUnroutedUserView } from "../castanyera-unrouted-user-view/unr
 })
 export class CastanyeraRoutedUserView {
   oCastanyera: ICastanyera | null = null;
+  isPrivate: boolean = false;
 
   constructor(private oCastanyeraService: CastanyeraService, private route: ActivatedRoute) {
     // Obtener el ID del journal desde la ruta
@@ -25,12 +26,18 @@ export class CastanyeraRoutedUserView {
     this.getCastanyera(castanyeraId);
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   getCastanyera(castanyeraId: number) {
     this.oCastanyeraService.get(castanyeraId).subscribe({
       next: (data: ICastanyera) => {
-        this.oCastanyera = data;
+        if (data && data.publico === false) {
+          this.oCastanyera = null;
+          this.isPrivate = true;
+        } else {
+          this.oCastanyera = data;
+          this.isPrivate = false;
+        }
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching journal:', error);

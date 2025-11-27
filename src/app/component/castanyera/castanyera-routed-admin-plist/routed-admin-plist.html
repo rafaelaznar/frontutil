@@ -83,17 +83,26 @@
           <th scope="row">{{ oCastanyera.id }}</th>
           <td>{{ oCastanyera.titulo }}</td>
           <td>{{ oCastanyera.etiquetas }}</td>
-          <td>{{ oCastanyera.fechaCreacion | datetime }}</td>
-          <td>{{ oCastanyera.fechaModificacion | datetime }}</td>
+          <td>{{ oCastanyera.fecha_creacion | datetime }}</td>
+          <td>{{ oCastanyera.fecha_modificacion | datetime }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <a [routerLink]="['/castanyera/view', oCastanyera.id]" class="btn btn-outline-primary">
+              <a
+                [routerLink]="['/castanyera/view', oCastanyera.id]"
+                class="btn btn-outline-primary"
+              >
                 <i class="bi bi-eye"></i>
               </a>
-              <a [routerLink]="['/castanyera/edit', oCastanyera.id]" class="btn btn-outline-secondary">
+              <a
+                [routerLink]="['/castanyera/edit', oCastanyera.id]"
+                class="btn btn-outline-secondary"
+              >
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a [routerLink]="['/castanyera/remove', oCastanyera.id]" class="btn btn-outline-danger">
+              <a
+                [routerLink]="['/castanyera/remove', oCastanyera.id]"
+                class="btn btn-outline-danger"
+              >
                 <i class="bi bi-trash"></i>
               </a>
             </div>

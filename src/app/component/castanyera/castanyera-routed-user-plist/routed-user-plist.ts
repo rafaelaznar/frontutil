@@ -3,9 +3,8 @@ import { Component } from '@angular/core';
 import { IPage } from '../../../model/plist';
 import { ICastanyera } from '../../../model/castanyera';
 import { CastanyeraService } from '../../../service/castanyera';
-import { Paginacion } from "../../shared/paginacion/paginacion";
-import { CastanyeraUnroutedUserView2 } from "../castanyera-unrouted-user-view2/unrouted-user-view2";
-
+import { Paginacion } from '../../shared/paginacion/paginacion';
+import { CastanyeraUnroutedUserView2 } from '../castanyera-unrouted-user-view2/unrouted-user-view2';
 
 @Component({
   selector: 'castanyera-app-routed-user-plist',
@@ -17,8 +16,8 @@ export class CastanyeraRoutedUserPlist {
   oPage: IPage<ICastanyera> | null = null;
   numPage: number = 0;
   numRpp: number = 2;
-
-  constructor(private oCastanyeraService: CastanyeraService) { }
+ 
+  constructor(private oCastanyeraService: CastanyeraService) {}
 
   oBotonera: string[] = [];
 
@@ -27,8 +26,11 @@ export class CastanyeraRoutedUserPlist {
   }
 
   getPage() {
-    this.oCastanyeraService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oCastanyeraService.getPage(this.numPage, this.numRpp).subscribe({
       next: (data: IPage<ICastanyera>) => {
+        // Filtrar client-side para mostrar solo publicaciones públicas
+        data.content = data.content.filter((item) => item.publico === true);
+        data.numberOfElements = data.content.length;
         this.oPage = data;
         // OJO! si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {

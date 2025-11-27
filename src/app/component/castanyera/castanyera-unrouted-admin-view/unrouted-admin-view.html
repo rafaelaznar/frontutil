@@ -25,11 +25,21 @@
             </tr>
             <tr>
               <th scope="col">Creación</th>
-              <td>{{ oCastanyera?.fechaCreacion }}</td>
+              <td>{{ oCastanyera?.fecha_creacion }}</td>
             </tr>
             <tr>
               <th scope="col">Actualización</th>
-              <td>{{ oCastanyera?.fechaModificacion }}</td>
+              <td>{{ oCastanyera?.fecha_modificacion }}</td>
+            </tr>
+            <tr>
+              <th scope="col">Visibilidad</th>
+              <td>
+                @if (oCastanyera?.publico) {
+                <span class="badge bg-success">Público</span>
+                } @else {
+                <span class="badge bg-secondary">Privado</span>
+                }
+              </td>
             </tr>
           </thead>
         </table>
