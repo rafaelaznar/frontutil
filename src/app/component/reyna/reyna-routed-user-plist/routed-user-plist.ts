@@ -1,14 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { IPage } from '../../../model/plist';
-import { Paginacion } from '../../shared/paginacion/paginacion';
 import { IReyna } from '../../../model/reyna';
 import { ReynaService } from '../../../service/reyna';
-import { UnroutedUserView2 } from '../reyna-unrouted-user-view2/unrouted-user-view2';
+import { DatetimePipe } from '../../../pipe/datetime-pipe';
 
 @Component({
   selector: 'app-routed-user-plist',
-  imports: [UnroutedUserView2],
+  imports: [DatetimePipe],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })
