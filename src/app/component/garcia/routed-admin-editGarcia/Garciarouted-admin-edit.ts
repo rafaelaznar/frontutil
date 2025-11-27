@@ -46,6 +46,7 @@ export class RoutedAdminEditGarcia {
                 Validators.required,
                 Validators.minLength(10)]],
             progreso: ['', [Validators.maxLength(100)]],
+            fechaFinal: ['', [Validators.required]],
         });
     }
 
@@ -53,10 +54,19 @@ export class RoutedAdminEditGarcia {
         this.garciaService.get(id).subscribe({
             next: (garcia: IGarcia) => {
                 this.originalGarcia = garcia;
+                
+                // Convertir fechaFinal a formato de input date (YYYY-MM-DD)
+                let fechaFinalFormatted = '';
+                if (garcia.fechaFinal) {
+                    // Asumiendo que viene como "2025-11-28" o "2025-11-28 23:59:59"
+                    fechaFinalFormatted = garcia.fechaFinal.split(' ')[0];
+                }
+                
                 this.garciaForm.patchValue({
                     titulo: garcia.titulo,
                     objetivo: garcia.objetivo,
                     progreso: garcia.progreso,
+                    fechaFinal: fechaFinalFormatted,
                 });
                 this.loading = false;
             },
@@ -79,7 +89,8 @@ export class RoutedAdminEditGarcia {
             id: this.garciaId!,
             titulo: this.garciaForm.value.titulo,
             objetivo: this.garciaForm.value.objetivo,
-            progreso: this.garciaForm.value.progreso
+            progreso: this.garciaForm.value.progreso,
+            fechaFinal: this.garciaForm.value.fechaFinal,
         };
 
         this.garciaService.update(payload).subscribe({
@@ -105,5 +116,9 @@ export class RoutedAdminEditGarcia {
 
     get progreso() {
         return this.garciaForm.get('progreso');
+    }
+
+    get fechaFinal() {
+        return this.garciaForm.get('fechaFinal');
     }
 }
