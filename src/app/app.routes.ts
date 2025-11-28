@@ -7,6 +7,13 @@ import { RoutedUserView } from './component/blog/routed-user-view/routed-user-vi
 import { RoutedAdminEdit } from './component/blog/routed-admin-edit/routed-admin-edit';
 import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
+import { RoutedAlfonsoAdminPlist } from './component/alfonso/routed-admin-plist/routed-admin-plist';
+import { RoutedAlfonsoAdminView } from './component/alfonso/routed-admin-view/routed-admin-view';
+import { RoutedAlfonsoAdminNew } from './component/alfonso/routed-admin-new/routed-admin-new';
+import { RoutedAlfonsoAdminEdit } from './component/alfonso/routed-admin-edit/routed-admin-edit';
+import { RoutedAlfonsoAdminRemove } from './component/alfonso/routed-admin-remove/routed-admin-remove';
+import { RoutedAlfonsoUserPlist } from './component/alfonso/routed-user-plist/routed-user-plist';
+import { RoutedAlfonsoUserView } from './component/alfonso/routed-user-view/routed-user-view';
 
 
 export const routes: Routes = [
@@ -18,4 +25,11 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+  { path: 'alfonso', component: RoutedAlfonsoUserPlist },
+  { path: 'alfonso/respuesta/:id', component: RoutedAlfonsoUserView },
+  { path: 'alfonso/plist', component: RoutedAlfonsoAdminPlist },
+  { path: 'alfonso/view/:id', component: RoutedAlfonsoAdminView },
+  { path: 'alfonso/new', component: RoutedAlfonsoAdminNew },
+  { path: 'alfonso/edit/:id', component: RoutedAlfonsoAdminEdit },
+  { path: 'alfonso/remove/:id', component: RoutedAlfonsoAdminRemove },
 ];
