@@ -3,7 +3,7 @@ export interface IAlcalde {
   titulo: string
   autor: string
   genero: string
-  resena: string
+  reseña: string
   valoracion: number
   publicado: boolean
   destacado: boolean

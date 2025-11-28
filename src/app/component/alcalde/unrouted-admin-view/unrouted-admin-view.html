@@ -12,7 +12,7 @@
                   <td>{{ entry?.id || '-' }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Titulo</th>
+                  <th scope="row">Título</th>
                   <td>{{ entry?.titulo }}</td>
                 </tr>
                 <tr>
@@ -20,15 +20,15 @@
                   <td>{{ entry?.autor }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Genero</th>
+                  <th scope="row">Género</th>
                   <td>{{ entry?.genero }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Resena</th>
-                  <td class="text-break">{{ entry?.resena }}</td>
+                  <th scope="row">Reseña</th>
+                  <td class="text-break">{{ entry?.['reseña'] }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Valoracion</th>
+                  <th scope="row">Valoración</th>
                   <td>
                     <span class="badge bg-primary">{{ entry?.valoracion }}/5</span>
                   </td>
@@ -38,7 +38,7 @@
                   <td>{{ entry?.fechaLectura }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Publicacion</th>
+                  <th scope="row">Publicación</th>
                   <td>
                     <span [class]="entry?.publicado ? 'badge bg-success' : 'badge bg-secondary'">
                       {{ getPublicadoLabel(entry?.publicado) }}

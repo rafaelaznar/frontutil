@@ -15,7 +15,7 @@ export class AlcaldeUnroutedUserCard {
   stars = [1, 2, 3, 4, 5];
 
   getPreview(maxLength: number = 180): string {
-    const text = this.entry?.resena || '';
+    const text = this.entry?.reseña || '';
     if (text.length <= maxLength) {
       return text;
     }

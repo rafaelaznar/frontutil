@@ -23,7 +23,7 @@ export class AlcaldeRoutedUserView {
       this.load(id);
     } else {
       this.loading = false;
-      this.error = 'Identificador no valido';
+      this.error = 'Identificador no válido';
     }
   }
 

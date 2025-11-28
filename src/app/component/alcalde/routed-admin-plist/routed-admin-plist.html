@@ -1,7 +1,7 @@
 <div class="container my-3">
   <div class="text-center mb-4">
-    <h1 class="display-6">Mantenimiento de lecturas (Alcalde)</h1>
-    <p class="text-muted">Controla la biblioteca de libros leidos, sus resenas y la seleccion visible en el frontal.</p>
+    <h1 class="display-6">Mantenimiento de lecturas</h1>
+    <p class="text-muted">Controla la biblioteca de libros leidos y sus reseñas</p>
   </div>
 
   <div class="d-flex justify-content-center mb-3">
@@ -17,7 +17,7 @@
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
               <span class="fw-semibold">Filtro rapido</span>
-              <p class="small text-muted mb-0">Alterna entre todos los registros o solo los publicados.</p>
+              <p class="small text-muted mb-0">Alterna entre todos los registros o solo los publicados</p>
             </div>
             <button class="btn btn-outline-primary btn-sm" (click)="togglePublished()">
               <i class="bi" [class.bi-toggle-on]="onlyPublished" [class.bi-toggle-off]="!onlyPublished"></i>
@@ -25,7 +25,7 @@
             </button>
           </div>
           <div class="d-flex align-items-center gap-3">
-            <label for="rellenaSelect" class="form-label m-0">Generar datos fake</label>
+            <label for="rellenaSelect" class="form-label m-0">Generar datos aleatorios</label>
             <select #cantidadSel id="rellenaSelect" class="form-select form-select-sm w-auto" (change)="onCantidadChange(cantidadSel.value)">
               <option value="10">10</option>
               <option value="25" selected>25</option>
@@ -63,10 +63,10 @@
       <thead>
         <tr>
           <th (click)="changeSort('id')">ID <i class="bi" [class.bi-sort-down]="order==='id' && direction==='desc'" [class.bi-sort-up]="order==='id' && direction==='asc'"></i></th>
-          <th (click)="changeSort('titulo')">Titulo <i class="bi" [class.bi-sort-down]="order==='titulo' && direction==='desc'" [class.bi-sort-up]="order==='titulo' && direction==='asc'"></i></th>
+          <th (click)="changeSort('titulo')">Título <i class="bi" [class.bi-sort-down]="order==='titulo' && direction==='desc'" [class.bi-sort-up]="order==='titulo' && direction==='asc'"></i></th>
           <th>Autor</th>
-          <th>Genero</th>
-          <th (click)="changeSort('valoracion')">Valoracion</th>
+          <th>Género</th>
+          <th (click)="changeSort('valoracion')">Valoración</th>
           <th>Lectura</th>
           <th>Publicado</th>
           <th>Seleccionado</th>

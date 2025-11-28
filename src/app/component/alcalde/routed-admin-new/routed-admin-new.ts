@@ -26,7 +26,7 @@ export class AlcaldeRoutedAdminNew implements OnInit {
       titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       autor: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       genero: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      resena: ['', [Validators.required, Validators.minLength(20)]],
+      reseña: ['', [Validators.required, Validators.minLength(20)]],
       valoracion: [4, [Validators.required, Validators.min(1), Validators.max(5)]],
       fechaLectura: ['', [Validators.required]],
       publicado: [true],
@@ -45,7 +45,7 @@ export class AlcaldeRoutedAdminNew implements OnInit {
       titulo: this.form.value.titulo,
       autor: this.form.value.autor,
       genero: this.form.value.genero,
-      resena: this.form.value.resena,
+      reseña: this.form.value.reseña,
       valoracion: Number(this.form.value.valoracion),
       fechaLectura: this.form.value.fechaLectura,
       publicado: this.form.value.publicado,
@@ -68,7 +68,6 @@ export class AlcaldeRoutedAdminNew implements OnInit {
   get titulo() { return this.form.get('titulo'); }
   get autor() { return this.form.get('autor'); }
   get genero() { return this.form.get('genero'); }
-  get resena() { return this.form.get('resena'); }
   get valoracion() { return this.form.get('valoracion'); }
   get fechaLectura() { return this.form.get('fechaLectura'); }
 }
