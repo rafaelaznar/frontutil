@@ -8,6 +8,16 @@ import { RoutedAdminEdit } from './component/blog/routed-admin-edit/routed-admin
 import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
 
+//imports Alan
+import { RoutedAlcanyizMenu } from './component/alcanyiz/routed-alcanyiz-menu/routed-alcanyiz-menu'
+import { RoutedAlcanyizUserView } from './component/alcanyiz/routed-alcanyiz-user-view/routed-alcanyiz-user-view';
+import { RoutedAlcanyizAdminQuestionlist } from './component/alcanyiz/routed-alcanyiz-admin-questionlist/routed-alcanyiz-admin-questionlist';
+import { RoutedAlcanyizAdminView } from './component/alcanyiz/routed-alcanyiz-admin-view/routed-alcanyiz-admin-view';
+import { RoutedAlcanyizUserList } from './component/alcanyiz/routed-alcanyiz-user-list/routed-alcanyiz-user-list';
+import { RoutedAlcanyizAdminCreate } from './component/alcanyiz/routed-alcanyiz-admin-create/routed-alcanyiz-admin-create';
+import { RoutedAlcanyizAdminEdit } from './component/alcanyiz/routed-alcanyiz-admin-edit/routed-alcanyiz-admin-edit';
+import { RoutedAlcanyizAdminRemove } from './component/alcanyiz/routed-alcanyiz-admin-remove/routed-alcanyiz-admin-remove';
+import { RoutedAlcanyizGame } from './component/alcanyiz/routed-alcanyiz-game/routed-alcanyiz-game';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -18,4 +28,13 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+  { path: 'alcanyiz', component: RoutedAlcanyizMenu },
+  { path: 'alcanyiz/allquestion', component: RoutedAlcanyizUserList },
+  { path: 'alcanyiz/question/:id', component: RoutedAlcanyizUserView },
+  { path: 'alcanyiz/questionlist', component: RoutedAlcanyizAdminQuestionlist },
+  { path: 'alcanyiz/questionview/:id', component: RoutedAlcanyizAdminView },
+  { path: 'alcanyiz/questioncreate', component: RoutedAlcanyizAdminCreate },
+  { path: 'alcanyiz/questionedit/:id', component: RoutedAlcanyizAdminEdit },
+  { path: 'alcanyiz/questionremove/:id', component: RoutedAlcanyizAdminRemove },
+  { path: 'alcanyiz/questiongame', component: RoutedAlcanyizGame },
 ];
