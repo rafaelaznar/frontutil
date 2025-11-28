@@ -11,8 +11,8 @@
 	font-size:44px;
 	border-radius:8px;
 	border:1px solid rgba(0,0,0,0.06);
-	background:#f8f9fa;
-	color:#111;
+	background:#eee3e8;
+	color:#e3236d;
 }
 .front-view-post .title{
 	margin:0 0 0.25rem 0;
@@ -29,4 +29,12 @@
 	.front-view-post .thumb img{ width:100%; height:auto; border-radius:8px; }
 	.front-view-post{ flex-direction:column; gap:0.5rem }
 }
+
+button{
+	color:palevioletred;
+	border:solid, 1px,#e3236d;
+	background-color: #eee3e8;
+}
+
+
 

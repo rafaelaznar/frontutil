@@ -28,6 +28,7 @@ export class CastanyeraRoutedUserPlist {
   getPage() {
     this.oCastanyeraService.getPage(this.numPage, this.numRpp).subscribe({
       next: (data: IPage<ICastanyera>) => {
+        
         // Filtrar client-side para mostrar solo publicaciones públicas
         data.content = data.content.filter((item) => item.publico === true);
         data.numberOfElements = data.content.length;
