@@ -12,12 +12,9 @@ export class FernandezIdeaService {
   private readonly http = inject(HttpClient);
 
   getPage(page: number, rpp: number, order: string = '', direction: string = '', publico?: boolean, search?: string, categoria?: string): Observable<IPage<IFernandezIdea>> {
-    if (order === '') {
-      order = 'id';
-    }
-    if (direction === '') {
-      direction = 'asc';
-    }
+    // Force ordering by id ascending to ensure consistent display order
+    order = 'id';
+    direction = 'asc';
     // Construimos params dinámicamente; sólo añadimos 'publico' si se pasa
     let params = new HttpParams()
       .set('page', page.toString())
