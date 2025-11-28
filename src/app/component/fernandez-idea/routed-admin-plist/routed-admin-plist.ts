@@ -26,6 +26,11 @@ export class FernandezRoutedAdminPlist {
   orderField: string = 'fechaCreacion';
   orderDirection: string = 'desc';
   private searchTimer: any = null;
+  // Bulk creation UI state
+  showBulkWarning: boolean = false;
+  pendingBulkAmount: number | null = null;
+  // Loading indicator for bulk creation
+  isBulkLoading: boolean = false;
 
   ngOnInit() {
     this.getPage();
@@ -198,15 +203,47 @@ export class FernandezRoutedAdminPlist {
     return false;
   }
   
+    /**
+     * Request bulk creation. If amount is high, show a warning card for confirmation.
+     */
+    // Threshold for showing the bulk warning card
+    private readonly BULK_WARNING_THRESHOLD = 500;
+
+    requestBulkCreate(amount: number = 20) {
+      if (!amount || amount < 1) return;
+      if (amount > this.BULK_WARNING_THRESHOLD) {
+        this.pendingBulkAmount = amount;
+        this.showBulkWarning = true;
+        return;
+      }
+      this.bulkCreateIdeas(amount);
+    }
+
+    /**
+     * Execute the bulk creation (called after confirmation when needed)
+     */
     bulkCreateIdeas(amount: number = 20) {
+      // reset any pending warning
+      this.showBulkWarning = false;
+      this.pendingBulkAmount = null;
+      // show loading pop-up until backend finishes inserting
+      this.isBulkLoading = true;
       this.oIdeaService.bulkCreate(amount).subscribe({
         next: () => {
+          this.isBulkLoading = false;
           this.getPage();
         },
         error: (error: HttpErrorResponse) => {
+          this.isBulkLoading = false;
+          // Prefer an inline message in future; keep alert for now
           alert('Error al crear ideas fake');
           console.error(error);
         },
       });
+    }
+
+    cancelBulkCreate() {
+      this.showBulkWarning = false;
+      this.pendingBulkAmount = null;
     }
 }
