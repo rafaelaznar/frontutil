@@ -60,7 +60,7 @@ export class PallasUpdate implements OnInit {
 
   onSubmit() {
     if (this.oForm.valid) {
-      // 4. Enviamos los datos modificados
+      
       this.oPallasService.update(this.oForm.value).subscribe({
         next: (result: number) => {
           this.strResult = "¡Nota actualizada con éxito!";

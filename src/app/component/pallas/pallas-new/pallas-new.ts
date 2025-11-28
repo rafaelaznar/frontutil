@@ -19,7 +19,7 @@ export class PallasNew implements OnInit {
   constructor(
     private oFormBuilder: FormBuilder, // Ayuda a construir el form
     private oRouter: Router,           // Para navegar al Plist después de guardar
-    private oPallasService: PallasService // Tu servicio
+    private oPallasService: PallasService 
   ) { 
     // Inicializamos el formulario vacío
     this.oForm = <FormGroup>this.oFormBuilder.group({
@@ -38,7 +38,7 @@ export class PallasNew implements OnInit {
 
       this.oPallasService.create(this.oForm.value).subscribe({
         next: (id: number) => {
-          // Si todo va bien:
+          
           this.strResult = "¡Nota guardada con éxito! ID: " + id;
           // Esperamos 1 segundo y volvemos al listado
           setTimeout(() => {

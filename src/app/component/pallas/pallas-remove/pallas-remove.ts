@@ -13,17 +13,17 @@ import { DatePipe } from '@angular/common';
 })
 export class PallasRemove implements OnInit {
 
- // 1. INYECCIÓN MODERNA (Estilo Profesor)
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private oPallasService = inject(PallasService);
 
-  // 2. VARIABLES DE ESTADO
+
   id: number = 0;
   oPallas: IPallas | null = null;
   
-  loading: boolean = true;   // ¿Está cargando los datos?
-  deleting: boolean = false; // ¿Está borrando ahora mismo?
+  loading: boolean = true;   
+  deleting: boolean = false; 
   error: string | null = null;
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class PallasRemove implements OnInit {
       this.loading = false;
       return;
     }
-    this.id = +idParam; // El + convierte string a number
+    this.id = +idParam; 
     this.load(this.id);
   }
 
@@ -42,7 +42,7 @@ export class PallasRemove implements OnInit {
     this.oPallasService.get(id).subscribe({
       next: (data: IPallas) => {
         this.oPallas = data;
-        this.loading = false; // Ya hemos cargado
+        this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
         this.error = 'Error cargando la nota: ' + err.message;

@@ -28,7 +28,7 @@ export class PallasPlist implements OnInit {
 
 
   ngOnInit() {
-    this.getPage(); // Al arrancar, cargamos la primera página
+    this.getPage();
   }
 
   getPage() {
@@ -62,14 +62,13 @@ export class PallasPlist implements OnInit {
     });
   }
 
-  // 3. EVENTOS DE LOS COMPONENTES HIJOS
-  // Cuando el usuario pulsa "Siguiente" en el componente Paginacion
+
   onSetPage(nPage: number) {
     this.nPage = nPage;
     this.getPage();
   }
 
-  // Cuando el usuario cambia "Registros por página" en el componente BotoneraRpp
+
   onSetRpp(nRpp: number) {
     this.nRpp = nRpp;
     this.getPage();
