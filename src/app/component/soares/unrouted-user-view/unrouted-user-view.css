@@ -1,0 +1,22 @@
+/* Estilos para la vista usuario unrouted de Soares */
+.post-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.post-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+.post-content {
+  font-size: 1.1rem;
+  color: #333;
+}
+.post-footer {
+  margin-top: 2rem;
+}
+.tags {
+  font-style: italic;
+}

@@ -7,13 +7,13 @@ import { ISoares } from '../../../model/soares';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-routed-admin-new',
-  templateUrl: './routed-admin-new.html',
-  styleUrl: './routed-admin-new.css',
+  selector: 'app-routed-user-new',
+  templateUrl: './routed-user-new.html',
+  styleUrl: './routed-user-new.css',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
 })
-export class SoaresRoutedAdminNew implements OnInit {
+export class SoaresRoutedUserNew implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private soaresService = inject(SoaresService);
@@ -24,7 +24,6 @@ export class SoaresRoutedAdminNew implements OnInit {
   ngOnInit(): void {
     this.soaresForm = this.fb.group({
       preguntas: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
-      publicacion: [false, Validators.required],
     });
   }
 
@@ -33,14 +32,14 @@ export class SoaresRoutedAdminNew implements OnInit {
       const oSoares: ISoares = {
         id: 0,
         preguntas: this.soaresForm.value.preguntas,
-        publicacion: this.soaresForm.value.publicacion,
+        publicacion: false,
         fechaCreacion: '',
         fechaModificacion: '',
-        aprobacion: true,
+        aprobacion: false,
       };
       this.soaresService.createOne(oSoares).subscribe({
         next: (id: number) => {
-          this.router.navigate(['/admin/soares/plist']);
+          this.router.navigate(['/user/soares/plist']);
         },
         error: (err: HttpErrorResponse) => {
           this.error = err.error.message || 'Error al crear la pregunta.';

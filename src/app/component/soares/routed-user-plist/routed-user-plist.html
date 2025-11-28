@@ -1,49 +1,66 @@
 <div class="container mt-5">
-    <div class="header-forum">
-        <h1 class="title-forum">Preguntas al Universo(Pollyanna Soares)</h1>
-        <p class="subtitle-forum">Un foro de preguntas al universo</p>
+  <!-- Header -->
+  <div class="header-section mb-5">
+    <div class="header-content">
+      <h1 class="title-main text-center">
+        <i class="bi bi-chat-heart"></i> Preguntas al Universo
+      </h1>
+      <p class="subtitle-main text-center">
+        <span class="subtitle-main text-start">Pollyanna Soares</span>
+      </p>
     </div>
+  </div>
 
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
-        </div>
-        <div class="col-md-8">
-            <div class="input-group">
-                <input type="text" class="form-control search-input"
-                    placeholder="Busca una pregunta que resuene contigo..." [(ngModel)]="filter"
-                    (keyup.enter)="onFilterChange(filter)">
-                <button class="btn btn-primary search-button" type="button" (click)="onFilterChange(filter)">
-                    <i class="bi bi-search"></i> Buscar
-                </button>
-            </div>
-        </div>
+  <!-- Controles de búsqueda y visualización -->
+  <div class="controls-container mb-3">
+    <div class="controls-flex">
+      <div class="search-group">
+        <input type="text" class="form-control search-input" placeholder="Busca una pregunta que resuene contigo..."
+          [(ngModel)]="filter" (keyup.enter)="onFilterChange(filter)" />
+        <button class="btn search-button ms-2" type="button" (click)="onFilterChange(filter)">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+      <div class="actions-group-horizontal">
+        <a [routerLink]="['/admin/soares/plist']" class="btn btn-primary me-2">
+          Administrar
+        </a>
+        <button class="btn btn-new-question" [routerLink]="['/user/soares/new']">
+          <i class="bi bi-plus-circle"></i> Nueva
+        </button>
+      </div>
     </div>
+  </div>
+  <div class="rpp-bar mb-4">
+    <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"></app-botonera-rpp>
+  </div>
 
-    <div class="questions-grid">
-        <div class="question-card" *ngFor="let oSoares of oPage?.content">
-            <div class="card-body">
-                <p class="question-text">{{ oSoares.preguntas }}</p>
-                <div class="card-footer-info">
-                    <span class="badge bg-info text-dark">Pregunta #{{ oSoares.id }}</span>
-                    <span class="text-muted small">Publicado: {{ oSoares.fechaCreacion | datetime }}</span>
-                </div>
-            </div>
+  <!-- Lista de Preguntas -->
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngIf="!oPage || oPage.content.length === 0" class="alert alert-info text-center" role="alert">
+        No se encontraron preguntas.
+      </div>
+      <div class="card-grid">
+        <div *ngFor="let soares of oPage?.content" class="card-question">
+          <div class="card-header-question">
+            <span *ngIf="soares.publicacion" class="badge bg-success">Publicada</span>
+            <span *ngIf="!soares.publicacion" class="badge bg-warning text-dark">Pendiente</span>
+          </div>
+          <div class="card-body-question">
+            <h5 class="question-title">{{ soares.preguntas }}</h5>
+          </div>
+          <div class="card-footer question-footer">
+            <span class="date">Fecha: {{ soares.fechaCreacion }}</span>
+            <span class="card-id-hidden">Pregunta #{{ soares.id }}</span>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <app-paginacion [numPage]="numPage" [numPages]="numTotalPages"
-                (pageChange)="onPageChange($event)"></app-paginacion>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-md-12 text-center">
-            <a [routerLink]="['/admin/soares/new']" class="btn btn-lg btn-outline-success">
-                <i class="bi bi-lightbulb"></i> Proponer una Nueva Pregunta
-            </a>
-        </div>
-    </div>
+  <!-- Paginación -->
+  <div class="pagination-container">
+    <app-paginacion [numPage]="numPage" [numPages]="numTotalPages" (pageChange)="onPageChange($event)"></app-paginacion>
+  </div>
 </div>

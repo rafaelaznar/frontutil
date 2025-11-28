@@ -1,0 +1,20 @@
+/* Estilos para la vista admin unrouted de Soares */
+.edit-form {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.form-card {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+}
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+table {
+  margin-top: 2rem;
+}

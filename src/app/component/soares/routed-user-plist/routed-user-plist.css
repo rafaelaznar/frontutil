@@ -1,105 +1,254 @@
-/* Estilos generales y tipografía */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+/* Barra de numeración fuera del card */
+.rpp-bar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-
-.header-forum {
-    text-align: center;
-    margin-bottom: 40px;
+/* Flexbox para controles superiores */
+.controls-flex {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-
-.title-forum {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4a4e69; /* Color profundo */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+.rpp-group {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 }
-
-.subtitle-forum {
-    font-size: 1.2rem;
-    color: #9a8c98; /* Color secundario sutil */
+.search-group {
+  flex: 1 1 400px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-
-/* Estilo de la barra de búsqueda */
 .search-input {
-    border-radius: 25px 0 0 25px;
-    padding: 10px 20px;
-    border: 2px solid #c9ada7;
+  flex: 1 1 auto;
+  min-width: 220px;
+  height: 44px;
+  box-sizing: border-box;
+}
+.search-button {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.actions-group-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Grid layout for cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Estilos para el encabezado principal */
+.header-section {
+  background: linear-gradient(135deg, #4a4e69 0%, #22223b 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding: 28px 40px 18px 40px;
+  color: white;
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+}
+
+.title-main {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.title-main i {
+  font-size: 3rem;
+  color: #f2cc8f;
+}
+
+.subtitle-main {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Controles de búsqueda y RPP */
+.controls-container {
+  background-color: #f2e9e4;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 0.2rem;
+}
+
+.search-input {
+  border-radius: 8px 0 0 8px;
+  border-color: #c9ada7;
+  padding: 10px 15px;
 }
 
 .search-button {
-    border-radius: 0 25px 25px 0;
-    background-color: #4a4e69;
-    border-color: #4a4e69;
-    color: white;
-    padding: 10px 20px;
+  background-color: #4a4e69;
+  border-color: #4a4e69;
+  color: white;
+  border-radius: 0 8px 8px 0;
+  transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-    background-color: #22223b;
-    border-color: #22223b;
+  background-color: #22223b;
+  border-color: #22223b;
 }
 
-/* Estilo de la cuadrícula de preguntas (Grid Layout) */
-.questions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    padding: 20px 0;
+.btn-new-question {
+  background-color: #06d6a0;
+  border-color: #06d6a0;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.question-card {
-    background-color: #f2e9e4; /* Fondo claro y cálido */
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 150px;
+.btn-new-question:hover {
+  background-color: #05b385;
+  border-color: #05b385;
 }
 
-.question-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+/* Estilos para las tarjetas de preguntas */
+.card-question {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(.4,2,.3,1), box-shadow 0.3s cubic-bezier(.4,2,.3,1);
+  margin-bottom: 25px;
+  background-color: white;
+  position: relative;
 }
 
-.card-body {
-    padding: 20px;
+.card-question:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
 }
 
-.question-text {
-    font-size: 1.1rem;
-    font-style: italic;
-    color: #22223b;
-    margin-bottom: 15px;
+.card-id-hidden {
+  display: none;
+  margin-left: 1rem;
+  font-size: 1rem;
+  color: #4a4e69;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(.4,2,.3,1);
+}
+.card-question:hover .card-id-hidden {
+  display: inline-block;
+  opacity: 1;
 }
 
-.card-footer-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px 15px 20px;
-    border-top: 1px solid #c9ada7;
-    margin-top: 10px;
+.card-header-question {
+  background-color: #9a8c98;
+  color: #22223b;
+  padding: 15px 20px;
+  border-radius: 15px 15px 0 0;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.badge.bg-info {
-    background-color: #bbd0ff !important;
-    color: #22223b !important;
-    font-weight: 600;
+.card-body-question {
+  padding: 20px;
 }
 
-/* Estilo del botón de proponer pregunta */
-.btn-outline-success {
-    color: #4a4e69;
-    border-color: #4a4e69;
-    transition: all 0.3s ease;
+.question-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4a4e69;
+  margin-bottom: 15px;
 }
 
-.btn-outline-success:hover {
-    background-color: #4a4e69;
-    color: white;
+.question-body {
+  font-size: 1rem;
+  color: #22223b;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.question-footer {
+  border-top: 1px solid #c9ada7;
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #9a8c98;
+}
+
+.question-footer .author {
+  font-weight: 600;
+  color: #4a4e69;
+}
+
+.question-footer .date {
+  font-style: italic;
+}
+
+/* Paginación */
+.pagination-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Estilos para el botón de nueva pregunta en el listado de usuario */
+.btn-new-question-list {
+  background-color: #4a4e69;
+  border-color: #4a4e69;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-new-question-list:hover {
+  background-color: #22223b;
+  border-color: #22223b;
+}
+
+/* Estilos para el RPP */
+.rpp-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rpp-container label {
+  font-weight: 500;
+  color: #22223b;
+}
+
+.rpp-container select {
+  width: 80px;
+  border-radius: 8px;
+  border-color: #c9ada7;
 }
