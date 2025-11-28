@@ -1,3 +1,4 @@
+<!-- Yo muestro la lista de preguntas para el usuario, con controles de búsqueda, paginación y agrupación por pregunta -->
 <div class="container mt-5">
   <!-- Header -->
   <div class="header-section mb-5">
@@ -22,12 +23,15 @@
         </button>
       </div>
       <div class="actions-group-horizontal">
-        <a [routerLink]="['/admin/soares/plist']" class="btn btn-primary me-2">
+        <a [routerLink]="['/soares/admin/plist']" class="btn btn-primary me-2">
           Administrar
         </a>
-        <button class="btn btn-new-question" [routerLink]="['/user/soares/new']">
+        <button class="btn btn-new-question" [routerLink]="['/soares/user/new']">
           <i class="bi bi-plus-circle"></i> Nueva
         </button>
+        <a [routerLink]="['/soares/user/temas']" class="btn btn-outline-info ms-2">
+          <i class="bi bi-tags"></i> Ver preguntas por tema
+        </a>
       </div>
     </div>
   </div>
@@ -42,19 +46,26 @@
         No se encontraron preguntas.
       </div>
       <div class="card-grid">
-        <div *ngFor="let soares of oPage?.content" class="card-question">
-          <div class="card-header-question">
-            <span *ngIf="soares.publicacion" class="badge bg-success">Publicada</span>
-            <span *ngIf="!soares.publicacion" class="badge bg-warning text-dark">Pendiente</span>
+        <ng-container *ngFor="let group of groupedSoares">
+          <div class="card-question" [class.expanded]="group.expanded">
+            <div class="card-header-question" (mouseenter)="group.expanded = true" (mouseleave)="group.expanded = false"
+              style="cursor:pointer;">
+              <h5 class="question-title mb-0">{{ group.pregunta }}</h5>
+              <span class="ms-auto"><i class="bi"
+                  [ngClass]="group.expanded ? 'bi-chevron-up' : 'bi-chevron-down'"></i></span>
+            </div>
+            <div *ngIf="group.expanded" class="card-body-question">
+              <div *ngFor="let soares of group.items" class="mb-3">
+                <div class="d-flex align-items-center mb-1">
+                  <span *ngIf="soares.publicacion" class="badge bg-success me-2">Publicada</span>
+                  <span *ngIf="!soares.publicacion" class="badge bg-warning text-dark me-2">Pendiente</span>
+                  <span class="date">{{ soares.fechaCreacion }}</span>
+                </div>
+                <div class="question-body">{{ soares.preguntas }}</div>
+              </div>
+            </div>
           </div>
-          <div class="card-body-question">
-            <h5 class="question-title">{{ soares.preguntas }}</h5>
-          </div>
-          <div class="card-footer question-footer">
-            <span class="date">Fecha: {{ soares.fechaCreacion }}</span>
-            <span class="card-id-hidden">Pregunta #{{ soares.id }}</span>
-          </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </div>

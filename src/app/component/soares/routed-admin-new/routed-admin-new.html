@@ -1,3 +1,4 @@
+<!-- Yo muestro el formulario para crear una nueva pregunta, con validaciones y botones para enviar o volver -->
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -7,40 +8,31 @@
                 </div>
                 <div class="card-body">
                     <form [formGroup]="soaresForm" (ngSubmit)="onSubmit()">
-                        <!-- Campo Título -->
+                        <!-- Campo Pregunta -->
                         <div class="mb-3">
-                            <label for="titulo" class="form-label">Título de la Pregunta</label>
-                            <input type="text" class="form-control" id="titulo" formControlName="titulo" placeholder="Ej: ¿Cuál es mi propósito superior?">
-                            <div *ngIf="soaresForm.get('titulo')?.invalid && (soaresForm.get('titulo')?.dirty || soaresForm.get('titulo')?.touched)" class="text-danger mt-1">
-                                <div *ngIf="soaresForm.get('titulo')?.errors?.['required']">
-                                    El título es obligatorio.
+                            <label for="preguntas" class="form-label">Pregunta</label>
+                            <input type="text" class="form-control" id="preguntas" formControlName="preguntas"
+                                placeholder="Escribe tu pregunta aquí">
+                            <div *ngIf="soaresForm.get('preguntas')?.invalid && (soaresForm.get('preguntas')?.dirty || soaresForm.get('preguntas')?.touched)"
+                                class="text-danger mt-1">
+                                <div *ngIf="soaresForm.get('preguntas')?.errors?.['required']">
+                                    La pregunta es obligatoria.
                                 </div>
-                                <div *ngIf="soaresForm.get('titulo')?.errors?.['minlength']">
-                                    El título debe tener al menos 3 caracteres.
+                                <div *ngIf="soaresForm.get('preguntas')?.errors?.['minlength']">
+                                    La pregunta debe tener al menos 3 caracteres.
                                 </div>
-                                <div *ngIf="soaresForm.get('titulo')?.errors?.['maxlength']">
-                                    El título no puede exceder los 255 caracteres.
+                                <div *ngIf="soaresForm.get('preguntas')?.errors?.['maxlength']">
+                                    La pregunta no puede exceder los 255 caracteres.
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Campo Cuerpo -->
-                        <div class="mb-3">
-                            <label for="cuerpo" class="form-label">Cuerpo de la Pregunta</label>
-                            <textarea class="form-control" id="cuerpo" formControlName="cuerpo" rows="5" placeholder="Detalla tu pregunta, el contexto y por qué la haces."></textarea>
-                            <div *ngIf="soaresForm.get('cuerpo')?.invalid && (soaresForm.get('cuerpo')?.dirty || soaresForm.get('cuerpo')?.touched)" class="text-danger mt-1">
-                                <div *ngIf="soaresForm.get('cuerpo')?.errors?.['required']">
-                                    El cuerpo de la pregunta es obligatorio.
-                                </div>
-                                <div *ngIf="soaresForm.get('cuerpo')?.errors?.['minlength']">
-                                    El cuerpo debe tener al menos 10 caracteres.
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Solo campo Pregunta, cuerpo eliminado -->
 
                         <!-- Campo Publicación -->
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="publicacion" formControlName="publicacion">
+                            <input type="checkbox" class="form-check-input" id="publicacion"
+                                formControlName="publicacion">
                             <label class="form-check-label" for="publicacion">Publicar Inmediatamente</label>
                         </div>
 
@@ -52,7 +44,7 @@
                             <button type="submit" class="btn btn-primary" [disabled]="soaresForm.invalid">
                                 <i class="bi bi-send"></i> Crear
                             </button>
-                            <a [routerLink]="['/admin/soares/plist']" class="btn btn-secondary">
+                            <a [routerLink]="['/soares/admin/plist']" class="btn btn-secondary">
                                 <i class="bi bi-arrow-left"></i> Volver al Listado
                             </a>
                         </div>

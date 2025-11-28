@@ -1,3 +1,4 @@
+// Componente que permite al administrador eliminar una pregunta y muestra mensajes de error si ocurre algún problema
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -36,7 +37,7 @@ export class SoaresRoutedAdminRemove implements OnInit {
   remove() {
     this.soaresService.removeOne(this.id).subscribe({
       next: (id: number) => {
-        this.router.navigate(['/admin/soares/plist']);
+        this.router.navigate(['/soares/admin/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.error = err.error.message || 'Error al eliminar la pregunta.';

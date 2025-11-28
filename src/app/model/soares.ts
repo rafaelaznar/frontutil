@@ -4,4 +4,5 @@ export interface ISoares {
   fechaCreacion: string
   fechaModificacion: string
   publicacion: boolean
+  aprobacion: boolean
 }

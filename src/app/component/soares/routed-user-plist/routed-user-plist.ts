@@ -1,3 +1,7 @@
+// Componente que muestra la lista de preguntas para el usuario, con paginación, agrupación y búsqueda
+// Agrupa las preguntas por texto para mostrar en tarjetas
+// Maneja el cambio de página y cantidad de elementos por página
+// Filtra las preguntas según el texto ingresado
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPage } from '../../../model/plist';
@@ -25,6 +29,7 @@ export class SoaresRoutedUserPlist implements OnInit {
   orderField: string = 'fechaCreacion';
   orderDirection: string = 'desc';
   filter: string = '';
+  groupedSoares: Array<{ pregunta: string, items: ISoares[], expanded: boolean }> = [];
 
   constructor(private soaresService: SoaresService) {}
 
@@ -33,13 +38,13 @@ export class SoaresRoutedUserPlist implements OnInit {
   }
 
   getPage(): void {
-    // Usar getPageUser que solo trae las publicadas y aprobadas (asumiendo que el servicio lo implementa)
     this.soaresService.getPageUser(this.numPage, this.numRpp, this.orderField, this.orderDirection, this.filter).subscribe({
       next: (resp: IPage<ISoares>) => {
         this.oPage = resp;
         this.numTotalPages = resp.totalPages;
         this.numTotalElements = resp.totalElements;
         this.numPage = resp.number;
+        this.groupedSoares = this.groupByPregunta(resp.content);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
@@ -63,4 +68,15 @@ export class SoaresRoutedUserPlist implements OnInit {
     this.numPage = 0;
     this.getPage();
   }
-}
+
+  groupByPregunta(soaresList: ISoares[]): Array<{ pregunta: string, items: ISoares[], expanded: boolean }> {
+    const map = new Map<string, ISoares[]>();
+    soaresList.forEach(item => {
+      if (!map.has(item.preguntas)) {
+        map.set(item.preguntas, []);
+      }
+      map.get(item.preguntas)!.push(item);
+    });
+    return Array.from(map.entries()).map(([pregunta, items]) => ({ pregunta, items, expanded: false }));
+  }
+  }

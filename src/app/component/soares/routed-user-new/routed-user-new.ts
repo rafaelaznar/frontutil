@@ -1,3 +1,4 @@
+// Componente que permite al usuario crear una nueva pregunta y muestra mensajes de éxito o error
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,7 @@ export class SoaresRoutedUserNew implements OnInit {
 
   soaresForm!: FormGroup;
   error: string | null = null;
+  success: boolean = false;
 
   ngOnInit(): void {
     this.soaresForm = this.fb.group({
@@ -39,7 +41,8 @@ export class SoaresRoutedUserNew implements OnInit {
       };
       this.soaresService.createOne(oSoares).subscribe({
         next: (id: number) => {
-          this.router.navigate(['/user/soares/plist']);
+          this.success = true;
+          this.soaresForm.reset();
         },
         error: (err: HttpErrorResponse) => {
           this.error = err.error.message || 'Error al crear la pregunta.';

@@ -1,3 +1,11 @@
+// Componente que muestra la vista de administración con controles para filtrar, crear, generar datos y una tabla con preguntas y acciones
+// Obtiene la página de preguntas para el administrador, validando que la página no sea negativa
+// Cambia la cantidad de elementos por página
+// Cambia el orden de las preguntas en la tabla
+// Filtra las preguntas según el texto ingresado
+// Genera datos de prueba y vacía la lista
+// Permite al administrador publicar o despublicar una pregunta
+// Permite al administrador aprobar o desaprobar una pregunta
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -6,6 +14,7 @@ import { IPage } from '../../../model/plist';
 import { ISoares } from '../../../model/soares';
 import { SoaresService } from '../../../service/soares';
 import { Paginacion } from "../../shared/paginacion/paginacion";
+import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,9 +22,10 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
   standalone: true,
-  imports: [RouterLink, Paginacion, FormsModule, CommonModule],
+  imports: [RouterLink, Paginacion, BotoneraRpp, FormsModule, CommonModule],
 })
 export class SoaresRoutedAdminPlist implements OnInit {
+    soloPendientes: boolean = false;
   oPage: IPage<ISoares> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
@@ -33,7 +43,16 @@ export class SoaresRoutedAdminPlist implements OnInit {
   }
 
   getPage(): void {
-    this.soaresService.getPageAdmin(this.numPage, this.numRpp, this.orderField, this.orderDirection, this.filter).subscribe({
+    // Validar que la página nunca sea negativa
+    const safePage = this.numPage < 0 ? 0 : this.numPage;
+    this.soaresService.getPageAdmin(
+      safePage,
+      this.numRpp,
+      this.orderField,
+      this.orderDirection,
+      this.filter,
+      this.soloPendientes
+    ).subscribe({
       next: (resp: IPage<ISoares>) => {
         this.oPage = resp;
         this.numTotalPages = resp.totalPages;
@@ -47,7 +66,8 @@ export class SoaresRoutedAdminPlist implements OnInit {
   }
 
   onPageChange(n: number) {
-    this.numPage = n;
+    // Validar que la página nunca sea negativa
+    this.numPage = n < 0 ? 0 : n;
     this.getPage();
   }
 
@@ -55,6 +75,7 @@ export class SoaresRoutedAdminPlist implements OnInit {
     this.numRpp = rpp;
     this.numPage = 0;
     this.getPage();
+    return false;
   }
 
   onOrder(order: string) {

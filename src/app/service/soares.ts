@@ -14,7 +14,7 @@ export class SoaresService {
 
   constructor(private oHttp: HttpClient) { }
 
-  getPageAdmin(page: number, rpp: number, order: string = '', direction: string = '', filter: string = ''): Observable<IPage<ISoares>> {
+  getPageAdmin(page: number, rpp: number, order: string = '', direction: string = '', filter: string = '', soloPendientes: boolean = false): Observable<IPage<ISoares>> {
     if (order === '') {
       order = 'id';
     }
@@ -24,6 +24,9 @@ export class SoaresService {
     let sUrl: string = this.sUrl + '/admin' + '?page=' + (page - 1) + '&size=' + rpp + '&sort=' + order + ',' + direction;
     if (filter) {
       sUrl += '&filter=' + filter;
+    }
+    if (soloPendientes) {
+      sUrl += '&soloPendientes=true';
     }
     return this.oHttp.get<IPage<ISoares>>(sUrl);
   }

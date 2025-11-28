@@ -12,6 +12,7 @@ import { SoaresRoutedAdminNew } from './component/soares/routed-admin-new/routed
 import { SoaresRoutedAdminEdit } from './component/soares/routed-admin-edit/routed-admin-edit';
 import { SoaresRoutedAdminRemove } from './component/soares/routed-admin-remove/routed-admin-remove';
 import { SoaresRoutedUserPlist } from './component/soares/routed-user-plist/routed-user-plist';
+import { PreguntasPorTemaComponent } from './component/soares/preguntas-por-tema/preguntas-por-tema';
 
 
 export const routes: Routes = [
@@ -24,6 +25,8 @@ export const routes: Routes = [
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
   { path: 'soares/user/plist', component: SoaresRoutedUserPlist },
+  { path: 'soares/user/temas', component: PreguntasPorTemaComponent },
+  { path: 'soares/user/new', component: SoaresRoutedAdminNew },
   { path: 'soares/admin/plist', component: SoaresRoutedAdminPlist },
   { path: 'soares/admin/new', component: SoaresRoutedAdminNew },
   { path: 'soares/admin/edit/:id', component: SoaresRoutedAdminEdit },

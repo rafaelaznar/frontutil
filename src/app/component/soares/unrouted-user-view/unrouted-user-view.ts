@@ -1,3 +1,4 @@
+// Componente que muestra el detalle de una pregunta para el usuario
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { ISoares } from '../../../model/soares';
 

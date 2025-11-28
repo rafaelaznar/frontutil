@@ -1,3 +1,4 @@
+// Componente que permite al administrador editar una pregunta y guardar los cambios
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -47,7 +48,7 @@ export class SoaresRoutedAdminEdit implements OnInit {
 
       this.soaresService.updateOne(oSoares).subscribe({
         next: (oSoaresUpdated: ISoares) => {
-          this.router.navigate(['/admin/soares/plist']); // Redirigir al listado después de editar
+          this.router.navigate(['/soares/admin/plist']); // Redirigir al listado después de editar
         },
         error: (err: HttpErrorResponse) => {
           this.error = err.error.message || 'Error al actualizar la pregunta.';

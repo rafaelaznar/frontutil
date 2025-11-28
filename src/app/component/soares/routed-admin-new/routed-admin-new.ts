@@ -1,3 +1,4 @@
+// Componente que permite al administrador crear una nueva pregunta y aprobarla
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -31,7 +32,7 @@ export class SoaresRoutedAdminNew implements OnInit {
   onSubmit() {
     if (this.soaresForm.valid) {
       const oSoares: ISoares = {
-        id: 0,
+        id: undefined as any,
         preguntas: this.soaresForm.value.preguntas,
         publicacion: this.soaresForm.value.publicacion,
         fechaCreacion: '',
@@ -40,7 +41,7 @@ export class SoaresRoutedAdminNew implements OnInit {
       };
       this.soaresService.createOne(oSoares).subscribe({
         next: (id: number) => {
-          this.router.navigate(['/admin/soares/plist']);
+          this.router.navigate(['/soares/admin/plist']);
         },
         error: (err: HttpErrorResponse) => {
           this.error = err.error.message || 'Error al crear la pregunta.';
