@@ -26,7 +26,7 @@ export class RoutedAdminView {
   }
 
   volver() {
-    this.router.navigate(['']);
+    this.router.navigate(['/tablon']);
   }
 
   ngOnInit() { }
