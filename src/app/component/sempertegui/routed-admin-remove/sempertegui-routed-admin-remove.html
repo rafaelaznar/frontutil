@@ -13,12 +13,12 @@
       </div>
       } @if (!loading && !error && movie) {
 
-      <app-sempertegui-unrouted-admin-view [movie]="movie"> </app-sempertegui-unrouted-admin-view>
+      <app-sempertegui-unrouted-admin-view [movie]="movie" [ocultarBtnVolver]="true"> </app-sempertegui-unrouted-admin-view>
 
       <div class="confirm-box p-4 border rounded bg-light">
         <h2 class="h5 mb-3">Confirmar borrado</h2>
         <p class="text-muted mb-4">
-          ¿Seguro que deseas borrar este post? Esta acción no se puede deshacer.
+          ¿Seguro que deseas borrar ésta película de tu catálogo? Esta acción no se podrá deshacer.
         </p>
         <div class="d-flex justify-content-between">
           <button class="btn btn-outline-secondary" (click)="cancel()">
