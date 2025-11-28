@@ -67,7 +67,7 @@ export class RoutedUserPlistZanon {
     }
 
     this.oZanonService.buscador(texto, this.numPage, this.numRpp).subscribe({
-      next: (response: IPage<IZanon>) => {
+      next: (response) => {
         this.oPage = response; // Asignamos el resultado de la búsqueda
       },
       error: (err) => {

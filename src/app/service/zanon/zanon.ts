@@ -48,7 +48,7 @@ export class ZanonService {
 
     buscador(texto: string, page: number, size: number) {
         return this.oHttp.get<IPage<IZanon>>(
-        serverURL + `/zanon/service?texto=${texto}&page=${page}&size=${size}`
+            serverURL + `/zanon/search?texto=${texto}&page=${page}&size=${size}`
         );
     }
 }
