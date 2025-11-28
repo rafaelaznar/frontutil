@@ -70,7 +70,6 @@
           <th>Lectura</th>
           <th>Publicado</th>
           <th>Seleccionado</th>
-          <th>Creado</th>
           <th class="text-end">Opciones</th>
         </tr>
       </thead>
@@ -89,7 +88,6 @@
             <td>
               <i class="bi" [class.bi-star-fill]="entrada.destacado" [class.text-warning]="entrada.destacado" [class.bi-star]="!entrada.destacado"></i>
             </td>
-            <td>{{ entrada.fechaCreacion | datetime }}</td>
             <td class="text-end">
               <div class="btn-group btn-group-sm">
                 <a [routerLink]="['/alcalde/view', entrada.id]" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>

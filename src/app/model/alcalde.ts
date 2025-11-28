@@ -8,6 +8,4 @@ export interface IAlcalde {
   publicado: boolean
   destacado: boolean
   fechaLectura: string
-  fechaCreacion: string
-  fechaModificacion: string | null
 }

@@ -7,11 +7,10 @@ import { IAlcalde } from '../../../model/alcalde';
 import { AlcaldeService } from '../../../service/alcalde';
 import { Paginacion } from '../../shared/paginacion/paginacion';
 import { BotoneraRpp } from '../../shared/botonera-rpp/botonera-rpp';
-import { DatetimePipe } from '../../../pipe/datetime-pipe';
 
 @Component({
   selector: 'app-alcalde-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -19,7 +18,7 @@ export class AlcaldeRoutedAdminPlist {
   oPage: IPage<IAlcalde> | null = null;
   numPage = 0;
   numRpp = 5;
-  order = 'fechaCreacion';
+  order = 'fechaLectura';
   direction: 'asc' | 'desc' = 'desc';
   onlyPublished = false;
 
