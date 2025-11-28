@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'blog/view/:id', component: RoutedAdminView },
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
+  { path: 'blog/remove/:id', component: RoutedAdminRemove },
   { path: 'pallas/plist', component: PallasPlist },
   { path: 'pallas/new', component: PallasNew },
   { path: 'pallas/view/:id', component: PallasView },
