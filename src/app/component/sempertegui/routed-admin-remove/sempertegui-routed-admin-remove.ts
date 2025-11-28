@@ -1,22 +1,22 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BlogService } from '../../../service/blog';
-import { IBlog } from '../../../model/blog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
+import { SemperteguiUnroutedAdminView } from "../unrouted-admin-view/sempertegui-unrouted-admin-view";
+import { SemperteguiService } from '../../../service/sempertegui/semperteguiService';
+import { IPelicula } from '../../../model/sempertegui/semperteguiInterface';
 
 @Component({
-  selector: 'app-routed-admin-remove',
-  imports: [UnroutedAdminView],
-  templateUrl: './routed-admin-remove.html',
-  styleUrl: './routed-admin-remove.css'
+  selector: 'app-sempertegui-routed-admin-remove',
+  imports: [SemperteguiUnroutedAdminView],
+  templateUrl: './sempertegui-routed-admin-remove.html',
+  styleUrl: './sempertegui-routed-admin-remove.css'
 })
-export class RoutedAdminRemove implements OnInit {
+export class SemperteguiRoutedAdminRemove implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private blogService = inject(BlogService);
+  private semperteguiService = inject(SemperteguiService);
 
-  oBlog: IBlog | null = null;
+  movie: IPelicula | null = null;
   loading: boolean = true;
   error: string | null = null;
   deleting: boolean = false;
@@ -32,13 +32,13 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   load(id: number) {
-    this.blogService.get(id).subscribe({
-      next: (data: IBlog) => {
-        this.oBlog = data;
+    this.semperteguiService.get(id).subscribe({
+      next: (data: IPelicula) => {
+        this.movie = data;
         this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
-        this.error = 'Error cargando el post';
+        this.error = 'Error cargando la película';
         this.loading = false;
         console.error(err);
       }
@@ -46,12 +46,12 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   confirmDelete() {
-    if (!this.oBlog) return;
+    if (!this.movie) return;
     this.deleting = true;
-    this.blogService.delete(this.oBlog.id).subscribe({
+    this.semperteguiService.delete(this.movie.id).subscribe({
       next: () => {
         this.deleting = false;
-        this.router.navigate(['/blog/plist']);
+        this.router.navigate(['/sempertegui/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
@@ -62,6 +62,6 @@ export class RoutedAdminRemove implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/blog/plist']);
+    this.router.navigate(['/sempertegui/plist']);
   }
 }

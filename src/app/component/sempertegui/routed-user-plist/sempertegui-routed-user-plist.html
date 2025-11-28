@@ -34,7 +34,7 @@
   <div class="d-flex justify-content-center mt-5">
       <app-paginacion
         [numPage]="numPage"
-        [numPages]="oPage?.totalPages || 0"
+        [numPages]="oPage?.totalPages || 1"
         (pageChange)="goToPage($event)"
       >
       </app-paginacion>

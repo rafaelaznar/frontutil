@@ -1,4 +1,4 @@
-<div class="container my-5 remove-post">
+<div class="container my-5 remove-movie">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
       @if (loading) {
@@ -11,9 +11,9 @@
       <div class="alert alert-danger" role="alert">
         <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
       </div>
-      } @if (!loading && !error && oBlog) {
+      } @if (!loading && !error && movie) {
 
-      <app-unrouted-admin-view [oBlog]="oBlog"> </app-unrouted-admin-view>
+      <app-sempertegui-unrouted-admin-view [movie]="movie"> </app-sempertegui-unrouted-admin-view>
 
       <div class="confirm-box p-4 border rounded bg-light">
         <h2 class="h5 mb-3">Confirmar borrado</h2>

@@ -16,6 +16,7 @@ import { IPelicula } from '../../../model/sempertegui/semperteguiInterface';
 })
 export class SemperteguiRoutedAdminPlist {
   oPage: IPage<IPelicula> | null = null;
+  count: number = 0;
   numPage: number = 0;
   numRpp: number = 5;
   rellenaCantidad: number = 10;
@@ -29,6 +30,7 @@ export class SemperteguiRoutedAdminPlist {
 
   ngOnInit() {
     this.getPage();
+    this.getCount();
   }
 
   getPage() {
@@ -41,6 +43,17 @@ export class SemperteguiRoutedAdminPlist {
           this.numPage = data.totalPages - 1;
           this.getPage();
         }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+      },
+    });
+  }
+
+  getCount(){
+    this.semperteguiService.count().subscribe({
+      next: (data: number) => {
+        this.count = data;
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
@@ -77,7 +90,7 @@ export class SemperteguiRoutedAdminPlist {
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
-        this.rellenaError = 'Error generando datos fake';
+        this.rellenaError = 'Error generando datos. Posible duplicado. Refresca la página';
         console.error(err);
       }
     });

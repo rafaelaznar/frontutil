@@ -42,4 +42,7 @@ export class SemperteguiService {
     return this.httpClient.get<number>(`${serverURL}/sempertegui/rellena`);
   }
 
+  count(): Observable<number> {
+    return this.httpClient.get<number>(`${serverURL}/sempertegui/count`);
+  }
 }

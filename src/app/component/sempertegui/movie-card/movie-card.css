@@ -17,13 +17,6 @@
   overflow: hidden;
 }
 
-.movie-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-  display: block;
-}
-
 /* Estilos para el pie de la imagen (botones Trailer/Sinopsis) */
 .cover-footer {
   display: flex;
@@ -60,7 +53,7 @@
   padding-bottom: 10px;
 }
 
-.movie-director {
+.movie-data {
   color: #555;
   font-style: italic;
 }
@@ -86,4 +79,17 @@
 
 .read-more-btn:hover {
   background-color: #d62839;
+}
+
+.thumb i {
+	width: 200px;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 44px;
+	border-radius: 8px;
+	border:1px solid rgba(0,0,0,0.06);
+	background:#f8f9fa;
+	color:#111;
 }

@@ -13,22 +13,21 @@
     <div class="card shadow-sm p-3 w-100" style="max-width: 720px">
       <div class="d-flex flex-wrap align-items-center gap-3">
         <label for="rellenaSelect" class="form-label m-0 fw-semibold me-4">Generar 10 datos de prueba:</label>
-        <button
-          class="btn btn-outline-primary btn-sm position-relative ms-5"
-          [disabled]="rellenando"
-          (click)="generarFake()"
-        >
-          @if (rellenando) {
-          <span
-            class="spinner-border spinner-border-sm me-2"
-            role="status"
-            aria-hidden="true"
-          ></span>
-          } @if (!rellenando) {
-          <i class="bi bi-gear-fill me-2"></i>
-          } Generar
-        </button>
-
+          <button
+            class="btn btn-outline-primary btn-sm position-relative ms-5"
+            [disabled]="count >= 1"
+            (click)="generarFake()"
+          >
+            @if (rellenando) {
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            } @if (!rellenando) {
+            <i class="bi bi-gear-fill me-2"></i>
+            } Generar
+          </button>
         @if (rellenaOk) {
         <div class="text-success small d-flex align-items-center">
           <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} movies
@@ -62,9 +61,9 @@
           <th scope="col">Genero</th>
           <th scope="col">Director</th>
           <th scope="col">Año</th>
-          <th scope="col">Puntuación</th>
-          <th scope="col">Actualización</th>
-          <th scope="col">Operaciones</th>
+          <th scope="col">Rating</th>
+          <th scope="col">Creado el</th>
+          <th scope="col">Modificado</th>
         </tr>
       </thead>
       <tbody>
