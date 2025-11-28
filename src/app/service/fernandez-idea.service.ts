@@ -16,10 +16,12 @@ export class FernandezIdeaService {
     order = 'id';
     direction = 'asc';
     // Construimos params dinámicamente; sólo añadimos 'publico' si se pasa
+    // Backend expects separate 'sort' (field) and 'direction' (asc|desc) query params
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', rpp.toString())
-      .set('sort', `${order},${direction}`);
+      .set('sort', order)
+      .set('direction', direction);
     if (publico !== undefined) {
       params = params.set('publico', String(publico));
     }
@@ -38,6 +40,10 @@ export class FernandezIdeaService {
 
     return forkJoin([pageRequest$, countRequest$]).pipe(
       map(([pageData, countPublic]) => {
+        // Defensive: ensure content is an array so templates won't break
+        pageData.content = pageData.content || [];
+        // Debug extra: log sizes so we can trace why no items are shown
+        console.debug('FernandezIdeaService.getPage response - content.length:', pageData.content.length, 'countPublic:', countPublic, 'params:', params.toString());
         // Filtrado defensivo: eliminar cualquier idea privada que el backend haya devuelto por error cuando se pidió publico=true
         if (publico === true) {
           pageData.content = pageData.content.filter((i: IFernandezIdea) => i.publico);
