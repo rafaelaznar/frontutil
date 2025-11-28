@@ -18,6 +18,15 @@
         <p style="font-weight: bold;">Dificultad:</p>
         <pre [innerHTML]="oZanon?.dificultad"></pre>
       </div>
+      <div>
+        <p>
+          <!-- 
+          Dependiendo de la condición (oZanon?.publico), 
+          si es "true" devuelve el primer resultado, y si es "false" devuelve el segundo 
+          -->
+          {{ oZanon?.publico ? 'Esta rutina es pública' : 'Esta rutina es privada' }}
+        </p>
+      </div>
     </section>
 
     <footer class="post-footer my-5 d-flex justify-content-between align-items-center">
