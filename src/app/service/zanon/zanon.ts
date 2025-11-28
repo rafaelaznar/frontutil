@@ -45,4 +45,10 @@ export class ZanonService {
     rellenaBlog(numPosts: number): Observable<number> {
         return this.oHttp.get<number>(serverURL + '/zanon/rellena/' + numPosts);
     }
+
+    buscador(texto: string, page: number, size: number) {
+        return this.oHttp.get<IPage<IZanon>>(
+        serverURL + `/zanon/service?texto=${texto}&page=${page}&size=${size}`
+        );
+    }
 }

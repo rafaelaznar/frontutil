@@ -5,6 +5,7 @@ import { IZanon } from '../../../model/zanon/zanon';
 import { ZanonService } from '../../../service/zanon/zanon';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { UnroutedUserView2 } from "../unrouted-user-view2/unrouted-user-view2";
+import { serverURL } from '../../../environment/environment';
 
 
 @Component({
@@ -55,5 +56,23 @@ export class RoutedUserPlistZanon {
     this.numRpp = n;
     this.getPage();
     return false;
+  }
+
+  buscar(texto: string) {
+    if (!texto.trim()) {
+
+      // Si el buscador está vacío, mostramos todas las rutinas
+      this.getPage();
+      return;
+    }
+
+    this.oZanonService.buscador(texto, this.numPage, this.numRpp).subscribe({
+      next: (response: IPage<IZanon>) => {
+        this.oPage = response; // Asignamos el resultado de la búsqueda
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 }

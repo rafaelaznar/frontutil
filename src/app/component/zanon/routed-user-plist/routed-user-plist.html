@@ -26,6 +26,15 @@
       </a>
     </div>
   </div>
+
+  <div class="input-group mb-3">
+    <input 
+      type="text"
+      class="form-control"
+      placeholder="Introduce el TÍTULO de una RUTINA"
+      (input)="buscar($event.target.value)"
+    />
+  </div>
   
   <div class="list">
     @for (oZanon of oPage?.content; track oZanon.id ) {
