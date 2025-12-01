@@ -2,9 +2,6 @@
   <div class="content flex-fill">
     <h1 class="title" style="padding-bottom: 15px;">{{ oZanon?.titulo }}</h1>
 
-    <img [src]="'http://localhost:8089' + oZanon?.imagen" alt="imagen_rutina" width="250px" height="175px"
-         style="border-radius: 12px;">
-
     <div style="padding-top: 15px;">
       <a [routerLink]="['/zanon/post', oZanon?.id]" class="btn btn-sm btn-outline-primary">Leer</a>
     </div>
