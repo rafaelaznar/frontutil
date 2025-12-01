@@ -7,6 +7,43 @@ import { RoutedUserView } from './component/blog/routed-user-view/routed-user-vi
 import { RoutedAdminEdit } from './component/blog/routed-admin-edit/routed-admin-edit';
 import { RoutedAdminNew } from './component/blog/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemove } from './component/blog/routed-admin-remove/routed-admin-remove';
+import { AlcaldeRoutedAdminPlist } from './component/alcalde/routed-admin-plist/routed-admin-plist';
+import { AlcaldeRoutedAdminView } from './component/alcalde/routed-admin-view/routed-admin-view';
+import { AlcaldeRoutedAdminNew } from './component/alcalde/routed-admin-new/routed-admin-new';
+import { AlcaldeRoutedAdminEdit } from './component/alcalde/routed-admin-edit/routed-admin-edit';
+import { AlcaldeRoutedAdminRemove } from './component/alcalde/routed-admin-remove/routed-admin-remove';
+import { AlcaldeRoutedUserPlist } from './component/alcalde/routed-user-plist/routed-user-plist';
+import { AlcaldeRoutedUserView } from './component/alcalde/routed-user-view/routed-user-view';
+import { SemperteguiRoutedUserPlist } from './component/sempertegui/routed-user-plist/sempertegui-routed-user-plist';
+import { SemperteguiRoutedAdminPlist } from './component/sempertegui/routed-admin-plist/sempertegui-routed-admin-plist';
+import { SemperteguiRoutedAdminView } from './component/sempertegui/routed-admin-view/sempertegui-routed-admin-view';
+import { SemperteguiRoutedAdminEdit } from './component/sempertegui/routed-admin-edit/sempertegui-routed-admin-edit';
+import { SemperteguiRoutedAdminRemove } from './component/sempertegui/routed-admin-remove/sempertegui-routed-admin-remove';
+import { SemperteguiRoutedAdminNew } from './component/sempertegui/routed-admin-new/sempertegui-routed-admin-new';
+import { SoaresRoutedAdminPlist } from './component/soares/routed-admin-plist/routed-admin-plist';
+import { SoaresRoutedAdminNew } from './component/soares/routed-admin-new/routed-admin-new';
+import { SoaresRoutedAdminEdit } from './component/soares/routed-admin-edit/routed-admin-edit';
+import { SoaresRoutedAdminRemove } from './component/soares/routed-admin-remove/routed-admin-remove';
+import { SoaresRoutedUserPlist } from './component/soares/routed-user-plist/routed-user-plist';
+import { PreguntasPorTemaComponent } from './component/soares/preguntas-por-tema/preguntas-por-tema';
+import { RoutedAlfonsoAdminPlist } from './component/alfonso/routed-admin-plist/routed-admin-plist';
+import { RoutedAlfonsoAdminView } from './component/alfonso/routed-admin-view/routed-admin-view';
+import { RoutedAlfonsoAdminNew } from './component/alfonso/routed-admin-new/routed-admin-new';
+import { RoutedAlfonsoAdminEdit } from './component/alfonso/routed-admin-edit/routed-admin-edit';
+import { RoutedAlfonsoAdminRemove } from './component/alfonso/routed-admin-remove/routed-admin-remove';
+import { RoutedAlfonsoUserPlist } from './component/alfonso/routed-user-plist/routed-user-plist';
+import { RoutedAlfonsoUserView } from './component/alfonso/routed-user-view/routed-user-view';
+
+//imports Alan
+import { RoutedAlcanyizMenu } from './component/alcanyiz/routed-alcanyiz-menu/routed-alcanyiz-menu'
+import { RoutedAlcanyizUserView } from './component/alcanyiz/routed-alcanyiz-user-view/routed-alcanyiz-user-view';
+import { RoutedAlcanyizAdminQuestionlist } from './component/alcanyiz/routed-alcanyiz-admin-questionlist/routed-alcanyiz-admin-questionlist';
+import { RoutedAlcanyizAdminView } from './component/alcanyiz/routed-alcanyiz-admin-view/routed-alcanyiz-admin-view';
+import { RoutedAlcanyizUserList } from './component/alcanyiz/routed-alcanyiz-user-list/routed-alcanyiz-user-list';
+import { RoutedAlcanyizAdminCreate } from './component/alcanyiz/routed-alcanyiz-admin-create/routed-alcanyiz-admin-create';
+import { RoutedAlcanyizAdminEdit } from './component/alcanyiz/routed-alcanyiz-admin-edit/routed-alcanyiz-admin-edit';
+import { RoutedAlcanyizAdminRemove } from './component/alcanyiz/routed-alcanyiz-admin-remove/routed-alcanyiz-admin-remove';
+import { RoutedAlcanyizGame } from './component/alcanyiz/routed-alcanyiz-game/routed-alcanyiz-game';
 
 import { RoutedAdminPlistZanon } from './component/zanon/routed-admin-plist/routed-admin-plist';
 import { RoutedAdminViewZanon } from './component/zanon/routed-admin-view/routed-admin-view';
@@ -25,6 +62,42 @@ export const routes: Routes = [
   { path: 'blog/new', component: RoutedAdminNew },
   { path: 'blog/edit/:id', component: RoutedAdminEdit },
   { path: 'blog/remove/:id', component: RoutedAdminRemove },
+  { path: 'alfonso', component: RoutedAlfonsoUserPlist },
+  { path: 'alfonso/respuesta/:id', component: RoutedAlfonsoUserView },
+  { path: 'alfonso/plist', component: RoutedAlfonsoAdminPlist },
+  { path: 'alfonso/view/:id', component: RoutedAlfonsoAdminView },
+  { path: 'alfonso/new', component: RoutedAlfonsoAdminNew },
+  { path: 'alfonso/edit/:id', component: RoutedAlfonsoAdminEdit },
+  { path: 'alfonso/remove/:id', component: RoutedAlfonsoAdminRemove },
+  { path: 'alcalde', component: AlcaldeRoutedUserPlist },
+  { path: 'alcalde/post/:id', component: AlcaldeRoutedUserView },
+  { path: 'alcalde/plist', component: AlcaldeRoutedAdminPlist },
+  { path: 'alcalde/view/:id', component: AlcaldeRoutedAdminView },
+  { path: 'alcalde/new', component: AlcaldeRoutedAdminNew },
+  { path: 'alcalde/edit/:id', component: AlcaldeRoutedAdminEdit },
+  { path: 'alcalde/remove/:id', component: AlcaldeRoutedAdminRemove },
+  { path: 'sempertegui', component: SemperteguiRoutedUserPlist },
+  { path: 'sempertegui/plist', component: SemperteguiRoutedAdminPlist },
+  { path: 'sempertegui/view/:id', component: SemperteguiRoutedAdminView},
+  { path: 'sempertegui/edit/:id', component: SemperteguiRoutedAdminEdit },
+  { path: 'sempertegui/remove/:id', component: SemperteguiRoutedAdminRemove },
+  { path: 'sempertegui/new', component: SemperteguiRoutedAdminNew },
+  { path: 'alcanyiz', component: RoutedAlcanyizMenu },
+  { path: 'alcanyiz/allquestion', component: RoutedAlcanyizUserList },
+  { path: 'alcanyiz/question/:id', component: RoutedAlcanyizUserView },
+  { path: 'alcanyiz/questionlist', component: RoutedAlcanyizAdminQuestionlist },
+  { path: 'alcanyiz/questionview/:id', component: RoutedAlcanyizAdminView },
+  { path: 'alcanyiz/questioncreate', component: RoutedAlcanyizAdminCreate },
+  { path: 'alcanyiz/questionedit/:id', component: RoutedAlcanyizAdminEdit },
+  { path: 'alcanyiz/questionremove/:id', component: RoutedAlcanyizAdminRemove },
+  { path: 'alcanyiz/questiongame', component: RoutedAlcanyizGame },
+  { path: 'soares/user/plist', component: SoaresRoutedUserPlist },
+  { path: 'soares/user/temas', component: PreguntasPorTemaComponent },
+  { path: 'soares/user/new', component: SoaresRoutedAdminNew },
+  { path: 'soares/admin/plist', component: SoaresRoutedAdminPlist },
+  { path: 'soares/admin/new', component: SoaresRoutedAdminNew },
+  { path: 'soares/admin/edit/:id', component: SoaresRoutedAdminEdit },
+  { path: 'soares/admin/remove/:id', component: SoaresRoutedAdminRemove },
 
   { path: 'zanon', component: RoutedUserPlistZanon},
   { path: 'zanon/post/:id', component: RoutedUserViewZanon },
