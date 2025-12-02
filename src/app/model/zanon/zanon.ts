@@ -9,7 +9,6 @@ export interface IZanon {
     categoria: string
     duracion: number
     dificultad: 'baja' | 'media' | 'alta'
-    imagen: string
 
     publico: boolean
 }
