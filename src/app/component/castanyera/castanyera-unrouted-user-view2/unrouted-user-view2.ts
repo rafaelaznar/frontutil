@@ -7,7 +7,7 @@ import { DatetimePipe } from '../../../pipe/datetime-pipe';
 
 @Component({
   selector: 'castanyera-app-unrouted-user-view2',
-  imports: [TrimPipe, RouterLink, DatetimePipe],
+  imports: [TrimPipe, DatetimePipe],
   templateUrl: './unrouted-user-view2.html',
   styleUrl: './unrouted-user-view2.css',
 })

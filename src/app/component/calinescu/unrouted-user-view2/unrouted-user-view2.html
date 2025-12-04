@@ -12,13 +12,13 @@
       @if (oCalinescu && oCalinescu.precio !== null && oCalinescu.precio !== undefined && oCalinescu.precio > 0) {
       <span class="badge bg-success bg-opacity-10 text-success">
         <i class="bi bi-currency-euro me-1"></i>
-        {{ oCalinescu?.precio | number: '1.2-2' }} €
+        {{ oCalinescu.precio | number: '1.2-2' }} €
       </span>
       }
       @if (oCalinescu && oCalinescu.cantidad) {
       <span class="badge bg-primary bg-opacity-10 text-primary">
         <i class="bi bi-123 me-1"></i>
-        {{ oCalinescu?.cantidad }} {{ oCalinescu?.cantidad === 1 ? 'unidad' : 'unidades' }}
+        {{ oCalinescu.cantidad }} {{ oCalinescu.cantidad === 1 ? 'unidad' : 'unidades' }}
       </span>
       }
       @if (oCalinescu?.fecha_compra_esperada) {

@@ -80,7 +80,7 @@
                 @for (idea of oPage?.content; track idea.id) {
                   @if (idea.publico) {
                     <button class="btn btn-outline-secondary btn-sm"
-                      [class.active]="idea.id === oIdea?.id"
+                      [class.active]="idea.id === oIdea.id"
                       (click)="goToIdea(idea.id)">
                       {{ idea.titulo }}
                     </button>
