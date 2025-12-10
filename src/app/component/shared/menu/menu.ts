@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { SessionService } from '../../../service/session.service';
+import { IJWT } from '../../../model/token';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +12,7 @@ import { SessionService } from '../../../service/session.service';
 export class Menu {
   activeRoute: string = '';
   isSessionActive: boolean = false;
+  oTokenJWT: IJWT | null = null;
 
   constructor(private oRouter: Router, private oSessionService: SessionService) {
     // obtener la ruta activa a partir del router
@@ -25,7 +27,8 @@ export class Menu {
   ngOnInit(): void {
     this.oSessionService.subjectLogin.subscribe(() => {      
       //ocultar el boton de iniciar sesión
-      this.isSessionActive = true;      
+      this.isSessionActive = true;  
+      this.oTokenJWT = this.oSessionService.parseJWT(this.oSessionService.getToken()!);
     });
 
     this.oSessionService.subjectLogout.subscribe(() => {
