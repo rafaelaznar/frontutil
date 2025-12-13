@@ -134,13 +134,6 @@ import { RoutedAdminView as TablonRoutedAdminView } from './component/contreras/
 import { RoutedAdminNew as TablonRoutedAdminNew } from './component/contreras/tablon/routed-admin-new/routed-admin-new';
 import { RoutedAdminEdit as TablonRoutedAdminEdit } from './component/contreras/tablon/routed-admin-edit/routed-admin-edit';
 import { RoutedAdminRemove as TablonRoutedAdminRemove } from './component/contreras/tablon/routed-admin-remove/routed-admin-remove';
-import { RoutedAdminPlistZanon } from './component/zanon/routed-admin-plist/routed-admin-plist';
-import { RoutedAdminViewZanon } from './component/zanon/routed-admin-view/routed-admin-view';
-import { RoutedUserPlistZanon } from './component/zanon/routed-user-plist/routed-user-plist';
-import { RoutedUserViewZanon } from './component/zanon/routed-user-view/routed-user-view';
-import { RoutedAdminEditZanon } from './component/zanon/routed-admin-edit/routed-admin-edit';
-import { RoutedAdminNewZanon } from './component/zanon/routed-admin-new/routed-admin-new';
-import { RoutedAdminRemoveZanon } from './component/zanon/routed-admin-remove/routed-admin-remove';
 
 import { RoutedAdminPlistZanon } from './component/zanon/routed-admin-plist/routed-admin-plist';
 import { RoutedAdminViewZanon } from './component/zanon/routed-admin-view/routed-admin-view';
@@ -294,14 +287,6 @@ export const routes: Routes = [
   { path: 'tablon/new', component: TablonRoutedAdminNew },
   { path: 'tablon/edit/:id', component: TablonRoutedAdminEdit },
   { path: 'tablon/remove/:id', component: TablonRoutedAdminRemove },
-
-  { path: 'zanon', component: RoutedUserPlistZanon },
-  { path: 'zanon/post/:id', component: RoutedUserViewZanon },
-  { path: 'zanon/plist', component: RoutedAdminPlistZanon },
-  { path: 'zanon/view/:id', component: RoutedAdminViewZanon },
-  { path: 'zanon/new', component: RoutedAdminNewZanon },
-  { path: 'zanon/edit/:id', component: RoutedAdminEditZanon },
-  { path: 'zanon/remove/:id', component: RoutedAdminRemoveZanon },
 
   { path: 'zanon', component: RoutedUserPlistZanon},
   { path: 'zanon/post/:id', component: RoutedUserViewZanon },
