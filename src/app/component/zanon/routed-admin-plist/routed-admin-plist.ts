@@ -6,11 +6,10 @@ import { IZanon } from '../../../model/zanon/zanon';
 import { ZanonService } from '../../../service/zanon/zanon';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
-import { DatetimePipe } from "../../../pipe/datetime-pipe";
 
 @Component({
   selector: 'app-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
