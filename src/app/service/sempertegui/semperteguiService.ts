@@ -38,8 +38,8 @@ export class SemperteguiService {
     return this.httpClient.delete<number>(`${serverURL}/sempertegui/${id}`);
   }
 
-  rellenaPeliculas(): Observable<number> {
-    return this.httpClient.get<number>(`${serverURL}/sempertegui/rellena`);
+  rellenaPeliculas(numPosts: number): Observable<number> {
+    return this.httpClient.get<number>(`${serverURL}/sempertegui/rellena/${numPosts}`);
   }
 
   count(): Observable<number> {

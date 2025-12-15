@@ -12,10 +12,20 @@
   <div class="d-flex justify-content-center my-3">
     <div class="card shadow-sm p-3 w-100" style="max-width: 720px">
       <div class="d-flex flex-wrap align-items-center gap-3">
-        <label for="rellenaSelect" class="form-label m-0 fw-semibold me-4">Generar 10 datos de prueba:</label>
+        <label for="rellenaSelect" class="form-label m-0 fw-semibold">Generar datos de prueba:</label>
+          <select
+            #cantidadSel
+            id="rellenaSelect"
+            class="form-select form-select-sm w-auto"
+            (change)="onCantidadChange(cantidadSel.value)"
+          >
+            <option [selected]="rellenaCantidad === 10" value="10">10</option>
+            <option [selected]="rellenaCantidad === 100" value="100">100</option>
+            <option [selected]="rellenaCantidad === 1000" value="1000">1000</option>
+          </select>
           <button
-            class="btn btn-outline-primary btn-sm position-relative ms-5"
-            [disabled]="count >= 1"
+            class="btn btn-outline-primary btn-sm position-relative"
+            [disabled]="rellenando"
             (click)="generarFake()"
           >
             @if (rellenando) {
