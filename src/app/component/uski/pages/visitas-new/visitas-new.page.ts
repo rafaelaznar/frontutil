@@ -36,7 +36,7 @@ export class UskiVisitasNewPage implements OnInit {
         Validators.required,
         Validators.minLength(25),
         Validators.maxLength(1024)
-      ]]
+      ]],
     });
   }
 

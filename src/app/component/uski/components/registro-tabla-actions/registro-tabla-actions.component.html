@@ -2,6 +2,9 @@
   <a [routerLink]="['/visitas/dashboard/view', visita.id]" class="btn btn-outline-primary" title="Ver">
     <i class="bi bi-info-circle"></i>
   </a>
+  <a [routerLink]="['/visitas/dashboard/edit', visita.id]" class="btn btn-outline-secondary">
+    <i class="bi bi-pencil-square"></i>
+  </a>
   <button class="btn btn-outline-secondary" (click)="onTogglePublish()" title="Publicar/Ocultar">
     @if (visita.estaPublicado) {
       <i class="bi bi-eye-slash text-danger"></i>

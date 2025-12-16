@@ -35,7 +35,7 @@ export class UskiAdminPage {
   }
 
   getPage() {
-    this.oVisitasService.getPagePrivate(this.numPage, this.numRpp, this.column, this.direction).subscribe({
+    this.oVisitasService.getPage(this.numPage, this.numRpp, this.column, this.direction).subscribe({
       next: (data: IPage<IVisita>) => {
         this.oPage = data;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {

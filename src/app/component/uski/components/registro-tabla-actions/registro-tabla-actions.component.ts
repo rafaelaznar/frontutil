@@ -18,7 +18,7 @@ export class RegistroTablaActionsComponent {
 
   onTogglePublish() {
     const nuevoEstado = !this.visita.estaPublicado;
-    this.oVisitasService.update({ id: this.visita.id, estaPublicado: nuevoEstado }).subscribe({
+    this.oVisitasService.publish({ id: this.visita.id, estaPublicado: nuevoEstado }).subscribe({
       next: () => (this.visita.estaPublicado = nuevoEstado),
       error: (err) => console.error('No se pudo actualizar', err),
     });

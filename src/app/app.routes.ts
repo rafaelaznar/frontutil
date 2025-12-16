@@ -154,6 +154,7 @@ import { RoutedAdminEditZanon } from './component/zanon/routed-admin-edit/routed
 import { RoutedAdminNewZanon } from './component/zanon/routed-admin-new/routed-admin-new';
 import { RoutedAdminRemoveZanon } from './component/zanon/routed-admin-remove/routed-admin-remove';
 import { AdminGuard } from './guards/admin.guard';
+import { UskiAdminEditPage } from './component/uski/pages/admin-edit/admin-edit.page';
 //
 export const routes: Routes = [
   { path: '', component: Home },
@@ -184,14 +185,13 @@ export const routes: Routes = [
   { path: 'silvestre/edit/:id', component: RoutedAdminEditSilvestre },
   { path: 'silvestre/remove/:id', component: RoutedAdminRemoveSilvestre },
   // Vladislav Uski
-  // public
   { path: 'visitas', component: UskiVisitasPage },
   { path: 'visitas/new', component: UskiVisitasNewPage },
   { path: 'visitas/view/:id', component: UskiVisitasViewPage },
-  // admin
-  { path: 'visitas/dashboard', component: UskiAdminPage },
-  { path: 'visitas/dashboard/view/:id', component: UskiAdminViewPage },
-  { path: 'visitas/dashboard/remove/:id', component: UskiAdminRemovePage },
+  { path: 'visitas/dashboard', component: UskiAdminPage, canActivate: [AdminGuard] },
+  { path: 'visitas/dashboard/view/:id', component: UskiAdminViewPage, canActivate: [AdminGuard] },
+  { path: 'visitas/dashboard/remove/:id', component: UskiAdminRemovePage, canActivate: [AdminGuard] },
+  { path: 'visitas/dashboard/edit/:id', component: UskiAdminEditPage, canActivate: [AdminGuard] },
   // Reyna (Frases Motivacionales) routes
   { path: 'reyna', component: ReynaUserPlist },
   { path: 'reyna/post/:id', component: ReynaUserView },
