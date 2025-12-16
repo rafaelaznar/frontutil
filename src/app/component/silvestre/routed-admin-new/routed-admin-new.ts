@@ -26,9 +26,10 @@ export class RoutedAdminNew implements OnInit {
 
   initForm(): void {
     this.silvestreForm = this.fb.group({
-      titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1024)]],
-      descripcion: ['', [Validators.required, Validators.minLength(3)]],
-      urlImagen: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1024)]],
+  titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1024)]],
+  descripcion: ['', [Validators.required, Validators.minLength(3)]],
+  // backend requires min length 5 for urlImagen
+  urlImagen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(2048)]],
     });
   }
 
@@ -54,14 +55,11 @@ export class RoutedAdminNew implements OnInit {
 
     this.submitting = true;
 
-    const payload: ISilvestre = {
-      id: 0,
+    const payload = {
       titulo: this.silvestreForm.value.titulo!,
       descripcion: this.silvestreForm.value.descripcion!,
       urlImagen: this.silvestreForm.value.urlImagen!,
       publicado: false,
-      fechaCreacion: this.toLocalDateTime(), 
-      fechaModificacion: null,
     };
 
     this.silvestreService.create(payload).subscribe({
