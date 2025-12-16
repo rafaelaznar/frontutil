@@ -46,6 +46,7 @@ export class RoutedAdminEdit implements OnInit {
                 Validators.required,
                 Validators.minLength(10)]],
             urlImagen: ['', [Validators.maxLength(100)]],
+            publicado: [false],
         });
     }
 
@@ -57,6 +58,7 @@ export class RoutedAdminEdit implements OnInit {
                     titulo: silvestre.titulo,
                     descripcion: silvestre.descripcion,
                     urlImagen: silvestre.urlImagen,
+                    publicado: silvestre.publicado,
                 });
                 this.loading = false;
             },
@@ -80,6 +82,8 @@ export class RoutedAdminEdit implements OnInit {
             titulo: this.silvestreForm.value.titulo,
             descripcion: this.silvestreForm.value.descripcion,
             urlImagen: this.silvestreForm.value.urlImagen
+            ,
+            publicado: this.silvestreForm.value.publicado
         };
 
         this.silvestreService.update(payload).subscribe({
