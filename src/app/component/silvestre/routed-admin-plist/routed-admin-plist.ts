@@ -22,17 +22,21 @@ export class RoutedAdminPlist {
   rellenando: boolean = false;
   rellenaOk: number | null = null;
   rellenaError: string | null = null;
+  publishingId: number | null = null;
+  publishingAction: 'publicar' | 'despublicar' | null = null;
 
   constructor(private oSilvestreService: SilvestreService) { }
 
   oBotonera: string[] = [];
+  orderField: string = 'id';
+  orderDirection: string = 'asc';
 
   ngOnInit() {
     this.getPage();
   }
 
   getPage() {
-    this.oSilvestreService.getPage(this.numPage, this.numRpp).subscribe({
+  this.oSilvestreService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection).subscribe({
       next: (data: IPage<ISilvestre>) => {
         this.oPage = data;
         this.rellenaOk = this.oPage.totalElements;
@@ -46,6 +50,54 @@ export class RoutedAdminPlist {
         console.error(error);
       },
     });
+  }
+
+  onOrder(order: string) {
+    if (this.orderField === order) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderField = order;
+      this.orderDirection = 'asc';
+    }
+    this.numPage = 0;
+    this.getPage();
+    return false;
+  }
+
+  publicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'publicar';
+    this.oSilvestreService.publicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
+  }
+
+  despublicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'despublicar';
+    this.oSilvestreService.despublicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
   }
 
   goToPage(numPage: number) {
