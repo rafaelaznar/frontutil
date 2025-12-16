@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -32,8 +32,14 @@ export class SoaresRoutedAdminPlist {
   filtroPublicacion: 'todas' | 'publicadas' | 'solicitudes' = 'todas';
   toastMessage: string | null = null;
   toastType: 'success' | 'error' = 'success';
+  itemToDeleteId: number | null = null;
+  itemToView: ISoares | null = null;
+  modalToastMessage: string | null = null;
+  modalToastType: 'success' | 'error' = 'success';
+  confirmandoEliminacion: boolean = false;
+  procesandoAccion: boolean = false;
 
-  constructor(private oSoaresService: SoaresService) { }
+  constructor(private oSoaresService: SoaresService, private router: Router) { }
 
   oBotonera: string[] = [];
 
@@ -195,6 +201,112 @@ export class SoaresRoutedAdminPlist {
         this.mostrarToast('Error al vaciar las preguntas', 'error');
       },
     });
+  }
+
+  setItemToDelete(id: number) {
+    this.itemToDeleteId = id;
+  }
+
+  setItemToView(soares: ISoares) {
+    this.itemToView = soares;
+    this.modalToastMessage = null;
+    this.confirmandoEliminacion = false;
+    this.procesandoAccion = false;
+  }
+
+  cerrarModalVer() {
+    this.itemToView = null;
+    this.modalToastMessage = null;
+    this.confirmandoEliminacion = false;
+    this.procesandoAccion = false;
+  }
+
+  togglePublicacionFromModal() {
+    if (!this.itemToView || this.procesandoAccion) return;
+    
+    this.procesandoAccion = true;
+    this.modalToastMessage = null;
+    const publicacionAnterior = this.itemToView.publicacion;
+    this.itemToView.publicacion = !this.itemToView.publicacion;
+    
+    this.oSoaresService.updateOne(this.itemToView).subscribe({
+      next: () => {
+        this.procesandoAccion = false;
+        this.mostrarToastModal(
+          this.itemToView!.publicacion ? 'Pregunta publicada correctamente' : 'Pregunta despublicada correctamente', 
+          'success'
+        );
+        this.getPage();
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+        this.procesandoAccion = false;
+        this.itemToView!.publicacion = publicacionAnterior;
+        this.mostrarToastModal('Error al actualizar la publicación', 'error');
+      },
+    });
+  }
+
+  solicitarConfirmacionEliminar() {
+    this.confirmandoEliminacion = true;
+    this.modalToastMessage = null;
+  }
+
+  cancelarEliminacion() {
+    this.confirmandoEliminacion = false;
+  }
+
+  confirmarEliminarDesdeModal() {
+    if (!this.itemToView || this.procesandoAccion) return;
+    
+    this.procesandoAccion = true;
+    this.modalToastMessage = null;
+    
+    this.oSoaresService.removeOne(this.itemToView.id).subscribe({
+      next: () => {
+        this.procesandoAccion = false;
+        this.mostrarToast('Pregunta eliminada correctamente', 'success');
+        this.getPage();
+        // Cerrar el modal
+        const modalElement = document.getElementById('modalVer');
+        if (modalElement) {
+          const modal = document.querySelector('#modalVer');
+          modal?.querySelector('[data-bs-dismiss="modal"]')?.dispatchEvent(new Event('click'));
+        }
+        this.itemToView = null;
+        this.confirmandoEliminacion = false;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error eliminando pregunta:', err);
+        this.procesandoAccion = false;
+        this.confirmandoEliminacion = false;
+        this.mostrarToastModal('Error al eliminar la pregunta', 'error');
+      },
+    });
+  }
+
+  confirmarEliminar() {
+    if (!this.itemToDeleteId) return;
+    
+    this.oSoaresService.removeOne(this.itemToDeleteId).subscribe({
+      next: () => {
+        this.mostrarToast('Pregunta eliminada correctamente', 'success');
+        this.itemToDeleteId = null;
+        this.itemToView = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Error eliminando pregunta:', err);
+        this.mostrarToast('Error al eliminar la pregunta', 'error');
+        this.itemToDeleteId = null;
+      },
+    });
+  }
+
+  mostrarToastModal(mensaje: string, tipo: 'success' | 'error') {
+    this.modalToastMessage = mensaje;
+    this.modalToastType = tipo;
+    setTimeout(() => this.modalToastMessage = null, 3000);
   }
 
   mostrarToast(mensaje: string, tipo: 'success' | 'error') {

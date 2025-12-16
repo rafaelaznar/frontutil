@@ -20,6 +20,8 @@ export class SoaresRoutedAdminRemove implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   deleting: boolean = false;
+  toastMessage: string | null = null;
+  toastType: 'success' | 'error' = 'success';
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -51,14 +53,24 @@ export class SoaresRoutedAdminRemove implements OnInit {
     this.soaresService.removeOne(this.oSoares.id).subscribe({
       next: () => {
         this.deleting = false;
-        this.router.navigate(['/soares/admin/plist']);
+        this.mostrarToast('Pregunta eliminada correctamente', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/soares/admin/plist']);
+        }, 2000);
       },
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
         this.error = 'Error al eliminar la pregunta';
+        this.mostrarToast('Error al eliminar la pregunta', 'error');
         console.error(err);
       },
     });
+  }
+
+  mostrarToast(mensaje: string, tipo: 'success' | 'error') {
+    this.toastMessage = mensaje;
+    this.toastType = tipo;
+    setTimeout(() => this.toastMessage = null, 2000);
   }
 
   cancel() {

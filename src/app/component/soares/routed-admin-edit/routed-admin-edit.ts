@@ -23,6 +23,8 @@ export class SoaresRoutedAdminEdit implements OnInit {
     error: string | null = null;
     submitting: boolean = false;
     private originalSoares: ISoares | null = null;
+    toastMessage: string | null = null;
+    toastType: 'success' | 'error' = 'success';
 
     ngOnInit(): void {
         this.initForm();
@@ -80,14 +82,24 @@ export class SoaresRoutedAdminEdit implements OnInit {
         this.soaresService.updateOne(payload).subscribe({
             next: () => {
                 this.submitting = false;
-                this.router.navigate(['/soares/admin/plist']);
+                this.mostrarToast('Pregunta actualizada correctamente', 'success');
+                setTimeout(() => {
+                    this.router.navigate(['/soares/admin/plist']);
+                }, 2000);
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
                 this.error = 'Error al guardar la pregunta';
+                this.mostrarToast('Error al actualizar la pregunta', 'error');
                 console.error(err);
             },
         });
+    }
+
+    mostrarToast(mensaje: string, tipo: 'success' | 'error') {
+        this.toastMessage = mensaje;
+        this.toastType = tipo;
+        setTimeout(() => this.toastMessage = null, 2000);
     }
 
     get preguntas() {

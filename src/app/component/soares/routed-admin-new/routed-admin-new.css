@@ -27,6 +27,8 @@
 input.form-control, textarea.form-control{
   border-radius:8px;
 }
+
+.btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
 }
