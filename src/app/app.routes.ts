@@ -178,11 +178,11 @@ export const routes: Routes = [
   //
   { path: 'silvestre', component: RoutedUserPlistSilvestre },
   { path: 'silvestre/post/:id', component: RoutedUserViewSilvestre },
-  { path: 'silvestre/plist', component: RoutedAdminPlistSilvestre },
-  { path: 'silvestre/view/:id', component: RoutedAdminViewSilvestre },
-  { path: 'silvestre/new', component: RoutedAdminNewSilvestre },
-  { path: 'silvestre/edit/:id', component: RoutedAdminEditSilvestre },
-  { path: 'silvestre/remove/:id', component: RoutedAdminRemoveSilvestre },
+  { path: 'silvestre/plist', component: RoutedAdminPlistSilvestre, canActivate: [AdminGuard] },
+  { path: 'silvestre/view/:id', component: RoutedAdminViewSilvestre, canActivate: [AdminGuard] },
+  { path: 'silvestre/new', component: RoutedAdminNewSilvestre, canActivate: [AdminGuard] },
+  { path: 'silvestre/edit/:id', component: RoutedAdminEditSilvestre, canActivate: [AdminGuard] },
+  { path: 'silvestre/remove/:id', component: RoutedAdminRemoveSilvestre, canActivate: [AdminGuard] },
   // Vladislav Uski
   // public
   { path: 'visitas', component: UskiVisitasPage },
