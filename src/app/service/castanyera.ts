@@ -32,6 +32,20 @@ export class CastanyeraService {
     return this.oHttp.get<ICastanyera>(serverURL + '/castanyera/' + id);
   }
 
+  /**
+   * Try to fetch a single castanyera only if it's public.
+   * Backend should honor the `publico=true` query param and return 404/403 if not public.
+   */
+  getIfPublic(id: number): Observable<ICastanyera> {
+    return this.oHttp.get<ICastanyera>(serverURL + '/castanyera/' + id + '?publico=true').pipe(
+      tap((resp) => console.debug('Castanyera.getIfPublic response:', resp)),
+      catchError((err) => {
+        console.error('Castanyera.getIfPublic error:', err);
+        return throwError(() => err);
+      })
+    );
+  }
+
   create(castanyera: Partial<ICastanyera>): Observable<number> {
     return this.oHttp.post<number>(serverURL + '/castanyera', castanyera).pipe(
       tap((resp) => console.debug('Castanyera.create response:', resp)),
@@ -73,8 +87,7 @@ export class CastanyeraService {
       direction = 'asc';
     }
     const url =
-      serverURL +
-      `/castanyera?page=${page}&size=${rpp}&sort=${order},${direction}`;
+      serverURL + `/castanyera?page=${page}&size=${rpp}&sort=${order},${direction}&publico=true`;
     return this.oHttp.get<IPage<ICastanyera>>(url).pipe(
       tap((resp) => console.debug('Castanyera.getPublicPage response:', resp)),
       catchError((err) => {
