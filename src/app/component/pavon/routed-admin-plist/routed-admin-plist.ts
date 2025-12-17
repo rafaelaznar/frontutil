@@ -6,11 +6,14 @@ import { IRecurso } from '../../../model/pavon/recurso';
 import { PavonService } from '../../../service/pavon/recurso';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp, MatDialogModule, DatetimePipe],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -26,13 +29,16 @@ export class RoutedAdminPlistPavon {
   publishingAction: 'publicar' | 'despublicar' | null = null;
   sortField: string = 'id';
   sortDirection: 'asc' | 'desc' = 'asc';
+  emptying: boolean = false;
+  emptyOk: number | null = null;
+  emptyError: string | null = null;
 
   // Mensajes y total
   message: string | null = null;
   totalRecords: number = 0;
   private messageTimeout: any = null;
 
-  constructor(private oPavonService: PavonService, private route: ActivatedRoute) { }
+  constructor(private oPavonService: PavonService, private dialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar) { }
 
   oBotonera: string[] = [];
   orderField: string = 'id';
@@ -168,4 +174,44 @@ export class RoutedAdminPlistPavon {
     });
     return false;
   }
+
+  openEmptyConfirm() {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: 'Vaciar tabla de Posts',
+          message: '¿Está seguro de que desea borrar TODOS los posts? Esta acción es irreversible.'
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.doEmpty();
+        }
+      });
+    }
+
+  private doEmpty() {
+    this.emptying = true;
+    this.emptyOk = null;
+    this.emptyError = null;
+    // notificar inicio con el conteo actual
+    this.snackBar.open(`Vaciando tabla... (actual: ${this.totalRecords})`, 'Cerrar', { duration: 3000 });
+    this.oPavonService.empty().subscribe({
+      next: (count: number) => {
+        this.emptying = false;
+        this.emptyOk = count;
+        // refrescar listado
+        this.numPage = 0;
+        this.getPage();
+        this.snackBar.open(`Tabla vaciada. Eliminados: ${count}. Total ahora: 0`, 'Cerrar', { duration: 4000 });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.emptying = false;
+        this.emptyError = 'Error vaciando la tabla';
+        console.error(err);
+        this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
+      }
+    });
+  }
+
 }

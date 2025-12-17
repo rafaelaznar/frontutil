@@ -61,6 +61,23 @@
           } Generar
         </button>
 
+        <button
+          class="btn btn-danger btn-sm position-relative"
+          [disabled]="emptying"
+          (click)="openEmptyConfirm()"
+          title="Vaciar tabla"
+        >
+          @if (emptying) {
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          } @if (!emptying) {
+          <i class="bi bi-trash me-2"></i>
+          } Vaciar tabla
+        </button>
+
         @if (rellenaOk) {
         <div class="text-success small d-flex align-items-center">
           <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} posts
