@@ -44,15 +44,25 @@
           } Generar
         </button>
 
-        @if (rellenaOk) {
+        <button
+          class="btn btn-danger btn-sm position-relative"
+          [disabled]="emptying"
+          (click)="openEmptyConfirm()"
+          title="Vaciar tabla"
+        >
+          @if (emptying) {
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          } @if (!emptying) {
+          <i class="bi bi-trash me-2"></i>
+          } Vaciar tabla
+        </button>
         <div class="text-success small d-flex align-items-center">
-          <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} posts
+          <i class="bi bi-check-circle me-1"></i>Registros: {{ totalElementsCount }}
         </div>
-        } @if (rellenaError) {
-        <div class="text-danger small d-flex align-items-center">
-          <i class="bi bi-exclamation-triangle me-1"></i>{{ rellenaError }}
-        </div>
-        }
       </div>
     </div>
   </div>
@@ -72,60 +82,55 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th scope="col" (click)="onOrder('id')" style="cursor:pointer; width:5%">
-            <span class="header-inline">ID
-              @if (orderField === 'id') {
-                @if (orderDirection === 'asc') {
-                  <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
-                } @if (orderDirection === 'desc') {
-                  <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
-                }
-              }
+          <th scope="col" (click)="onOrder('id')" style="cursor: pointer; width: 5%">
+            <span class="header-inline"
+              >ID @if (orderField === 'id') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('titulo')" style="cursor:pointer; width:35%">
-            <span class="header-inline">Título
-              @if (orderField === 'titulo') {
-                @if (orderDirection === 'asc') {
-                  <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
-                } @if (orderDirection === 'desc') {
-                  <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
-                }
-              }
+          <th scope="col" (click)="onOrder('titulo')" style="cursor: pointer; width: 35%">
+            <span class="header-inline"
+              >Título @if (orderField === 'titulo') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
             </span>
           </th>
-          <th scope="col" style="width:20%">Etiquetas</th>
-          <th scope="col" (click)="onOrder('publicado')" style="cursor:pointer; width:10%">
-            <span class="header-inline">Estado
-              @if (orderField === 'publicado') {
-                @if (orderDirection === 'asc') {
-                    <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
-                } @if (orderDirection === 'desc') {
-                    <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
-                }
-              }
+          <th scope="col" style="width: 20%">Etiquetas</th>
+          <th scope="col" (click)="onOrder('publicado')" style="cursor: pointer; width: 10%">
+            <span class="header-inline"
+              >Estado @if (orderField === 'publicado') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('fechaCreacion')" style="cursor:pointer; width:15%">
-            <span class="header-inline">Creación
-              @if (orderField === 'fechaCreacion') {
-                @if (orderDirection === 'asc') {
-                  <i class="bi bi-caret-up-fill ms-1"></i>
-                } @if (orderDirection === 'desc') {
-                  <i class="bi bi-caret-down-fill ms-1"></i>
-                }
-              }
+          <th scope="col" (click)="onOrder('fechaCreacion')" style="cursor: pointer; width: 15%">
+            <span class="header-inline"
+              >Creación @if (orderField === 'fechaCreacion') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1"></i>
+              } }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('fechaModificacion')" style="cursor:pointer; width:10%">
-            <span class="header-inline">Actualización
-              @if (orderField === 'fechaModificacion') {
-                @if (orderDirection === 'asc') {
-                  <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
-                } @if (orderDirection === 'desc') {
-                  <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
-                }
-              }
+          <th
+            scope="col"
+            (click)="onOrder('fechaModificacion')"
+            style="cursor: pointer; width: 10%"
+          >
+            <span class="header-inline"
+              >Actualización @if (orderField === 'fechaModificacion') { @if (orderDirection ===
+              'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
             </span>
           </th>
           <th scope="col">Operaciones</th>
