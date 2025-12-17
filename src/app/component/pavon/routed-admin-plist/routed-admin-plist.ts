@@ -29,7 +29,7 @@ export class RoutedAdminPlistPavon {
 
   // Mensajes y total
   message: string | null = null;
-  totalRecords: number | null = null;
+  totalRecords: number = 0;
   private messageTimeout: any = null;
 
   constructor(private oPavonService: PavonService, private route: ActivatedRoute) { }
@@ -61,7 +61,7 @@ export class RoutedAdminPlistPavon {
     this.oPavonService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection).subscribe({
       next: (data: IPage<IRecurso>) => {
         this.oPage = data;
-        this.totalRecords = data.totalElements;
+        this.totalRecords = data?.totalElements ?? 0;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
