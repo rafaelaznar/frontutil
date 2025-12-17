@@ -87,6 +87,7 @@ export class RoutedAdminPlist {
       this.oReynaService.publicar(oReyna.id).subscribe({
         next: (id: number) => {
           oReyna.esPublica = true;
+          oReyna.fechaModificacion = new Date().toString();
         },
         error: (err: HttpErrorResponse) => {
           console.error(err);
@@ -96,6 +97,7 @@ export class RoutedAdminPlist {
       this.oReynaService.despublicar(oReyna.id).subscribe({
         next: (id: number) => {
           oReyna.esPublica = false;
+          oReyna.fechaModificacion = new Date().toString();
         },
         error: (err: HttpErrorResponse) => {
           console.error(err);
