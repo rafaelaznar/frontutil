@@ -4,8 +4,9 @@ export interface IPelicula {
   titulo: string;
   genero: string;
   director: string;
-  puntuacion: number; // Puntuación del 1 al 10
+  puntuacion: number;
   anyo: number;
+  publicado: boolean;
   fechaCreacion: string;
   fechaModificacion: any;
 }

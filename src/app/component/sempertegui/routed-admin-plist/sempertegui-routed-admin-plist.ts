@@ -29,15 +29,15 @@ export class SemperteguiRoutedAdminPlist {
   constructor(private semperteguiService: SemperteguiService) { }
 
   oBotonera: string[] = [];
-  // orderField: string = 'id';
-  // orderDirection: string = 'asc';
+  orderField: string = 'id';
+  orderDirection: string = 'asc';
 
   ngOnInit() {
     this.getPage();
   }
 
   getPage() {
-    this.semperteguiService.getPage(this.numPage, this.numRpp).subscribe({
+    this.semperteguiService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection).subscribe({
       next: (data: IPage<IPelicula>) => {
         this.oPage = data;
         this.rellenaOk = this.oPage.totalElements;
@@ -53,17 +53,17 @@ export class SemperteguiRoutedAdminPlist {
     });
   }
 
-  // onOrder(order: string) {
-  //   if (this.orderField === order) {
-  //     this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
-  //   } else {
-  //     this.orderField = order;
-  //     this.orderDirection = 'asc';
-  //   }
-  //   this.numPage = 0;
-  //   this.getPage();
-  //   return false;
-  // }
+  onOrder(order: string) {
+    if (this.orderField === order) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderField = order;
+      this.orderDirection = 'asc';
+    }
+    this.numPage = 0;
+    this.getPage();
+    return false;
+  }
 
   goToPage(numPage: number) {
     this.numPage = numPage;
@@ -99,4 +99,41 @@ export class SemperteguiRoutedAdminPlist {
       }
     });
   }
+
+  publicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'publicar';
+    this.semperteguiService.publicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
+  }
+
+  despublicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'despublicar';
+    this.semperteguiService.despublicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
+  }
+
 }
