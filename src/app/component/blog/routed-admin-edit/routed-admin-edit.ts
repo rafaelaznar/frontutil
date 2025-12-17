@@ -91,7 +91,11 @@ export class RoutedAdminEdit implements OnInit {
         this.blogService.update(payload).subscribe({
             next: () => {
                 this.submitting = false;
-                this.router.navigate(['/blog/plist']);
+                                    // mark form as pristine so canDeactivate guard won't ask confirmation
+                                    if (this.blogForm) {
+                                            this.blogForm.markAsPristine();
+                                    }
+                                    this.router.navigate(['/blog/plist']);
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;

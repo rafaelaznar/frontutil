@@ -64,6 +64,10 @@ export class RoutedAdminNew implements OnInit {
     this.blogService.create(payload).subscribe({
       next: () => {
         this.submitting = false;
+        // mark form as pristine so canDeactivate guard won't ask confirmation
+        if (this.blogForm) {
+          this.blogForm.markAsPristine();
+        }
         this.router.navigate(['/blog/plist']);
       },
       error: (err: HttpErrorResponse) => {
