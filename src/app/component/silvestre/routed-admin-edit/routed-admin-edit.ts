@@ -2,12 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SilvestreService } from '../../../service/silvestre';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ISilvestre } from '../../../model/silvestre';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-routed-admin-edit',
-    imports: [ReactiveFormsModule, RouterLink],
+    imports: [ReactiveFormsModule, RouterLink, MatSnackBarModule],
     templateUrl: './routed-admin-edit.html',
     styleUrl: './routed-admin-edit.css',
 })
@@ -16,6 +17,7 @@ export class RoutedAdminEdit implements OnInit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private silvestreService = inject(SilvestreService);
+    private snackBar = inject(MatSnackBar);
 
     silvestreForm!: FormGroup;
     silvestreId: number | null = null;
@@ -91,11 +93,13 @@ export class RoutedAdminEdit implements OnInit {
                 this.submitting = false;
                 // antes: this.router.navigate(['/blog/plist']);
                 this.router.navigate(['/silvestre/plist']);
+                this.snackBar.open('Publicación actualizada', 'Cerrar', { duration: 3000 });
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
                 this.error = 'Error al guardar el post';
                 console.error(err);
+                this.snackBar.open('Error al guardar la publicación', 'Cerrar', { duration: 4000 });
             },
         });
     }

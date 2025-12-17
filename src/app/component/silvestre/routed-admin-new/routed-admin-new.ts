@@ -2,12 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SilvestreService } from '../../../service/silvestre';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ISilvestre } from '../../../model/silvestre';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-routed-admin-new',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, MatSnackBarModule],
   templateUrl: './routed-admin-new.html',
   styleUrl: './routed-admin-new.css',
 })
@@ -15,6 +16,7 @@ export class RoutedAdminNew implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private silvestreService = inject(SilvestreService);
+  private snackBar = inject(MatSnackBar);
 
   silvestreForm!: FormGroup;
   error: string | null = null;
@@ -65,12 +67,14 @@ export class RoutedAdminNew implements OnInit {
     this.silvestreService.create(payload).subscribe({
       next: () => {
         this.submitting = false;
-        this.router.navigate(['/silvestre/plist']);
+  this.router.navigate(['/silvestre/plist']);
+  this.snackBar.open('Publicación creada', 'Cerrar', { duration: 3000 });
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
         this.error = 'Error al crear la imagen';
         console.error(err);
+  this.snackBar.open('Error al crear la publicación', 'Cerrar', { duration: 4000 });
       },
     });
   }

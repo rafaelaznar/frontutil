@@ -179,9 +179,14 @@
               </button>
               }
 
-              <a [routerLink]="['/silvestre/remove', oSilvestre.id]" class="btn btn-outline-danger">
+              <!-- Open confirm dialog and delete in-place (no navigation) -->
+              <button class="btn btn-outline-danger" (click)="onDelete(oSilvestre.id)" [disabled]="deletingId === oSilvestre.id">
+                @if (deletingId === oSilvestre.id) {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                } @if (!(deletingId === oSilvestre.id)) {
                 <i class="bi bi-trash"></i>
-              </a>
+                }
+              </button>
             </div>
           </td>
         </tr>

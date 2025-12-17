@@ -7,6 +7,9 @@ import { SilvestreService } from '../../../service/silvestre';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-routed-admin-plist',
@@ -25,7 +28,7 @@ export class RoutedAdminPlist {
   publishingId: number | null = null;
   publishingAction: 'publicar' | 'despublicar' | null = null;
 
-  constructor(private oSilvestreService: SilvestreService) { }
+  constructor(private oSilvestreService: SilvestreService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   oBotonera: string[] = [];
   orderField: string = 'id';
@@ -33,6 +36,33 @@ export class RoutedAdminPlist {
 
   ngOnInit() {
     this.getPage();
+  }
+
+  // delete flow with confirmation dialog (mirrors blog implementation)
+  deletingId: number | null = null;
+
+  onDelete(id: number) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Borrar publicación', message: '¿Está seguro de que desea borrar esta publicación?' }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (!result) return;
+      this.deletingId = id;
+      this.oSilvestreService.delete(id).subscribe({
+        next: () => {
+          this.deletingId = null;
+          // refresh page
+          this.getPage();
+          this.snackBar.open('Publicación borrada', 'Cerrar', { duration: 3000 });
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error(err);
+          this.deletingId = null;
+          this.snackBar.open('Error borrando la publicación', 'Cerrar', { duration: 4000 });
+        }
+      });
+    });
   }
 
   getPage() {
