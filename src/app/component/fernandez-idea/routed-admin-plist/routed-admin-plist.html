@@ -57,18 +57,26 @@
       }
   </div>
 
+  @if (infoMessage) {
+    <div class="alert alert-success" role="status">{{ infoMessage }}</div>
+  }
+  @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+  }
 
   <div class="d-flex justify-content-between align-items-center my-3 toolbar-grid">
     <div class="toolbar-left d-flex gap-2 align-items-center">
-      <input #searchBox type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." aria-label="Buscar ideas" (input)="onSearch(searchBox.value)" (keyup.enter)="onSearchImmediate(searchBox.value)" />
+      <input type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." aria-label="Buscar ideas" [(ngModel)]="searchTerm" (input)="onSearchDebounce()" (keyup.enter)="onSearchImmediate()" />
     </div>
 
     <div class="toolbar-center d-flex justify-content-center align-items-center">
-      <app-paginacion
-        [numPage]="numPage"
-        [numPages]="oPage?.totalPages || 1"
-        (pageChange)="goToPage($event)"
-      ></app-paginacion>
+      @if ((oPage?.totalPages ?? 0) > 0) {
+        <app-paginacion
+          [numPage]="numPage"
+          [numPages]="oPage?.totalPages || 1"
+          (pageChange)="goToPage($event)"
+        ></app-paginacion>
+      }
     </div>
 
     <div class="toolbar-right d-flex align-items-center justify-content-end gap-2">
@@ -79,16 +87,38 @@
     </div>
   </div>
 
+  <div class="d-flex justify-content-end">
+    <small class="text-muted">
+      @if (searchTerm || (categoriaFilter !== 'ALL')) {
+        Mostrando <strong>{{ totalRecordsFiltered }}</strong> resultados (filtrados) de <strong>{{ totalRecordsAll }}</strong> ideas (totales).
+      } @else {
+        Total de ideas: <strong>{{ totalRecordsAll }}</strong>
+      }
+    </small>
+  </div>
+
   <div class="d-flex justify-content-center">
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Título</th>
-          <th scope="col">Categoría</th>
-          <th scope="col">Público</th>
-          <th scope="col">Creación</th>
-          <th scope="col">Modificación</th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('id')">ID</button>
+          </th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('titulo')">Título</button>
+          </th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('categoria')">Categoría</button>
+          </th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('publico')">Publicado</button>
+          </th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('fechaCreacion')">Creación</button>
+          </th>
+          <th scope="col">
+            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('fechaModificacion')">Modificación</button>
+          </th>
           <th scope="col">Operaciones</th>
         </tr>
       </thead>
@@ -107,15 +137,24 @@
           </td>
           <td>
             @if (oIdea.publico) {
-              <i class="bi bi-check-circle-fill text-success"></i>
+              <i class="bi bi-check-circle-fill text-success" title="Publicado"></i>
             } @else {
-              <i class="bi bi-x-circle-fill text-danger"></i>
+              <i class="bi bi-x-circle-fill text-danger" title="No publicado"></i>
             }
           </td>
           <td>{{ oIdea.fechaCreacion }}</td>
           <td>{{ oIdea.fechaModificacion }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+              @if (oIdea.publico) {
+                <button class="btn btn-outline-warning" type="button" title="Despublicar" (click)="togglePublic(oIdea)">
+                  <i class="bi bi-unlock"></i>
+                </button>
+              } @else {
+                <button class="btn btn-outline-success" type="button" title="Publicar" (click)="togglePublic(oIdea)">
+                  <i class="bi bi-lock"></i>
+                </button>
+              }
               <a [routerLink]="['/fernandez-idea/admin/view', oIdea.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
               </a>
@@ -132,4 +171,10 @@
       </tbody>
     </table>
   </div>
+
+  @if (oPage && oPage.content && oPage.content.length === 0) {
+    <div class="alert alert-info text-center" role="alert">
+      No hay ideas que mostrar con los filtros actuales.
+    </div>
+  }
 </div>

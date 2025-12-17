@@ -3,7 +3,12 @@ import { Injectable, inject } from '@angular/core';
 import { serverURL } from '../environment/environment';
 import { IPage } from '../model/plist';
 import { IFernandezIdea } from '../model/fernandez-idea';
-import { Observable, forkJoin, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
+
+// Extender IPage para incluir totalElementsAll (total sin filtrar)
+export interface IPageWithTotal<T> extends IPage<T> {
+  totalElementsAll?: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -11,51 +16,104 @@ import { Observable, forkJoin, map } from 'rxjs';
 export class FernandezIdeaService {
   private readonly http = inject(HttpClient);
 
-  getPage(page: number, rpp: number, order: string = '', direction: string = '', publico?: boolean, search?: string, categoria?: string): Observable<IPage<IFernandezIdea>> {
-    // Force ordering by id ascending to ensure consistent display order
-    order = 'id';
-    direction = 'asc';
-    // Construimos params dinámicamente; sólo añadimos 'publico' si se pasa
-    // Backend expects separate 'sort' (field) and 'direction' (asc|desc) query params
+  getPage(
+    page: number,
+    rpp: number,
+    order: string = 'id',
+    direction: string = 'asc',
+    publico?: boolean,
+    search?: string
+  ): Observable<IPageWithTotal<IFernandezIdea>> {
+    const hasSearch = search && search.trim() !== '';
+    
+    // Si hay búsqueda, pedimos TODOS los registros para filtrar y paginar localmente
+    // Si no hay búsqueda, pedimos solo la página necesaria
     let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', rpp.toString())
-      .set('sort', order)
-      .set('direction', direction);
+      .set('page', hasSearch ? '0' : page.toString())
+      .set('size', hasSearch ? '10000' : rpp.toString())
+      .set('sort', `${order || 'id'},${direction || 'asc'}`);
     if (publico !== undefined) {
       params = params.set('publico', String(publico));
     }
-    if (search !== undefined && search !== '') {
-      params = params.set('search', search);
-    }
-    if (categoria !== undefined && categoria !== '' && categoria !== 'ALL') {
-      params = params.set('categoria', categoria);
-    }
-
-    const pageRequest$ = this.http.get<IPage<IFernandezIdea>>(serverURL + '/idea', { params });
-  // Debug: log the request params so we can verify 'search' is being sent
-  console.debug('FernandezIdeaService.getPage params:', params.toString(), 'url:', serverURL + '/idea');
-    // Si se pasa 'publico' pedimos el conteo filtrado; si no, pedimos el conteo general
-  const countRequest$ = this.count(publico, search, categoria);
-
-    return forkJoin([pageRequest$, countRequest$]).pipe(
-      map(([pageData, countPublic]) => {
-        // Defensive: ensure content is an array so templates won't break
-        pageData.content = pageData.content || [];
-        // Debug extra: log sizes so we can trace why no items are shown
-        console.debug('FernandezIdeaService.getPage response - content.length:', pageData.content.length, 'countPublic:', countPublic, 'params:', params.toString());
-        // Filtrado defensivo: eliminar cualquier idea privada que el backend haya devuelto por error cuando se pidió publico=true
+    
+    // UNA SOLA PETICIÓN
+    return this.http.get<IPage<IFernandezIdea>>(serverURL + '/idea', { params }).pipe(
+      map((pageData) => {
+        let content = pageData.content || [];
+        const totalElementsAll = content.length; // Total ANTES de filtrar
+        
+        // Filtrado defensivo si se pidió publico=true
         if (publico === true) {
-          pageData.content = pageData.content.filter((i: IFernandezIdea) => i.publico);
+          content = content.filter((i: IFernandezIdea) => i.publico);
         }
-        // Ajustar totalElements y totalPages usando el conteo (si el backend devolvió conteo correcto esto coincide)
-        if (typeof countPublic === 'number') {
-          pageData.totalElements = countPublic;
-          pageData.totalPages = Math.max(1, Math.ceil(countPublic / rpp));
+        
+        // BÚSQUEDA LOCAL: filtrar por título o comentario
+        if (hasSearch) {
+          const term = search!.trim().toLowerCase();
+          content = content.filter((i: IFernandezIdea) =>
+            (i.titulo && i.titulo.toLowerCase().includes(term)) ||
+            (i.comentario && i.comentario.toLowerCase().includes(term))
+          );
+          
+          // ORDENAMIENTO LOCAL después de filtrar
+          content = this.sortContent(content, order, direction);
+          
+          // Calcular paginación local
+          const totalElements = content.length;
+          const totalPages = Math.ceil(totalElements / rpp) || 1;
+          const start = page * rpp;
+          const end = start + rpp;
+          
+          return {
+            content: content.slice(start, end),
+            totalElements,
+            totalElementsAll, // Total sin filtrar
+            totalPages,
+            number: page,
+            size: rpp,
+            first: page === 0,
+            last: page >= totalPages - 1,
+            empty: totalElements === 0
+          } as IPageWithTotal<IFernandezIdea>;
         }
-        return pageData;
+        
+        // Sin búsqueda: aplicar ordenamiento local para desempate correcto por ID
+        content = this.sortContent(content, order, direction);
+        pageData.content = content;
+        (pageData as IPageWithTotal<IFernandezIdea>).totalElementsAll = totalElementsAll;
+        return pageData as IPageWithTotal<IFernandezIdea>;
       })
     );
+  }
+
+  // Ordenar contenido localmente
+  private sortContent(content: IFernandezIdea[], order: string, direction: string): IFernandezIdea[] {
+    const dir = direction === 'desc' ? -1 : 1;
+    return content.sort((a, b) => {
+      let valA: any = (a as any)[order];
+      let valB: any = (b as any)[order];
+      
+      // Manejar fechas
+      if (order === 'fechaCreacion' || order === 'fechaModificacion') {
+        valA = valA ? new Date(valA).getTime() : 0;
+        valB = valB ? new Date(valB).getTime() : 0;
+      }
+      
+      // Manejar strings
+      if (typeof valA === 'string') valA = valA.toLowerCase();
+      if (typeof valB === 'string') valB = valB.toLowerCase();
+      
+      if (valA < valB) return -1 * dir;
+      if (valA > valB) return 1 * dir;
+      
+      // Si son iguales y ordenamos por fecha, desempatar por id
+      if (order === 'fechaCreacion' || order === 'fechaModificacion') {
+        if (a.id < b.id) return -1 * dir;
+        if (a.id > b.id) return 1 * dir;
+      }
+      
+      return 0;
+    });
   }
 
   get(id: number): Observable<IFernandezIdea> {
@@ -72,6 +130,14 @@ export class FernandezIdeaService {
 
   delete(id: number): Observable<number> {
     return this.http.delete<number>(serverURL + '/idea/' + id);
+  }
+
+  publicar(id: number): Observable<number> {
+    return this.http.put<number>(serverURL + '/idea/publicar/' + id, {});
+  }
+
+  despublicar(id: number): Observable<number> {
+    return this.http.put<number>(serverURL + '/idea/despublicar/' + id, {});
   }
 
   count(publico?: boolean, search?: string, categoria?: string): Observable<number> {

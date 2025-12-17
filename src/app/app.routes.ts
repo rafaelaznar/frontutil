@@ -224,13 +224,13 @@ export const routes: Routes = [
   { path: 'castanyera/new', component: CastanyeraRoutedAdminNew },
   { path: 'castanyera/edit/:id', component: CastanyeraRoutedAdminEdit },
   { path: 'castanyera/remove/:id', component: CastanyeraRoutedAdminRemove },
-  // Rutas de Fernandez Ideas - Administración
-  { path: 'fernandez-idea/admin/plist', component: FernandezRoutedAdminPlist },
-  { path: 'fernandez-idea/admin/view/:id', component: FernandezRoutedAdminView },
-  { path: 'fernandez-idea/admin/new', component: FernandezRoutedAdminNew },
-  { path: 'fernandez-idea/admin/edit/:id', component: FernandezRoutedAdminEdit },
-  { path: 'fernandez-idea/admin/remove/:id', component: FernandezRoutedAdminRemove },
-  // Rutas de Fernandez Ideas - Usuario
+  // Rutas de Fernandez Ideas - Administración (protegidas con AdminGuard)
+  { path: 'fernandez-idea/admin/plist', component: FernandezRoutedAdminPlist, canActivate: [AdminGuard] },
+  { path: 'fernandez-idea/admin/view/:id', component: FernandezRoutedAdminView, canActivate: [AdminGuard] },
+  { path: 'fernandez-idea/admin/new', component: FernandezRoutedAdminNew, canActivate: [AdminGuard] },
+  { path: 'fernandez-idea/admin/edit/:id', component: FernandezRoutedAdminEdit, canActivate: [AdminGuard] },
+  { path: 'fernandez-idea/admin/remove/:id', component: FernandezRoutedAdminRemove, canActivate: [AdminGuard] },
+  // Rutas de Fernandez Ideas - Usuario (públicas)
   { path: 'fernandez-idea/user/plist', component: FernandezRoutedUserPlist },
   { path: 'fernandez-idea/user/view/:id', component: FernandezRoutedUserView },
   { path: 'fernandez-idea', redirectTo: 'fernandez-idea/user/plist', pathMatch: 'full' },

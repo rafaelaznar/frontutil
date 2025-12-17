@@ -20,6 +20,7 @@ export class FernandezRoutedAdminRemove implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   deleting: boolean = false;
+  info: string | null = null;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -47,11 +48,23 @@ export class FernandezRoutedAdminRemove implements OnInit {
 
   confirmDelete() {
     if (!this.oIdea) return;
+
+    const ok = confirm(
+      `BORRADO IRREVERSIBLE.\n\n¿Seguro que deseas borrar la idea "${this.oIdea.titulo}" (ID ${this.oIdea.id})?`
+    );
+    if (!ok) {
+      return;
+    }
+
     this.deleting = true;
+    this.info = null;
+    this.error = null;
     this.ideaService.delete(this.oIdea.id).subscribe({
       next: () => {
         this.deleting = false;
-        this.router.navigate(['/fernandez-idea/admin/plist']);
+        this.info = 'Idea borrada correctamente.';
+        // pequeña pausa para que el usuario vea el mensaje
+        setTimeout(() => this.router.navigate(['/fernandez-idea/admin/plist']), 700);
       },
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
