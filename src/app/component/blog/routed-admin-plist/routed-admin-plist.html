@@ -209,15 +209,18 @@
       </tbody>
     </table>
   </div>
-
-  <div class="d-flex justify-content-center my-4" [hidden]="totalElementsCount > 0">
-    <div class="alert alert-secondary text-center w-100" style="max-width:720px">
+  @if (totalElementsCount === 0) {
+  <div class="d-flex justify-content-center my-4">
+    <div class="alert alert-secondary text-center w-100" style="max-width: 720px">
       <h5 class="mb-1">No hay posts</h5>
       <p class="small mb-2">No hay registros para mostrar en este momento.</p>
       <div>
         <a [routerLink]="['/blog/new']" class="btn btn-sm btn-primary me-2">Crear primer post</a>
-        <button class="btn btn-sm btn-outline-secondary" (click)="generarFake()">Generar datos de prueba</button>
+        <button class="btn btn-sm btn-outline-secondary" (click)="generarFake()">
+          Generar datos de prueba
+        </button>
       </div>
     </div>
   </div>
+  }
 </div>
