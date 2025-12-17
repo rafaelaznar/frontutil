@@ -35,6 +35,9 @@ export class FernandezRoutedAdminPlist {
   pendingBulkAmount: number | null = null;
   // Loading indicator for bulk creation
   isBulkLoading: boolean = false;
+  // Estado para vaciar la tabla
+  isEmptying: boolean = false;
+  showEmptyWarning: boolean = false;
 
   // UX feedback
   infoMessage: string | null = null;
@@ -202,5 +205,43 @@ export class FernandezRoutedAdminPlist {
     cancelBulkCreate() {
       this.showBulkWarning = false;
       this.pendingBulkAmount = null;
+    }
+
+    /**
+     * Muestra el modal de confirmación para vaciar la tabla
+     */
+    requestEmptyTable() {
+      this.showEmptyWarning = true;
+    }
+
+    /**
+     * Cancela la operación de vaciar tabla
+     */
+    cancelEmptyTable() {
+      this.showEmptyWarning = false;
+    }
+
+    /**
+     * Ejecuta el vaciado de la tabla
+     */
+    emptyTable() {
+      this.showEmptyWarning = false;
+      this.isEmptying = true;
+      this.infoMessage = null;
+      this.errorMessage = null;
+
+      this.oIdeaService.empty().subscribe({
+        next: (count: number) => {
+          this.isEmptying = false;
+          this.infoMessage = `Tabla vaciada correctamente. Se eliminaron ${count} ideas.`;
+          this.numPage = 0;
+          this.getPage();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.isEmptying = false;
+          this.debugging && console.error(error);
+          this.errorMessage = 'Error al vaciar la tabla.';
+        },
+      });
     }
 }

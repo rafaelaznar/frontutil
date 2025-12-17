@@ -159,4 +159,11 @@ export class FernandezIdeaService {
       // El backend debe tener un endpoint tipo /idea/bulk/{amount}
       return this.http.post<number>(serverURL + `/idea/bulk/${amount}`, {});
     }
+
+    /**
+     * Vaciar la tabla de ideas (DELETE /idea/empty)
+     */
+    empty(): Observable<number> {
+      return this.http.delete<number>(serverURL + '/idea/empty');
+    }
 }
