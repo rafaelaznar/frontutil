@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SilvestreService } from '../../../service/silvestre';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ISilvestre } from '../../../model/silvestre';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,6 +19,7 @@ export class RoutedAdminEdit implements OnInit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private silvestreService = inject(SilvestreService);
+    private dialog = inject(MatDialog);
     private snackBar = inject(MatSnackBar);
 
     silvestreForm!: FormGroup;
@@ -89,19 +92,22 @@ export class RoutedAdminEdit implements OnInit {
         };
 
         this.silvestreService.update(payload).subscribe({
-            next: () => {
-                this.submitting = false;
-                // antes: this.router.navigate(['/blog/plist']);
-                this.router.navigate(['/silvestre/plist']);
-                this.snackBar.open('Publicación actualizada', 'Cerrar', { duration: 3000 });
-            },
-            error: (err: HttpErrorResponse) => {
-                this.submitting = false;
-                this.error = 'Error al guardar el post';
-                console.error(err);
-                this.snackBar.open('Error al guardar la publicación', 'Cerrar', { duration: 4000 });
-            },
-        });
+                next: () => {
+                    this.submitting = false;
+                    // marcar formulario como limpio para evitar prompt del guard
+                    if (this.silvestreForm) {
+                        this.silvestreForm.markAsPristine();
+                    }
+                    this.router.navigate(['/silvestre/plist']);
+                    this.snackBar.open('Publicación actualizada', 'Cerrar', { duration: 3000 });
+                },
+                error: (err: HttpErrorResponse) => {
+                    this.submitting = false;
+                    this.error = 'Error al guardar el post';
+                    console.error(err);
+                    this.snackBar.open('Error al guardar la publicación', 'Cerrar', { duration: 4000 });
+                },
+            });
     }
 
     get titulo() {
@@ -114,5 +120,19 @@ export class RoutedAdminEdit implements OnInit {
 
     get urlImagen() {
         return this.silvestreForm.get('urlImagen');
+    }
+
+    // Guard: ask confirmation if the form has unsaved changes
+    canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+        if (!this.silvestreForm || !this.silvestreForm.dirty) {
+            return true;
+        }
+        const ref = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'Cambios sin guardar',
+                message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+            }
+        });
+        return ref.afterClosed();
     }
 }

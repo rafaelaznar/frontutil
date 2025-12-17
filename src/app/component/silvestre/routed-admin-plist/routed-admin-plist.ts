@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 
 @Component({
   selector: 'app-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe, MatDialogModule, MatSnackBarModule],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -27,6 +27,12 @@ export class RoutedAdminPlist {
   rellenaError: string | null = null;
   publishingId: number | null = null;
   publishingAction: 'publicar' | 'despublicar' | null = null;
+  // estado para vaciar la tabla
+  emptying: boolean = false;
+  emptyOk: number | null = null;
+  emptyError: string | null = null;
+  // contador actual de elementos en la tabla
+  totalElementsCount: number = 0;
 
   constructor(private oSilvestreService: SilvestreService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
@@ -69,7 +75,9 @@ export class RoutedAdminPlist {
   this.oSilvestreService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection).subscribe({
       next: (data: IPage<ISilvestre>) => {
         this.oPage = data;
-        this.rellenaOk = this.oPage.totalElements;
+  // actualizar contador actual
+  this.totalElementsCount = data.totalElements ?? 0;
+  this.rellenaOk = this.totalElementsCount;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
@@ -161,6 +169,45 @@ export class RoutedAdminPlist {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
         console.error(err);
+      }
+    });
+  }
+
+  openEmptyConfirm() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Vaciar tabla de Publicaciones',
+        message: '\u00BFEst\u00e1 seguro de que desea borrar TODAS las publicaciones? Esta acci\u00f3n es irreversible.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.doEmpty();
+      }
+    });
+  }
+
+  private doEmpty() {
+    this.emptying = true;
+    this.emptyOk = null;
+    this.emptyError = null;
+    // notificar inicio con el conteo actual
+    this.snackBar.open(`Vaciando tabla... (actual: ${this.rellenaOk ?? 0})`, 'Cerrar', { duration: 3000 });
+    this.oSilvestreService.empty().subscribe({
+      next: (count: number) => {
+        this.emptying = false;
+        this.emptyOk = count;
+        // refrescar listado
+        this.numPage = 0;
+        this.getPage();
+        this.snackBar.open(`Tabla vaciada. Eliminados: ${count}.`, 'Cerrar', { duration: 4000 });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.emptying = false;
+        this.emptyError = 'Error vaciando la tabla';
+        console.error(err);
+        this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
       }
     });
   }

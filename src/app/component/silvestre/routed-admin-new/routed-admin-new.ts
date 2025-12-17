@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SilvestreService } from '../../../service/silvestre';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ISilvestre } from '../../../model/silvestre';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -16,6 +18,7 @@ export class RoutedAdminNew implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private silvestreService = inject(SilvestreService);
+  private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
 
   silvestreForm!: FormGroup;
@@ -77,6 +80,20 @@ export class RoutedAdminNew implements OnInit {
   this.snackBar.open('Error al crear la publicación', 'Cerrar', { duration: 4000 });
       },
     });
+  }
+
+  // Guard: ask confirmation if the form has unsaved changes
+  canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+    if (!this.silvestreForm || !this.silvestreForm.dirty) {
+      return true;
+    }
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Cambios sin guardar',
+        message: 'Hay cambios sin guardar. \u00bfDesea salir sin guardar los cambios?'
+      }
+    });
+    return ref.afterClosed();
   }
 
   get titulo() {

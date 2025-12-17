@@ -4,13 +4,11 @@ import { SilvestreService } from '../../../service/silvestre';
 import { ISilvestre } from '../../../model/silvestre';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-routed-admin-remove',
-  imports: [UnroutedAdminView, MatDialogModule, MatSnackBarModule],
+  imports: [UnroutedAdminView, MatSnackBarModule],
   templateUrl: './routed-admin-remove.html',
   styleUrl: './routed-admin-remove.css'
 })
@@ -18,7 +16,6 @@ export class RoutedAdminRemove implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private silvestreService = inject(SilvestreService);
-  private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
 
   oSilvestre: ISilvestre | null = null;
@@ -52,26 +49,19 @@ export class RoutedAdminRemove implements OnInit {
 
   confirmDelete() {
     if (!this.oSilvestre) return;
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { title: 'Borrar publicación', message: '¿Seguro que deseas borrar esta publicación? Esta acción no se puede deshacer.' }
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (!confirmed) return;
-      this.deleting = true;
-      this.silvestreService.delete(this.oSilvestre!.id).subscribe({
-        next: () => {
-          this.deleting = false;
-          this.router.navigate(['/silvestre/plist']);
-          this.snackBar.open('Publicación borrada', 'Cerrar', { duration: 3000 });
-        },
-        error: (err: HttpErrorResponse) => {
-          this.deleting = false;
-          this.error = 'Error borrando el post';
-          console.error(err);
-          this.snackBar.open('Error borrando la publicación', 'Cerrar', { duration: 4000 });
-        }
-      });
+    this.deleting = true;
+    this.silvestreService.delete(this.oSilvestre.id).subscribe({
+      next: () => {
+        this.deleting = false;
+        this.snackBar.open('Publicación borrada', 'Cerrar', { duration: 3000 });
+        this.router.navigate(['/silvestre/plist']);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.deleting = false;
+        this.error = 'Error borrando el post';
+        console.error(err);
+        this.snackBar.open('Error borrando la publicación', 'Cerrar', { duration: 4000 });
+      }
     });
   }
 
