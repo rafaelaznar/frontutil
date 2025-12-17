@@ -58,6 +58,14 @@ export class SilvestreService {
     return this.http.get<number>(`${serverURL}/silvestre/rellena/${num}`);
   }
 
+  /**
+   * Vaciar la tabla de silvestre (DELETE /silvestre/empty)
+   * Devuelve el número de filas eliminadas
+   */
+  empty(): Observable<number> {
+    return this.http.delete<number>(`${serverURL}/silvestre/empty`);
+  }
+
   publicar(id: number): Observable<number> {
     return this.http.put<number>(`${serverURL}/silvestre/publicar/${id}`, {});
   }
