@@ -25,12 +25,14 @@ export class FernandezIdeaService {
     search?: string
   ): Observable<IPageWithTotal<IFernandezIdea>> {
     const hasSearch = search && search.trim() !== '';
+    const isDateOrder = order === 'fechaCreacion' || order === 'fechaModificacion';
     
-    // Si hay búsqueda, pedimos TODOS los registros para filtrar y paginar localmente
-    // Si no hay búsqueda, pedimos solo la página necesaria
+    // Si hay búsqueda O ordenamos por fecha (para desempate por ID), pedimos TODOS los registros
+    const needsLocalProcessing = hasSearch || isDateOrder;
+    
     let params = new HttpParams()
-      .set('page', hasSearch ? '0' : page.toString())
-      .set('size', hasSearch ? '10000' : rpp.toString())
+      .set('page', needsLocalProcessing ? '0' : page.toString())
+      .set('size', needsLocalProcessing ? '10000' : rpp.toString())
       .set('sort', `${order || 'id'},${direction || 'asc'}`);
     if (publico !== undefined) {
       params = params.set('publico', String(publico));
@@ -40,7 +42,7 @@ export class FernandezIdeaService {
     return this.http.get<IPage<IFernandezIdea>>(serverURL + '/idea', { params }).pipe(
       map((pageData) => {
         let content = pageData.content || [];
-        const totalElementsAll = content.length; // Total ANTES de filtrar
+        const totalElementsAll = pageData.totalElements ?? content.length; // Total real del servidor
         
         // Filtrado defensivo si se pidió publico=true
         if (publico === true) {
@@ -54,8 +56,11 @@ export class FernandezIdeaService {
             (i.titulo && i.titulo.toLowerCase().includes(term)) ||
             (i.comentario && i.comentario.toLowerCase().includes(term))
           );
-          
-          // ORDENAMIENTO LOCAL después de filtrar
+        }
+        
+        // Si necesitamos procesamiento local (búsqueda o fecha), ordenar y paginar localmente
+        if (needsLocalProcessing) {
+          // ORDENAMIENTO LOCAL con desempate por ID
           content = this.sortContent(content, order, direction);
           
           // Calcular paginación local
@@ -77,9 +82,7 @@ export class FernandezIdeaService {
           } as IPageWithTotal<IFernandezIdea>;
         }
         
-        // Sin búsqueda: aplicar ordenamiento local para desempate correcto por ID
-        content = this.sortContent(content, order, direction);
-        pageData.content = content;
+        // Sin búsqueda ni fecha: devolver datos del servidor directamente
         (pageData as IPageWithTotal<IFernandezIdea>).totalElementsAll = totalElementsAll;
         return pageData as IPageWithTotal<IFernandezIdea>;
       })
