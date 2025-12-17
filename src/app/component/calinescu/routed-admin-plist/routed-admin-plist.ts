@@ -51,6 +51,14 @@ export class RoutedAdminPlistCalinescu {
   constructor(private oCalinescuService: CalinescuService) { }
 
   oBotonera: string[] = [];
+  // publishing state to show per-row spinner
+  publishingId: number | null = null;
+  publishingAction: 'publicar' | 'despublicar' | null = null;
+  // ordering & filtering
+  orderField: string = 'id';
+  orderDirection: string = 'asc';
+  filterText: string = '';
+  filterTimeout: any = null;
 
   ngOnInit() {
     this.obtenerPagina();
@@ -62,7 +70,7 @@ export class RoutedAdminPlistCalinescu {
    * Valida que la página solicitada exista y ajusta si es necesario.
    */
   obtenerPagina() {
-    this.oCalinescuService.getPage(this.numPage, this.numRpp).subscribe({
+  this.oCalinescuService.getPageWithFilter(this.numPage, this.numRpp, this.orderField, this.orderDirection, false, this.filterText).subscribe({
       next: (data: IPage<ICalinescu>) => {
         this.oPage = data;
         this.rellenaOk = this.oPage.totalElements;
@@ -110,6 +118,30 @@ export class RoutedAdminPlistCalinescu {
    */
   cambiarCantidad(value: string) {
     this.rellenaCantidad = +value;
+    return false;
+  }
+
+  onOrder(order: string) {
+    if (this.orderField === order) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderField = order;
+      this.orderDirection = 'asc';
+    }
+    this.numPage = 0;
+    this.obtenerPagina();
+    return false;
+  }
+
+  onFilterChange(value: string) {
+    this.filterText = value;
+    if (this.filterTimeout) {
+      clearTimeout(this.filterTimeout);
+    }
+    this.filterTimeout = setTimeout(() => {
+      this.numPage = 0;
+      this.obtenerPagina();
+    }, 400);
     return false;
   }
 
@@ -164,5 +196,43 @@ export class RoutedAdminPlistCalinescu {
         console.error(err);
       }
     });
+  }
+
+  publicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'publicar';
+    this.oCalinescuService.publicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.obtenerPagina();
+        this.cargarTotalGlobal();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
+  }
+
+  despublicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'despublicar';
+    this.oCalinescuService.despublicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.obtenerPagina();
+        this.cargarTotalGlobal();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
   }
 }

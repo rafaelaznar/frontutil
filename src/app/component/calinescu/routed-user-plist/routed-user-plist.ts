@@ -48,10 +48,10 @@ export class RoutedUserPlistCalinescu {
    * Solo carga items publicados (soloPublicados=true).
    */
   obtenerPagina() {
-    this.oCalinescuService.getPage(this.numPage, this.numRpp, 'id', 'desc', true).subscribe({
+  this.oCalinescuService.getPage(this.numPage, this.numRpp, 'id', 'desc', true).subscribe({
       next: (data: IPage<ICalinescu>) => {
         this.oPage = data;
-        console.log('Datos recibidos:', data); // Para debug
+    // datos recibidos
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.obtenerPagina();
