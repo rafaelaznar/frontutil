@@ -309,9 +309,9 @@ export const routes: Routes = [
   //
   { path: 'zanon', component: RoutedUserPlistZanon },
   { path: 'zanon/post/:id', component: RoutedUserViewZanon },
-  { path: 'zanon/plist', component: RoutedAdminPlistZanon },
-  { path: 'zanon/view/:id', component: RoutedAdminViewZanon },
-  { path: 'zanon/new', component: RoutedAdminNewZanon },
-  { path: 'zanon/edit/:id', component: RoutedAdminEditZanon },
-  { path: 'zanon/remove/:id', component: RoutedAdminRemoveZanon },
+  { path: 'zanon/plist', component: RoutedAdminPlistZanon, canActivate: [AdminGuard] },
+  { path: 'zanon/view/:id', component: RoutedAdminViewZanon, canActivate: [AdminGuard] },
+  { path: 'zanon/new', component: RoutedAdminNewZanon, canActivate: [AdminGuard] },
+  { path: 'zanon/edit/:id', component: RoutedAdminEditZanon, canActivate: [AdminGuard] },
+  { path: 'zanon/remove/:id', component: RoutedAdminRemoveZanon, canActivate: [AdminGuard] },
 ];
