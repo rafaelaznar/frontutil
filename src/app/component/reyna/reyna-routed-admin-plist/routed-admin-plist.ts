@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
 
 @Component({
   selector: 'app-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe, MatSnackBarModule],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -48,19 +48,23 @@ export class RoutedAdminPlist {
   }
 
   getPage() {
-    this.oReynaService.getPage(this.numPage, this.numRpp).subscribe({
-      next: (data: IPage<IReyna>) => {
-        this.oPage = data;
-        this.rellenaOk = this.oPage.totalElements;
-        if (this.numPage > 0 && this.numPage >= data.totalPages) {
-          this.numPage = data.totalPages - 1;
-          this.getPage();
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-      },
-    });
+    this.oReynaService
+      .getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection)
+      .subscribe({
+        next: (data: IPage<IReyna>) => {
+          this.oPage = data;
+          // actualizar contador actual
+          this.totalElementsCount = data.totalElements ?? 0;
+          this.rellenaOk = this.totalElementsCount;
+          if (this.numPage > 0 && this.numPage >= data.totalPages) {
+            this.numPage = data.totalPages - 1;
+            this.getPage();
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
   // ordenación
@@ -155,7 +159,7 @@ export class RoutedAdminPlist {
     }
   }
   // vaciar tabla
-  
+
   openEmptyConfirm() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
