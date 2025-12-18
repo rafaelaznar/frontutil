@@ -4,3 +4,19 @@
   font-style: italic;
   margin-top: 50px;
 }
+
+.sortable {
+  cursor: pointer;
+}
+
+/* Permite el salto de línea por ancho en las celdas que queremos */
+.table td {
+    white-space: normal; /* Esto permite que el texto baje si no cabe */
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+
+/* Para las columnas de ID y Año que queremos que siempre sean compactas */
+.text-center {
+    text-align: center;
+}

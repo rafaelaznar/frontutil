@@ -42,6 +42,10 @@ export class SemperteguiService {
     return this.httpClient.get<number>(`${serverURL}/sempertegui/rellena/${numPosts}`);
   }
 
+  empty(): Observable<number> {
+    return this.httpClient.delete<number>(serverURL + '/sempertegui/empty');
+  }
+
   publicar(id: number): Observable<number> {
     return this.httpClient.put<number>(`${serverURL}/sempertegui/publicar/${id}`, {});
   }

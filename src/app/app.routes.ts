@@ -278,9 +278,9 @@ export const routes: Routes = [
   { path: 'sempertegui', component: SemperteguiRoutedUserPlist },
   { path: 'sempertegui/plist', component: SemperteguiRoutedAdminPlist, canActivate: [AdminGuard] },
   { path: 'sempertegui/view/:id', component: SemperteguiRoutedAdminView, canActivate: [AdminGuard] },
-  { path: 'sempertegui/edit/:id', component: SemperteguiRoutedAdminEdit, canActivate: [AdminGuard] },
+  { path: 'sempertegui/new', component: SemperteguiRoutedAdminNew, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'sempertegui/edit/:id', component: SemperteguiRoutedAdminEdit, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
   { path: 'sempertegui/remove/:id', component: SemperteguiRoutedAdminRemove, canActivate: [AdminGuard] },
-  { path: 'sempertegui/new', component: SemperteguiRoutedAdminNew, canActivate: [AdminGuard] },
   //
   { path: 'alcanyiz', component: RoutedAlcanyizMenu },
   { path: 'alcanyiz/allquestion', component: RoutedAlcanyizUserList },

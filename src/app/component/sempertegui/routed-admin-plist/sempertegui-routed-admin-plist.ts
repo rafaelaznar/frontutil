@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { IPage } from '../../../model/plist';
+import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
+import { SemperteguiService } from '../../../service/sempertegui/sempertegui.service';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
-import { SemperteguiService } from '../../../service/sempertegui/sempertegui.service';
-import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
+import { MatDialog } from '@angular/material/dialog'; // MatDialogModule
+import { MatSnackBar } from '@angular/material/snack-bar'; // , MatSnackBarModule
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sempertegui-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [CommonModule, RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
   templateUrl: './sempertegui-routed-admin-plist.html',
   styleUrl: './sempertegui-routed-admin-plist.css',
 })
@@ -20,13 +25,16 @@ export class SemperteguiRoutedAdminPlist {
   numRpp: number = 5;
   rellenaCantidad: number = 10;
   rellenando: boolean = false;
-  rellenaOk: number | null = null;
-  rellenaError: string | null = null;
+  // estado para vaciar la tabla
+  emptying: boolean = false;
+  emptyError: string | null = null;
+  // contador actual de elementos en la tabla
+  totalElementsCount: number = 0;
   // track id being published/unpublished to show spinner per-row
   publishingId: number | null = null;
   publishingAction: 'publicar' | 'despublicar' | null = null;
 
-  constructor(private semperteguiService: SemperteguiService) { }
+  constructor(private semperteguiService: SemperteguiService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   oBotonera: string[] = [];
   orderField: string = 'id';
@@ -40,7 +48,8 @@ export class SemperteguiRoutedAdminPlist {
     this.semperteguiService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection).subscribe({
       next: (data: IPage<IPelicula>) => {
         this.oPage = data;
-        this.rellenaOk = this.oPage.totalElements;
+        // actualizar contador actual
+        this.totalElementsCount = data.totalElements ?? 0;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
@@ -53,15 +62,10 @@ export class SemperteguiRoutedAdminPlist {
     });
   }
 
-  onOrder(order: string) {
-    if (this.orderField === order) {
-      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.orderField = order;
-      this.orderDirection = 'asc';
-    }
-    this.numPage = 0;
-    this.getPage();
+  sortColumn(column: string) {
+    this.orderField = column;
+    this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    this.getPage()
     return false;
   }
 
@@ -83,19 +87,67 @@ export class SemperteguiRoutedAdminPlist {
   }
 
   generarFake() {
-    this.rellenaOk = null;
-    this.rellenaError = null;
     this.rellenando = true;
-    this.semperteguiService.rellenaPeliculas(this.rellenaCantidad).subscribe({
+    // notificar inicio con el conteo actual
+    const loadingSnack = this.snackBar.open(`Generando ${this.rellenaCantidad} registros...`);
+    this.semperteguiService.rellenaPeliculas(this.rellenaCantidad)
+      .pipe(
+        finalize(() => {
+          this.rellenando = false;
+          loadingSnack.dismiss();
+        })
+      )
+    .subscribe({
       next: (count: number) => {
-        this.rellenando = false;
-        this.rellenaOk = count;
-        this.getPage(); // refrescamos listado
+        // refrescamos listado y notificamos resultado
+        this.getPage();
+        this.snackBar.open(`Hecho! ${this.rellenaCantidad} registros generados. Total: ${count}`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
-        this.rellenando = false;
-        this.rellenaError = 'Error generando datos fake';
         console.error(err);
+        this.snackBar.open('Error generando datos de prueba', 'Cerrar', { duration: 4000 });
+      }
+    });
+  }
+
+  openEmptyConfirm() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Vaciar Registros de la Tabla Película',
+        message: '¿Está seguro de que desea borrar TODOS los registros? Esta acción es irreversible.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.doEmpty();
+      }
+    });
+  }
+
+  private doEmpty() {
+    this.emptyError = null;
+    this.emptying = true;
+    // notificar inicio con el conteo actual
+    const loadingSnack = this.snackBar.open("Vaciando tabla...");
+    this.semperteguiService.empty()
+      .pipe(
+        finalize(() => {
+          this.emptying = false;
+          loadingSnack.dismiss();
+        })
+      )
+    .subscribe({
+      next: (count: number) => {
+        // refrescar listado
+        this.numPage = 0;
+        this.getPage();
+        this.snackBar.open(`Tabla vaciada. Total Eliminados: ${count}.`, 'Cerrar', { duration: 4000 });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.emptyError = 'Error vaciando la tabla';
+        console.error(err);
+        this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
       }
     });
   }
