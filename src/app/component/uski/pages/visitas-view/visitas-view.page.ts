@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { IVisita } from '../../types/visitas';
 import { DatetimePipe } from "../../../../pipe/datetime-pipe";
 
@@ -14,7 +14,6 @@ import { DatetimePipe } from "../../../../pipe/datetime-pipe";
 })
 export class UskiVisitasViewPage implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private visitasService = inject(VisitasService);
 
   oVisita: IVisita | null = null;
@@ -44,9 +43,5 @@ export class UskiVisitasViewPage implements OnInit {
         console.error(err);
       },
     });
-  }
-
-  goBack() {
-    this.router.navigate(['/visitas']);
   }
 }

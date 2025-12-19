@@ -42,6 +42,10 @@ export class VisitasService {
     return this.oHttp.delete<number>(serverURL + '/visitas/' + id);
   }
 
+  deleteAll(): Observable<number> {
+    return this.oHttp.delete<number>(serverURL + '/visitas/delete_all');
+  }
+
   rellenaBlog(numPosts: number): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/visitas/rellena/' + numPosts);
   }

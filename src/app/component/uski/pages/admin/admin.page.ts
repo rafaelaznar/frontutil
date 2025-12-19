@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { Paginacion } from '../../../shared/paginacion/paginacion';
 import { IPage } from '../../types/pageView';
 import { IVisita } from '../../types/visitas';
@@ -21,8 +21,11 @@ export class UskiAdminPage {
   numRpp: number = 10;
   rellenaCantidad: number = 5;
   rellenando: boolean = false;
+  deletingAll: boolean = false;
   rellenaOk: number | null = null;
+  deleteAllOk: number | null = null;
   rellenaError: string | null = null;
+  deleteAllError: string | null = null;
   column: string = 'fechaCreacion';
   direction: 'asc' | 'desc' = 'desc';
 
@@ -75,7 +78,9 @@ export class UskiAdminPage {
 
   generarFake() {
     this.rellenaOk = null;
+    this.deleteAllOk = null;
     this.rellenaError = null;
+    this.deleteAllError = null;
     this.rellenando = true;
     this.oVisitasService.rellenaBlog(this.rellenaCantidad).subscribe({
       next: (count: number) => {
@@ -86,6 +91,26 @@ export class UskiAdminPage {
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
+        console.error(err);
+      }
+    });
+  }
+
+  deleteAll() {
+    this.deleteAllOk = null;
+    this.rellenaOk = null;
+    this.deleteAllError = null;
+    this.rellenaError = null;
+    this.deletingAll = true;
+    this.oVisitasService.deleteAll().subscribe({
+      next: (count: number) => {
+        this.deletingAll = false;
+        this.deleteAllOk = count;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.deletingAll = false;
+        this.deleteAllError = 'Error eliminando registros';
         console.error(err);
       }
     });

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IVisita } from '../../types/visitas';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 
 @Component({
   selector: 'app-registro-tabla-actions',

@@ -10,7 +10,7 @@
       <div class="card shadow-sm p-3 w-100" style="max-width: 720px">
         <div class="d-flex flex-wrap align-items-center gap-3">
           <label for="rellenaSelect" class="form-label m-0 fw-semibold"
-            >Generar fake datos:</label
+            >Generar datos falsos:</label
           >
           <select
             #cantidadSel
@@ -25,7 +25,7 @@
           </select>
           <button
             class="btn btn-outline-primary btn-sm position-relative"
-            [disabled]="rellenando"
+            [disabled]="rellenando || deletingAll"
             (click)="generarFake()"
           >
             @if (rellenando) {
@@ -38,6 +38,21 @@
             <i class="bi bi-plus-circle me-2"></i>
             } Generar
           </button>
+          <button
+            class="btn btn-outline-danger btn-sm position-relative"
+            [disabled]="rellenando || deletingAll"
+            (click)="deleteAll()"
+          >
+            @if (deletingAll) {
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            } @if (!deletingAll) {
+            <i class="bi bi-trash me-2"></i>
+            } Eliminar todo
+          </button>
 
           @if (rellenaOk) {
           <div class="text-success small d-flex align-items-center">
@@ -46,6 +61,14 @@
           } @if (rellenaError) {
           <div class="text-danger small d-flex align-items-center">
             <i class="bi bi-exclamation-triangle me-1"></i>{{ rellenaError }}
+          </div>
+          } @if (deleteAllOk !== null) {
+          <div class="text-success small d-flex align-items-center">
+            <i class="bi bi-check-circle me-1"></i>{{ deleteAllOk }} registros eliminados
+          </div>
+          } @if (deleteAllError) {
+          <div class="text-danger small d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle me-1"></i>{{ deleteAllError }}
           </div>
           }
         </div>
@@ -58,7 +81,7 @@
       title="Back to public list"
     >
       <i class="bi bi-arrow-left-square me-2" aria-hidden="true"></i>
-      Volver
+      Ir al Listado público
     </a>
   </div>
 
@@ -81,28 +104,40 @@
             <thead class="table-light">
               <tr>
                 <th scope="col" (click)="setSortColumn('id')" class="sortable" [class.sortable-active]="column === 'id'">
-                  <span>ID</span>
-                  <i class="bi" [ngClass]="column === 'id' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>ID</span>
+                    <i class="bi" [ngClass]="column === 'id' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col" (click)="setSortColumn('nombre')" class="sortable" [class.sortable-active]="column === 'nombre'">
-                  <span>Nombre</span>
-                  <i class="bi" [ngClass]="column === 'nombre' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>Nombre</span>
+                    <i class="bi" [ngClass]="column === 'nombre' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col" (click)="setSortColumn('comentario')" class="sortable" [class.sortable-active]="column === 'comentario'">
-                  <span>Comentario</span>
-                  <i class="bi" [ngClass]="column === 'comentario' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>Comentario</span>
+                    <i class="bi" [ngClass]="column === 'comentario' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col" (click)="setSortColumn('estaPublicado')" class="sortable" [class.sortable-active]="column === 'estaPublicado'">
-                  <span>Estado</span>
-                  <i class="bi" [ngClass]="column === 'estaPublicado' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>Estado</span>
+                    <i class="bi" [ngClass]="column === 'estaPublicado' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col" (click)="setSortColumn('fechaCreacion')" class="sortable" [class.sortable-active]="column === 'fechaCreacion'">
-                  <span>Creado</span>
-                  <i class="bi" [ngClass]="column === 'fechaCreacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>Creado</span>
+                    <i class="bi" [ngClass]="column === 'fechaCreacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col" (click)="setSortColumn('fechaModificacion')" class="sortable" [class.sortable-active]="column === 'fechaModificacion'">
-                  <span>Modificado</span>
-                  <i class="bi" [ngClass]="column === 'fechaModificacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  <span class="sortable-label">
+                    <span>Modificado</span>
+                    <i class="bi" [ngClass]="column === 'fechaModificacion' ? (direction === 'asc' ? 'bi-caret-up-fill' : 'bi-caret-down-fill') : 'bi-caret-down'"></i>
+                  </span>
                 </th>
                 <th scope="col">Acciones</th>
               </tr>

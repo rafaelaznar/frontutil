@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { IVisita } from '../../types/visitas';
 
 @Component({

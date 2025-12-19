@@ -1,19 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { IVisita } from '../../types/visitas';
 
 @Component({
   selector: 'app-admin-view-page',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './admin-view.page.html',
   styleUrl: './admin-view.page.css',
 })
 export class UskiAdminViewPage implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private visitasService = inject(VisitasService);
 
   oVisita: IVisita | null = null;
@@ -43,9 +42,5 @@ export class UskiAdminViewPage implements OnInit {
         console.error(err);
       },
     });
-  }
-
-  goBack() {
-    this.router.navigate(['/visitas/dashboard']);
   }
 }

@@ -1,39 +1,51 @@
 <div class="container py-4 visitas-view">
-  <div class="hero card border-0 shadow-sm mb-4 text-white">
-    <div class="card-body p-4 p-lg-5 position-relative overflow-hidden">
-      <div class="glow"></div>
-      <div class="d-flex flex-wrap align-items-center gap-3 position-relative">
-        <div class="icon-circle bg-white text-primary d-inline-flex align-items-center justify-content-center">
-          <i class="bi bi-chat-left-quote-fill"></i>
-        </div>
-        <div>
-          <div class="text-uppercase small fw-semibold opacity-75">Libro de visitas</div>
-          <h1 class="h4 h3-lg mb-1">Detalle del comentario</h1>
-          <p class="mb-0 opacity-75">Palabras reales de nuestra comunidad.</p>
-        </div>
-        <div class="ms-auto">
-          <a class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" routerLink="/visitas">
-            <i class="bi bi-arrow-left"></i>
-            Volver al listado
-          </a>
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-8">
+      <div class="hero card border-0 shadow-sm mb-4 text-white">
+        <div class="card-body p-4 p-lg-5 position-relative overflow-hidden">
+          <div class="glow"></div>
+          <div class="d-flex flex-wrap align-items-center gap-3 position-relative">
+            <div class="icon-circle bg-white text-primary d-inline-flex align-items-center justify-content-center">
+              <i class="bi bi-chat-left-quote-fill"></i>
+            </div>
+            <div>
+              <div class="text-uppercase small fw-semibold opacity-75">Libro de visitas</div>
+              <h1 class="h4 h3-lg mb-1">Detalle del comentario</h1>
+              <p class="mb-0 opacity-75">Palabras reales de nuestra comunidad.</p>
+            </div>
+            <div class="ms-auto">
+              <a class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2" routerLink="/visitas">
+                <i class="bi bi-arrow-left"></i>
+                Volver al listado
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   @if (loading) {
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-3 mb-0">Cargando detalle...</p>
+        </div>
       </div>
-      <p class="text-muted mt-3 mb-0">Cargando detalle...</p>
     </div>
   }
 
   @if (error) {
-    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-      <i class="bi bi-exclamation-triangle-fill"></i>
-      <span>{{ error }}</span>
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ error }}</span>
+        </div>
+      </div>
     </div>
   }
 

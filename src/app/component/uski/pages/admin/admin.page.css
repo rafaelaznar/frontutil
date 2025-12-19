@@ -1,3 +1,17 @@
 .sortable {
   cursor: pointer;
 }
+
+.sortable .sortable-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* 2px extra spacing */
+}
+
+.sortable i {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}

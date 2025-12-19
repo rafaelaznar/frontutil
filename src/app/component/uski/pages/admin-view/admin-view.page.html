@@ -1,8 +1,8 @@
 <div class="container my-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 mb-0">Detalle de visita</h1>
-    <a class="btn btn-outline-secondary btn-sm" (click)="goBack()">
-      <i class="bi bi-arrow-left me-2"></i>Volver
+    <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-2" routerLink="/visitas/dashboard">
+      <i class="bi bi-arrow-left"></i>Volver
     </a>
   </div>
 
@@ -25,7 +25,9 @@
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
           <div>
-            <h5 class="fw-bold mb-1">{{ oVisita.nombre }}</h5>
+            <div class="text-muted small mb-1">Nombre</div>
+            <h5 class="fw-bold mb-2">{{ oVisita.nombre }}</h5>
+            <div class="text-muted small mb-1">Comentario</div>
             <p class="text-muted mb-0">{{ oVisita.comentario }}</p>
           </div>
           @if (oVisita.estaPublicado) {

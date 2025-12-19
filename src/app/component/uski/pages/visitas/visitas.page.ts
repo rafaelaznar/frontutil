@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { VisitasService } from '../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { Paginacion } from '../../../shared/paginacion/paginacion';
 import { IPage } from '../../types/pageView';
 import { IVisita } from '../../types/visitas';

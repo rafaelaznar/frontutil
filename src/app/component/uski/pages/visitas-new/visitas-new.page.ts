@@ -1,5 +1,5 @@
 import { UskiVisitasPage } from './../visitas/visitas.page';
-import { VisitasService } from './../../services/visitas';
+import { VisitasService } from '../../services/visitas.service';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
