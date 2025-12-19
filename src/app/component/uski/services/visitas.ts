@@ -12,9 +12,14 @@ export class VisitasService {
 
   constructor(private oHttp: HttpClient) { }
 
-  getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IVisita>> {
+  getPublicPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IVisita>> {
     const sort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
     return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas?page=${page}&size=${rpp}&sort=${sort}`);
+  }
+
+  getPageAdmin(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<IVisita>> {
+    const sort = order && direction ? `${order},${direction}` : 'fechaCreacion,desc';
+    return this.oHttp.get<IPage<IVisita>>(serverURL + `/visitas/dashboard?page=${page}&size=${rpp}&sort=${sort}`);
   }
 
   get(id: number): Observable<IVisita> {
@@ -34,7 +39,7 @@ export class VisitasService {
   }
 
   delete(id: number): Observable<number> {
-    return this.oHttp.delete<number>(serverURL + '/visitas' + id);
+    return this.oHttp.delete<number>(serverURL + '/visitas/' + id);
   }
 
   rellenaBlog(numPosts: number): Observable<number> {

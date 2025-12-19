@@ -27,7 +27,7 @@ export class UskiVisitasPage {
   }
 
   getPage() {
-    this.oVisitasService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oVisitasService.getPublicPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
       next: (data: IPage<IVisita>) => {
         this.oPage = data;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
