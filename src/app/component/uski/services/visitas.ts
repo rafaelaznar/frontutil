@@ -26,7 +26,7 @@ export class VisitasService {
   }
 
   publish(visita: Partial<IVisita>): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/visitas/publish/', visita);
+    return this.oHttp.put<number>(serverURL + '/visitas/publish', visita);
   }
 
   update(visita: Partial<IVisita>): Observable<number> {
