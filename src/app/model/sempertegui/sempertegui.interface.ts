@@ -2,7 +2,7 @@
 export interface IPelicula {
   id: number;
   titulo: string;
-  genero: string;
+  generos: string;
   sinopsis: string;
   director: string;
   puntuacion: number;

@@ -52,25 +52,25 @@
 
           <!-- Género -->
           <div class="mb-4">
-            <label for="genero" class="form-label">Género</label>
+            <label for="generos" class="form-label">Género</label>
             <input
               type="text"
               class="form-control"
-              [class.is-invalid]="genero?.invalid && genero?.touched"
-              [class.is-valid]="genero?.valid && genero?.touched"
-              id="genero"
-              formControlName="genero"
+              [class.is-invalid]="generos?.invalid && generos?.touched"
+              [class.is-valid]="generos?.valid && generos?.touched"
+              id="generos"
+              formControlName="generos"
               placeholder="Géneros separadas por comas"
             />
-            @if (genero?.invalid && genero?.touched) {
+            @if (generos?.invalid && generos?.touched) {
             <div class="invalid-feedback">
-              @if (genero?.errors?.['required']) {
+              @if (generos?.errors?.['required']) {
                 <span>El campo género es obligatorio.</span>
               }
-              @if (genero?.errors?.['minlength']) {
+              @if (generos?.errors?.['minlength']) {
                 <span>El campo género debe tener al menos 3 caracteres.</span>
               }
-              @if (genero?.errors?.['maxlength']) {
+              @if (generos?.errors?.['maxlength']) {
                 <span>El campo género no puede superar 100 caracteres.</span>
               }
             </div>

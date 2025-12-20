@@ -27,11 +27,11 @@
     </div>
     <div class="detail-row">
       <span class="detail-label">
-        {{ (movie?.genero?.split(',')?.length ?? 0) > 1 ? 'Géneros' : 'Género' }}
+        {{ (movie?.generos?.split(',')?.length ?? 0) > 1 ? 'Géneros' : 'Género' }}
       </span>
       <span class="detail-value">
-        @if (movie?.genero) {
-          @for (tag of movie!.genero.split(','); track tag) {
+        @if (movie?.generos) {
+          @for (tag of movie!.generos.split(','); track tag) {
             <span class="badge rounded-pill bg-light text-dark border me-1">{{ tag.trim() }}</span>
           }
         }

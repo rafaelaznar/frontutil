@@ -1,9 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
-import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
 import { SemperteguiService } from '../../../service/sempertegui/sempertegui.service';
+import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-sempertegui-routed-admin-edit',
@@ -16,6 +19,8 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private semperteguiService = inject(SemperteguiService);
+    private dialog = inject(MatDialog);
+    private snackBar = inject(MatSnackBar);
 
     movieForm!: FormGroup;
     movieId: number | null = null;
@@ -43,7 +48,12 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                 Validators.minLength(2),
                 Validators.maxLength(100)
             ]],
-            genero: ['', [
+            sinopsis: ['', [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(1024)
+            ]],
+            generos: ['', [
                 Validators.required,
                 Validators.minLength(3),
                 Validators.maxLength(100)
@@ -72,7 +82,7 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                 this.originalMovie = movie;
                 this.movieForm.patchValue({
                     titulo: movie.titulo,
-                    genero: movie.genero,
+                    generos: movie.generos,
                     director: movie.director,
                     puntuacion: movie.puntuacion,
                     anyo: movie.anyo
@@ -97,7 +107,7 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
         const payload: Partial<IPelicula> = {
             id: this.movieId!,
             titulo: this.movieForm.value.titulo,
-            genero: this.movieForm.value.genero,
+            generos: this.movieForm.value.generos,
             director: this.movieForm.value.director,
             puntuacion: Number(this.movieForm.value.puntuacion),
             anyo: Number( this.movieForm.value.anyo),
@@ -120,8 +130,8 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
         return this.movieForm.get('titulo');
     }
 
-    get genero() {
-        return this.movieForm.get('genero');
+    get generos() {
+        return this.movieForm.get('generos');
     }
 
     get director() {

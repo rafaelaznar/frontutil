@@ -31,7 +31,7 @@ export class SemperteguiRoutedAdminNew implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(100)
       ]],
-      genero: ['', [
+      generos: ['', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(100)
@@ -63,7 +63,7 @@ export class SemperteguiRoutedAdminNew implements OnInit {
     this.submitting = true;
     const payload: Partial<IPelicula> = {
       titulo: this.movieForm.value.titulo,
-      genero: this.movieForm.value.genero,
+      generos: this.movieForm.value.generos,
       director: this.movieForm.value.director,
       puntuacion: Number(this.movieForm.value.puntuacion),
       anyo: Number(this.movieForm.value.anyo),
@@ -86,8 +86,8 @@ export class SemperteguiRoutedAdminNew implements OnInit {
     return this.movieForm.get('titulo');
   }
 
-  get genero() {
-    return this.movieForm.get('genero');
+  get generos() {
+    return this.movieForm.get('generos');
   }
 
   get director() {
