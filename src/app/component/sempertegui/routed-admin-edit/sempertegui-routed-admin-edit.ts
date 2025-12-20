@@ -50,7 +50,7 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
             ]],
             sinopsis: ['', [
                 Validators.required,
-                Validators.minLength(3),
+                Validators.minLength(10),
                 Validators.maxLength(1024)
             ]],
             generos: ['', [
@@ -72,7 +72,8 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                 Validators.min(1901),
                 Validators.max(2155),
                 Validators.pattern('^[0-9]*$')
-            ]]
+            ]],
+            publicado: [false]
         });
     }
 
@@ -82,15 +83,17 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                 this.originalMovie = movie;
                 this.movieForm.patchValue({
                     titulo: movie.titulo,
+                    sinopsis: movie.sinopsis,
                     generos: movie.generos,
                     director: movie.director,
                     puntuacion: movie.puntuacion,
-                    anyo: movie.anyo
+                    anyo: movie.anyo,
+                    publicado: movie.publicado,
                 });
                 this.loading = false;
             },
             error: (err: HttpErrorResponse) => {
-                this.error = 'Error al cargar el post de la película';
+                this.error = 'Error al cargar el registro';
                 this.loading = false;
                 console.error(err);
             },
@@ -107,27 +110,54 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
         const payload: Partial<IPelicula> = {
             id: this.movieId!,
             titulo: this.movieForm.value.titulo,
+            sinopsis: this.movieForm.value.sinopsis,
             generos: this.movieForm.value.generos,
             director: this.movieForm.value.director,
             puntuacion: Number(this.movieForm.value.puntuacion),
             anyo: Number( this.movieForm.value.anyo),
+            publicado: this.movieForm.value.publicado,
         };
 
         this.semperteguiService.update(payload).subscribe({
             next: () => {
                 this.submitting = false;
+                // mark form as pristine so canDeactivate guard won't ask confirmation
+                if (this.movieForm) {
+                    this.movieForm.markAsPristine();
+                }
+                // inform the user
+                this.snackBar.open('Registro guardado correctamente', 'Cerrar', { duration: 3000 });
                 this.router.navigate(['/sempertegui/plist']);
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
-                this.error = 'Error al guardar el post de la película';
+                this.error = 'Error al guardar el registro';
+                this.snackBar.open('Error al guardar el registro', 'Cerrar', { duration: 4000 });
                 console.error(err);
             },
         });
     }
 
+    // Guard: ask confirmation if the form has unsaved changes
+    canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+        if (!this.movieForm || !this.movieForm.dirty) {
+            return true;
+        }
+        const ref = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'Cambios sin guardar',
+                message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+            }
+        });
+        return ref.afterClosed();
+    }
+
     get titulo() {
         return this.movieForm.get('titulo');
+    }
+
+    get sinopsis() {
+        return this.movieForm.get('sinopsis');
     }
 
     get generos() {
@@ -144,5 +174,9 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
 
     get anyo() {
         return this.movieForm.get('anyo');
+    }
+
+    get publicado() {
+        return this.movieForm.get('publicado');
     }
 }
