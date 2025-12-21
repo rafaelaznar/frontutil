@@ -44,15 +44,26 @@
           } Generar
         </button>
 
-        @if (rellenaOk) {
+        <button
+          class="btn btn-danger btn-sm position-relative"
+          [disabled]="emptying"
+          (click)="openEmptyConfirm()"
+          title="Vaciar tabla"
+        >
+          @if (emptying) {
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          } @if (!emptying) {
+          <i class="bi bi-trash me-2"></i>
+          } Vaciar tabla
+        </button>
+
         <div class="text-success small d-flex align-items-center">
-          <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} Rutinas creadas con éxito
+          <i class="bi bi-check-circle me-1"></i>Registros: {{ totalElementsCount }}
         </div>
-        } @if (rellenaError) {
-        <div class="text-danger small d-flex align-items-center">
-          <i class="bi bi-exclamation-triangle me-1"></i>{{ rellenaError }}
-        </div>
-        }
       </div>
     </div>
   </div>
@@ -72,12 +83,57 @@
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Título</th>
-          <th scope="col">Etiquetas</th>
-          <th scope="col">Estado</th>
-          <th scope="col">Creación</th>
-          <th scope="col">Actualización</th>
+          <th scope="col" (click)="onOrder('id')" style="cursor: pointer; width: 5%">
+            <span class="header-inline"
+              >ID @if (orderField === 'id') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
+            </span>
+          </th>
+          <th scope="col" (click)="onOrder('titulo')" style="cursor: pointer; width: 35%">
+            <span class="header-inline"
+              >Título @if (orderField === 'titulo') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
+            </span>
+          </th>
+          <th scope="col" style="width: 20%">Etiquetas</th>
+          <th scope="col" (click)="onOrder('publicado')" style="cursor: pointer; width: 10%">
+            <span class="header-inline"
+              >Estado @if (orderField === 'publicado') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
+            </span>
+          </th>
+          <th scope="col" (click)="onOrder('fechaCreacion')" style="cursor: pointer; width: 15%">
+            <span class="header-inline"
+              >Creación @if (orderField === 'fechaCreacion') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1"></i>
+              } }
+            </span>
+          </th>
+          <th
+            scope="col"
+            (click)="onOrder('fechaModificacion')"
+            style="cursor: pointer; width: 10%"
+          >
+            <span class="header-inline"
+              >Actualización @if (orderField === 'fechaModificacion') { @if (orderDirection ===
+              'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
+            </span>
+          </th>
           <th scope="col">Operaciones</th>
         </tr>
       </thead>
@@ -87,18 +143,64 @@
           <th scope="row">{{ oZanon.id }}</th>
           <td>{{ oZanon.titulo }}</td>
           <td>{{ oZanon.etiquetas }}</td>
-          <td>{{ oZanon.publico }}</td>
-          <td>{{ oZanon.fechaCreacion }}</td>
-          <td>{{ oZanon.fechaModificacion }}</td>
+          <td class="text-center align-middle">
+            @if (oZanon.publico) {
+            <span class="text-success d-inline-flex align-items-center">
+              <i class="bi bi-check-circle-fill me-1"></i>
+            </span>
+            } @if (!oZanon.publico) {
+            <span class="text-secondary d-inline-flex align-items-center">
+              <i class="bi bi-x-circle-fill me-1"></i>
+            </span>
+            }
+          </td>
+          <td>{{ oZanon.fechaCreacion | datetime }}</td>
+          <td>{{ oZanon.fechaModificacion | datetime }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <a [routerLink]="['/zanon/view', oZanon.id]" class="btn btn-outline-primary">
+              <a [routerLink]="['/blog/view', oZanon.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
               </a>
-              <a [routerLink]="['/zanon/edit', oZanon.id]" class="btn btn-outline-secondary">
+              <a [routerLink]="['/blog/edit', oZanon.id]" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil-square"></i>
               </a>
-              <a [routerLink]="['/zanon/remove', oZanon.id]" class="btn btn-outline-danger">
+              @if (!oZanon.publico) {
+              <button
+                class="btn btn-outline-success"
+                title="Publicar"
+                [disabled]="publishingId === oZanon.id"
+                (click)="publicar(oZanon.id)"
+              >
+                @if (publishingId === oZanon.id && publishingAction === 'publicar') {
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                } @if (!(publishingId === oZanon.id && publishingAction === 'publicar')) {
+                <i class="bi bi-upload"></i>
+                }
+              </button>
+              } @if (oZanon.publico) {
+              <button
+                class="btn btn-outline-danger"
+                title="Despublicar"
+                [disabled]="publishingId === oZanon.id"
+                (click)="despublicar(oZanon.id)"
+              >
+                @if (publishingId === oZanon.id && publishingAction === 'despublicar') {
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                } @if (!(publishingId === oZanon.id && publishingAction === 'despublicar')) {
+                <i class="bi bi-eye-slash"></i>
+                }
+              </button>
+              }
+
+              <a [routerLink]="['/blog/remove', oZanon.id]" class="btn btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
             </div>

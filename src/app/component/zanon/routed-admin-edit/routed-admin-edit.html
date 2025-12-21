@@ -32,7 +32,7 @@
               [class.is-valid]="titulo?.valid && titulo?.touched"
               id="titulo"
               formControlName="titulo"
-              placeholder="Introduce un TÍTULO"
+              placeholder="Introduce un título para la rutina"
             />
             @if (titulo?.invalid && titulo?.touched) {
             <div class="invalid-feedback">
@@ -59,7 +59,7 @@
               id="contenido"
               formControlName="contenido"
               rows="8"
-              placeholder="Escribe el CONTENIDO"
+              placeholder="Escribe el contenido de la rutina"
             ></textarea>
             @if (contenido?.invalid && contenido?.touched) {
             <div class="invalid-feedback">
@@ -83,7 +83,7 @@
               [class.is-valid]="etiquetas?.valid && etiquetas?.touched"
               id="etiquetas"
               formControlName="etiquetas"
-              placeholder="Escribe PALABRAS SUELTAS del CONTENIDO (separadas por comas)"
+              placeholder="Escribe palabras sueltas del contenido"
             />
             @if (etiquetas?.invalid && etiquetas?.touched) {
             <div class="invalid-feedback">
@@ -105,7 +105,7 @@
               [class.is-valid]="duracion?.valid && duracion?.touched"
               id="duracion"
               formControlName="duracion"
-              placeholder="Introduce un NÚMERO"
+              placeholder="Introduce un número para establecer la duración de la rutina"
             />
             @if (duracion?.invalid && duracion?.touched) {
             <div class="invalid-feedback">
@@ -143,27 +143,24 @@
             }
           </div>
 
-          <!-- Público -->
+          <!-- Imagen -->
           <div class="mb-4">
-            <label for="publico" class="form-label">¿Es pública? <span class="text-danger">*</span></label>
-            <select
-              id="publico"
-              class="form-select"
-              [class.is-invalid]="publico?.invalid && publico?.touched"
-              [class.is-valid]="publico?.valid && publico?.touched"
-              formControlName="publico"
-            >
-              <option value="" disabled selected>Seleccione una opción:</option>
-              <option [ngValue]="true">Sí</option>
-              <option [ngValue]="false">No</option>
-            </select>
-
-            @if (publico?.invalid && publico?.touched) {
-              <div class="invalid-feedback">
-                @if (publico?.errors?.['required']) {
-                  <span>Debe indicar si la rutina es pública o no.</span>
-                }
-              </div>
+            <label for="imagen" class="form-label">Imagen <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              [class.is-invalid]="imagen?.invalid && imagen?.touched"
+              [class.is-valid]="imagen?.valid && imagen?.touched"
+              id="imagen"
+              formControlName="imagen"
+              placeholder="Introduce la url de una imagen"
+            />
+            @if (imagen?.invalid && imagen?.touched) {
+            <div class="invalid-feedback">
+              @if (titulo?.errors?.['required']) {
+                <span>La imagen es obligatorio.</span>
+              }
+            </div>
             }
           </div>
 

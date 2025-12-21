@@ -45,7 +45,7 @@ export class RoutedAdminNewZanon implements OnInit {
         Validators.min(0),
       ]],
       dificultad: ['', [Validators.required]],
-      publico: ['', [Validators.required]],
+      imagen: ['', [Validators.required]],
     });
   }
 
@@ -62,7 +62,7 @@ export class RoutedAdminNewZanon implements OnInit {
       etiquetas: this.zanonForm.value.etiquetas,
       duracion: this.zanonForm.value.duracion,
       dificultad: this.zanonForm.value.dificultad,
-      publico: this.zanonForm.value.publico,
+      imagen: this.zanonForm.value.imagen,
     };
 
     this.ZanonService.create(payload).subscribe({
@@ -72,7 +72,7 @@ export class RoutedAdminNewZanon implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
-        this.error = 'Error al crear el post';
+        this.error = 'Error al crear la rutina';
         console.error(err);
       },
     });
@@ -98,7 +98,7 @@ export class RoutedAdminNewZanon implements OnInit {
     return this.zanonForm.get('dificultad');
   }
 
-  get publico() {
-    return this.zanonForm.get('publico');
+  get imagen() {
+    return this.zanonForm.get('imagen');
   }
 }

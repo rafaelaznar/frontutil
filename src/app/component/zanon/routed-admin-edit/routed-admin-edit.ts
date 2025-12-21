@@ -51,7 +51,7 @@ export class RoutedAdminEditZanon implements OnInit {
                 Validators.min(0),
             ]],
             dificultad: ['', [Validators.required]],
-            publico: ['', [Validators.required]],
+            imagen: ['', [Validators.required]],
         });
     }
 
@@ -65,12 +65,12 @@ export class RoutedAdminEditZanon implements OnInit {
                     etiquetas: zanon.etiquetas,
                     duracion: zanon.duracion,
                     dificultad: zanon.dificultad,
-                    publico: zanon.publico,
+                    imagen: zanon.publico,
                 });
                 this.loading = false;
             },
             error: (err: HttpErrorResponse) => {
-                this.error = 'Error al cargar el post';
+                this.error = 'Error al cargar la rutina';
                 this.loading = false;
                 console.error(err);
             },
@@ -91,7 +91,7 @@ export class RoutedAdminEditZanon implements OnInit {
             etiquetas: this.zanonForm.value.etiquetas,
             duracion: this.zanonForm.value.duracion,
             dificultad: this.zanonForm.value.dificultad,
-            publico: this.zanonForm.value.publico
+            imagen: this.zanonForm.value.imagen
         };
 
         this.ZanonService.update(payload).subscribe({
@@ -101,7 +101,7 @@ export class RoutedAdminEditZanon implements OnInit {
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
-                this.error = 'Error al guardar el post';
+                this.error = 'Error al guardar la rutina';
                 console.error(err);
             },
         });
@@ -127,7 +127,7 @@ export class RoutedAdminEditZanon implements OnInit {
         return this.zanonForm.get('dificultad');
     }
 
-    get publico() {
-        return this.zanonForm.get('publico');
+    get imagen() {
+        return this.zanonForm.get('imagen');
     }
 }

@@ -45,4 +45,23 @@ export class ZanonService {
     rellenaBlog(numPosts: number): Observable<number> {
         return this.oHttp.get<number>(serverURL + '/zanon/rellena/' + numPosts);
     }
+
+    /**
+   * 
+   * Vaciar la tabla (DELETE /zanon/empty).
+   * Devuelve el número de filas eliminadas
+   * 
+   */
+
+    empty(): Observable<number> {
+        return this.oHttp.delete<number>(serverURL + '/zanon/empty');
+    }
+
+    publicar(id: number): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/zanon/publicar/' + id, {});
+    }
+
+    despublicar(id: number): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/zanon/despublicar/' + id, {});
+    }
 }
