@@ -116,7 +116,7 @@
         <div class="d-flex align-items-center gap-3">
           <app-paginacion
             [numPage]="numPage"
-            [numPages]="oPage?.totalPages || 1"
+            [numPages]="oPage.totalPages || 1"
             (pageChange)="irAPagina($event)"
           ></app-paginacion>
           <app-botonera-rpp [numRpp]="numRpp" (rppChange)="cambiarRpp($event)"></app-botonera-rpp>

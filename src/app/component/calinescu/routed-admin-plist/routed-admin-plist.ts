@@ -145,6 +145,13 @@ export class RoutedAdminPlistCalinescu {
     return false;
   }
 
+  /**
+   * Maneja los cambios en el filtro de texto.
+   * Implementa debounce de 400ms para evitar peticiones excesivas al servidor.
+   * 
+   * @param value - Texto ingresado en el campo de filtro
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   onFilterChange(value: string) {
     this.filterText = value;
     if (this.filterTimeout) {
@@ -157,11 +164,19 @@ export class RoutedAdminPlistCalinescu {
     return false;
   }
 
+  /**
+   * Calcula el total de precios de los items en la página actual.
+   * 
+   * @returns Suma de todos los precios de la página actual
+   */
   calcularTotal(): number {
     if (!this.oPage || !this.oPage.content) return 0;
     return this.oPage.content.reduce((sum, item) => sum + (item.precio || 0), 0);
   }
 
+  /**
+   * Carga el total global de precios de todos los items desde el servidor.
+   */
   cargarTotalGlobal() {
     this.oCalinescuService.getTotalPrecios().subscribe({
       next: (total: number) => {
@@ -173,6 +188,10 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Carga el total de registros sin aplicar el filtro actual.
+   * Utilizado para mostrar "X registros filtrados de Y totales".
+   */
   cargarTotalSinFiltro() {
     this.oCalinescuService.getCount(false, '').subscribe({
       next: (total: number) => {
@@ -184,6 +203,10 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Genera datos de prueba en el servidor.
+   * Muestra mensaje de éxito con la cantidad generada y lo oculta después de 5 segundos.
+   */
   generarDatosFalsos() {
     this.rellenaOk = null;
     this.rellenaError = null;
@@ -213,6 +236,9 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Muestra un diálogo de confirmación antes de borrar todos los elementos.
+   */
   confirmarBorrarTodo() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -228,6 +254,10 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Ejecuta el borrado de todos los elementos tras la confirmación.
+   * Actualiza el listado y el total global tras la eliminación.
+   */
   ejecutarBorrarTodo() {
     this.borrandoTodo = true;
     this.rellenaError = null;
@@ -251,6 +281,13 @@ export class RoutedAdminPlistCalinescu {
     });
   }
 
+  /**
+   * Publica un item específico.
+   * Muestra un spinner mientras se ejecuta la operación.
+   * 
+   * @param id - ID del item a publicar
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   publicar(id: number) {
     this.publishingId = id;
     this.publishingAction = 'publicar';
@@ -270,6 +307,13 @@ export class RoutedAdminPlistCalinescu {
     return false;
   }
 
+  /**
+   * Despublica un item específico (lo oculta de la vista pública).
+   * Muestra un spinner mientras se ejecuta la operación.
+   * 
+   * @param id - ID del item a despublicar
+   * @returns false para prevenir comportamiento por defecto del evento
+   */
   despublicar(id: number) {
     this.publishingId = id;
     this.publishingAction = 'despublicar';

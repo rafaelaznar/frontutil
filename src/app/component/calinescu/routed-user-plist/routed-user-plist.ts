@@ -88,11 +88,19 @@ export class RoutedUserPlistCalinescu {
     return false;
   }
 
+  /**
+   * Calcula el total de precios de los items en la página actual.
+   * 
+   * @returns Suma de todos los precios de la página actual
+   */
   calcularTotal(): number {
     if (!this.oPage || !this.oPage.content) return 0;
     return this.oPage.content.reduce((sum, item) => sum + (item.precio || 0), 0);
   }
 
+  /**
+   * Carga el total global de precios de todos los items publicados desde el servidor.
+   */
   cargarTotalGlobal() {
     this.oCalinescuService.getTotalPrecios(true).subscribe({
       next: (total: number) => {

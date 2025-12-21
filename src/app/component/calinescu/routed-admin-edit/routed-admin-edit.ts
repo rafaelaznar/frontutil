@@ -207,14 +207,22 @@ export class RoutedAdminEditCalinescu implements OnInit, CanComponentDeactivate 
         return this.calinescuForm.get('publicado');
     }
 
+    /** Getter para acceder al control 'precio' del formulario */
     get precio() {
         return this.calinescuForm.get('precio');
     }
 
+    /** Getter para acceder al control 'cantidad' del formulario */
     get cantidad() {
         return this.calinescuForm.get('cantidad');
     }
 
+    /**
+     * Implementación de CanComponentDeactivate.
+     * Previene la navegación si hay cambios sin guardar en el formulario.
+     * 
+     * @returns true si puede navegar, false o un observable según la decisión del usuario
+     */
     canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
         if (this.calinescuForm && this.calinescuForm.dirty && !this.submitting) {
             const ref = this.dialog.open(ConfirmDialogComponent, {
