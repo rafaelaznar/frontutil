@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPage } from '../../../model/plist';
 import { Paginacion } from "../../shared/paginacion/paginacion";
@@ -9,6 +9,9 @@ import { SalinasService } from '../../../service/salinas-receta';
 import { ISalinasReceta } from '../../../model/salinas-receta';
 import { CommonModule } from '@angular/common'; // Necesario para @if y @for
 import { FormsModule } from '@angular/forms'; // Necesario para el select
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-salinas-routed-admin-plist',
@@ -25,8 +28,15 @@ export class SalinasRoutedAdminPlist {
   rellenando: boolean = false;
   rellenaOk: number | null = null;
   rellenaError: string | null = null;
+  emptying: boolean = false;
+  emptyOk: number | null = null;
+  emptyError: string | null = null;
 
-  constructor(private oSalinasService: SalinasService) { }
+  message: string | null = null;
+  totalRecords: number = 0;
+
+
+  constructor(private oSalinasService: SalinasService, private dialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar) { }
 
   oBotonera: string[] = [];
 
@@ -87,6 +97,45 @@ export class SalinasRoutedAdminPlist {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
         console.error(err);
+      }
+    });
+  }
+
+   openEmptyConfirm() {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: 'Vaciar tabla de Posts',
+          message: '¿Está seguro de que desea borrar TODOS los posts? Esta acción es irreversible.'
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.doEmpty();
+        }
+      });
+    }
+
+  private doEmpty() {
+    this.emptying = true;
+    this.emptyOk = null;
+    this.emptyError = null;
+    // notificar inicio con el conteo actual
+    this.snackBar.open(`Vaciando tabla... (actual: ${this.totalRecords})`, 'Cerrar', { duration: 3000 });
+    this.oSalinasService.empty().subscribe({
+      next: (count: number) => {
+        this.emptying = false;
+        this.emptyOk = count;
+        // refrescar listado
+        this.numPage = 0;
+        this.getPage();
+        this.snackBar.open(`Tabla vaciada. Eliminados: ${count}. Total ahora: 0`, 'Cerrar', { duration: 4000 });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.emptying = false;
+        this.emptyError = 'Error vaciando la tabla';
+        console.error(err);
+        this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
       }
     });
   }

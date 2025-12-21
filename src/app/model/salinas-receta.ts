@@ -5,5 +5,5 @@ export interface ISalinasReceta {
     preparacion: string
     fechaCreacion: string
     fechaModificacion: any
-
+    publicado: boolean
 }

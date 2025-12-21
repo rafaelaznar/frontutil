@@ -40,7 +40,7 @@ export class SalinasRoutedAdminNew implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]],
-      
+      publicado: [false],
     });
   }
 
@@ -55,6 +55,7 @@ export class SalinasRoutedAdminNew implements OnInit {
       nombre: this.salinasRecetaForm.value.nombre,
       ingredientes: this.salinasRecetaForm.value.ingredientes,
       preparacion: this.salinasRecetaForm.value.preparacion,
+      publicado: this.salinasRecetaForm.value.publicado,
     };
 
     this.salinasService.create(payload).subscribe({
@@ -82,5 +83,7 @@ export class SalinasRoutedAdminNew implements OnInit {
     return this.salinasRecetaForm.get('preparacion');
   }
 
- 
+  get publicado() {
+    return this.salinasRecetaForm.get('publicado');
+  }
 }

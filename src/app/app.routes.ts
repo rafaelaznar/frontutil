@@ -244,7 +244,7 @@ export const routes: Routes = [
   { path: 'palomares/edit/:id', component: RoutedAdminEditPalomares },
   { path: 'palomares/remove/:id', component: RoutedAdminRemovePalomares },
   // Rutas de Joan Salinas
-  { path: 'receta', component: SalinasRoutedUserPlist },
+  { path: 'receta', component: SalinasRoutedUserPlist, },
   { path: 'receta/post/:id', component: SalinasRoutedUserView },
   { path: 'receta/plist', component: SalinasRoutedAdminPlist },
   { path: 'receta/view/:id', component: SalinasRoutedAdminView },
