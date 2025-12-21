@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { debug } from '../../../environment/environment';
 import { DecimalPipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { IPage } from '../../../model/plist';
 import { ICalinescu } from '../../../model/calinescu';
 import { CalinescuService } from '../../../service/calinescu.service';
@@ -48,7 +51,10 @@ export class RoutedAdminPlistCalinescu {
   totalGlobal: number = 0;
   borrandoTodo: boolean = false;
 
-  constructor(private oCalinescuService: CalinescuService) { }
+  constructor(
+    private oCalinescuService: CalinescuService,
+    private dialog: MatDialog
+  ) { }
 
   oBotonera: string[] = [];
   // publishing state to show per-row spinner
@@ -59,6 +65,7 @@ export class RoutedAdminPlistCalinescu {
   orderDirection: string = 'asc';
   filterText: string = '';
   filterTimeout: any = null;
+  totalSinFiltro: number = 0;
 
   ngOnInit() {
     this.obtenerPagina();
@@ -73,15 +80,20 @@ export class RoutedAdminPlistCalinescu {
   this.oCalinescuService.getPageWithFilter(this.numPage, this.numRpp, this.orderField, this.orderDirection, false, this.filterText).subscribe({
       next: (data: IPage<ICalinescu>) => {
         this.oPage = data;
-        this.rellenaOk = this.oPage.totalElements;
         // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.obtenerPagina();
         }
+        // Cargar total sin filtro si hay filtro activo
+        if (this.filterText) {
+          this.cargarTotalSinFiltro();
+        } else {
+          this.totalSinFiltro = data.totalElements;
+        }
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error);
+        if (debug) console.error(error);
       },
     });
   }
@@ -156,7 +168,18 @@ export class RoutedAdminPlistCalinescu {
         this.totalGlobal = total;
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error al cargar total global:', error);
+        if (debug) console.error('Error al cargar total global:', error);
+      },
+    });
+  }
+
+  cargarTotalSinFiltro() {
+    this.oCalinescuService.getCount(false, '').subscribe({
+      next: (total: number) => {
+        this.totalSinFiltro = total;
+      },
+      error: (error: HttpErrorResponse) => {
+        if (debug) console.error('Error al cargar total sin filtro:', error);
       },
     });
   }
@@ -168,32 +191,62 @@ export class RoutedAdminPlistCalinescu {
     this.oCalinescuService.rellenaListaCompra(this.rellenaCantidad).subscribe({
       next: (count: number) => {
         this.rellenando = false;
-        this.rellenaOk = count;
+        this.rellenaOk = this.rellenaCantidad; // Mostrar la cantidad que se acaba de generar, no el total
         this.obtenerPagina();
         this.cargarTotalGlobal(); // Actualizar total después de generar datos
+        
+        // Hacer que el mensaje desaparezca después de 5 segundos
+        setTimeout(() => {
+          this.rellenaOk = null;
+        }, 5000);
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
-        console.error(err);
+        if (debug) console.error(err);
+        
+        // Hacer que el error desaparezca después de 5 segundos
+        setTimeout(() => {
+          this.rellenaError = null;
+        }, 5000);
       }
     });
   }
 
   confirmarBorrarTodo() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirmación de Borrado Irreversible',
+        message: '¿Estás seguro de que deseas borrar TODOS los elementos? Esta acción no se puede deshacer.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.ejecutarBorrarTodo();
+      }
+    });
+  }
+
+  ejecutarBorrarTodo() {
     this.borrandoTodo = true;
     this.rellenaError = null;
+    this.rellenaOk = null;
     this.oCalinescuService.deleteAll().subscribe({
       next: (count: number) => {
         this.borrandoTodo = false;
-        this.rellenaOk = 0;
         this.obtenerPagina();
         this.cargarTotalGlobal();
       },
       error: (err: HttpErrorResponse) => {
         this.borrandoTodo = false;
         this.rellenaError = 'Error al borrar todos los elementos';
-        console.error(err);
+        if (debug) console.error(err);
+        
+        // Hacer que el error desaparezca después de 5 segundos
+        setTimeout(() => {
+          this.rellenaError = null;
+        }, 5000);
       }
     });
   }
@@ -209,7 +262,7 @@ export class RoutedAdminPlistCalinescu {
         this.cargarTotalGlobal();
       },
       error: (err: any) => {
-        console.error(err);
+        if (debug) console.error(err);
         this.publishingId = null;
         this.publishingAction = null;
       }
@@ -228,7 +281,7 @@ export class RoutedAdminPlistCalinescu {
         this.cargarTotalGlobal();
       },
       error: (err: any) => {
-        console.error(err);
+        if (debug) console.error(err);
         this.publishingId = null;
         this.publishingAction = null;
       }

@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { IPage } from '../../../model/plist';
+import { debug } from '../../../environment/environment';
 import { ICalinescu } from '../../../model/calinescu';
 import { CalinescuService } from '../../../service/calinescu.service';
 import { Paginacion } from "../../shared/paginacion/paginacion";
@@ -58,7 +59,7 @@ export class RoutedUserPlistCalinescu {
         }
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error al cargar datos:', error);
+        if (debug) console.error('Error al cargar datos:', error);
       },
     });
   }
@@ -98,7 +99,7 @@ export class RoutedUserPlistCalinescu {
         this.totalGlobal = total;
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error al cargar total global:', error);
+        if (debug) console.error('Error al cargar total global:', error);
       },
     });
   }

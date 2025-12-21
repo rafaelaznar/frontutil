@@ -4,6 +4,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CalinescuService } from '../../../service/calinescu.service';
 import { ICalinescu } from '../../../model/calinescu';
 import { HttpErrorResponse } from '@angular/common/http';
+import { debug } from '../../../environment/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { CanComponentDeactivate } from '../../../guards/pending-changes.guard';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs';
 
 /**
  * Componente para editar un item existente de la lista de compras (vista admin).
@@ -21,11 +26,12 @@ import { HttpErrorResponse } from '@angular/common/http';
     templateUrl: './routed-admin-edit.html',
     styleUrl: './routed-admin-edit.css',
 })
-export class RoutedAdminEditCalinescu implements OnInit {
+export class RoutedAdminEditCalinescu implements OnInit, CanComponentDeactivate {
     private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private calinescuService = inject(CalinescuService);
+    private dialog = inject(MatDialog);
 
     /** Formulario reactivo para editar el item */
     calinescuForm!: FormGroup;
@@ -106,7 +112,7 @@ export class RoutedAdminEditCalinescu implements OnInit {
             error: (err: HttpErrorResponse) => {
                 this.error = 'Error al cargar el item';
                 this.loading = false;
-                console.error(err);
+                if (debug) console.error(err);
             },
         });
     }
@@ -159,7 +165,7 @@ export class RoutedAdminEditCalinescu implements OnInit {
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
                 this.error = 'Error al guardar el item';
-                console.error(err);
+                if (debug) console.error(err);
             },
         });
     }
@@ -206,5 +212,18 @@ export class RoutedAdminEditCalinescu implements OnInit {
 
     get cantidad() {
         return this.calinescuForm.get('cantidad');
+    }
+
+    canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+        if (this.calinescuForm && this.calinescuForm.dirty && !this.submitting) {
+            const ref = this.dialog.open(ConfirmDialogComponent, {
+                data: {
+                    title: 'Cambios sin guardar',
+                    message: '¿Estas seguro de que deseas salir sin guardar los cambios?'
+                }
+            });
+            return ref.afterClosed();
+        }
+        return true;
     }
 }

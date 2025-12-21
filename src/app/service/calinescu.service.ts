@@ -117,4 +117,11 @@ export class CalinescuService {
     return this.oHttp.post<number>(serverURL + '/calinescuListaCompra/despublicar/' + id, {});
   }
 
+  getCount(soloPublicados: boolean = false, filter: string = ''): Observable<number> {
+    const publicadoParam = soloPublicados ? '?publicado=true' : '';
+    const separator = publicadoParam ? '&' : '?';
+    const filterParam = filter ? `${separator}filter=${encodeURIComponent(filter)}` : '';
+    return this.oHttp.get<number>(serverURL + '/calinescuListaCompra/count' + publicadoParam + filterParam);
+  }
+
 }

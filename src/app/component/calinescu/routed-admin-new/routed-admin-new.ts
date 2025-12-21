@@ -4,6 +4,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CalinescuService } from '../../../service/calinescu.service';
 import { ICalinescu } from '../../../model/calinescu';
 import { HttpErrorResponse } from '@angular/common/http';
+import { debug } from '../../../environment/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { CanComponentDeactivate } from '../../../guards/pending-changes.guard';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-routed-admin-new-calinescu',
@@ -11,10 +16,11 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './routed-admin-new.html',
   styleUrl: './routed-admin-new.css',
 })
-export class RoutedAdminNewCalinescu implements OnInit {
+export class RoutedAdminNewCalinescu implements OnInit, CanComponentDeactivate {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private calinescuService = inject(CalinescuService);
+  private dialog = inject(MatDialog);
 
   calinescuForm!: FormGroup;
   error: string | null = null;
@@ -74,7 +80,7 @@ export class RoutedAdminNewCalinescu implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
         this.error = 'Error al crear el item';
-        console.error(err);
+        if (debug) console.error(err);
       },
     });
   }
@@ -111,5 +117,18 @@ export class RoutedAdminNewCalinescu implements OnInit {
 
   get cantidad() {
     return this.calinescuForm.get('cantidad');
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.calinescuForm && this.calinescuForm.dirty && !this.submitting) {
+      const ref = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          title: 'Cambios sin guardar',
+          message: '¿Estas seguro de que deseas salir sin guardar los cambios?'
+        }
+      });
+      return ref.afterClosed();
+    }
+    return true;
   }
 }

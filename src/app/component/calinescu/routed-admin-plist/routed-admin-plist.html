@@ -113,7 +113,7 @@
           </button>
         </div>
         @if (oPage && oPage.totalElements > 0) {
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center gap-3">
           <app-paginacion
             [numPage]="numPage"
             [numPages]="oPage?.totalPages || 1"
@@ -257,15 +257,20 @@
             </tbody>
             <tfoot>
               <tr class="table-success">
-                <th colspan="2" class="text-end fw-bold">TOTAL DE TODA LA LISTA:</th>
+                <th colspan="2" class="text-end fw-bold">Total de toda la lista:</th>
                 <th>
                   <span class="badge bg-success fs-6">
                     <i class="bi bi-currency-euro me-1"></i>{{ totalGlobal | number : '1.2-2' }} €
                   </span>
                 </th>
                 <th colspan="5" class="text-muted small">
-                  <i class="bi bi-info-circle me-1"></i>Total de
-                  {{ oPage?.totalElements || 0 }} productos
+                  <i class="bi bi-info-circle me-1"></i>
+                  @if (filterText) {
+                    <span class="text-primary fw-semibold">{{ oPage?.totalElements || 0 }} registros filtrados</span>
+                    de {{ totalSinFiltro }} totales
+                  } @else {
+                    {{ oPage?.totalElements || 0 }} productos en total
+                  }
                 </th>
               </tr>
             </tfoot>

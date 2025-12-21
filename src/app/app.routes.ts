@@ -206,8 +206,8 @@ export const routes: Routes = [
   { path: 'calinescu/item/:id', component: RoutedUserViewCalinescu },
   { path: 'calinescu/plist', component: RoutedAdminPlistCalinescu, canActivate: [AdminGuard] },
   { path: 'calinescu/view/:id', component: RoutedAdminViewCalinescu, canActivate: [AdminGuard] },
-  { path: 'calinescu/new', component: RoutedAdminNewCalinescu, canActivate: [AdminGuard] },
-  { path: 'calinescu/edit/:id', component: RoutedAdminEditCalinescu, canActivate: [AdminGuard] },
+  { path: 'calinescu/new', component: RoutedAdminNewCalinescu, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'calinescu/edit/:id', component: RoutedAdminEditCalinescu, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
   { path: 'calinescu/remove/:id', component: RoutedAdminRemoveCalinescu, canActivate: [AdminGuard] },
   //
   { path: 'garcia', component: RoutedUserPlistGarcia },
