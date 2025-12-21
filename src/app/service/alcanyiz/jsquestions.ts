@@ -56,5 +56,21 @@ export class jsQuestionService{
         return this.oHttp.get<number>(serverURL + '/alcanyiz/rellena/' + numPosts);
       }
 
+      cantityQuestions(): Observable<number> {
+        return this.oHttp.get<number>(serverURL + '/alcanyiz/cantity');
+      }
+
+      publicar(id: number): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/alcanyiz/publicar/' + id, {});
+      }
+
+      despublicar(id: number): Observable<number> {
+        return this.oHttp.put<number>(serverURL + '/alcanyiz/despublicar/' + id, {});
+      }
+
+      empty(): Observable<number> {
+        return this.oHttp.delete<number>(serverURL + '/alcanyiz/empty');
+      }
+
 }
 

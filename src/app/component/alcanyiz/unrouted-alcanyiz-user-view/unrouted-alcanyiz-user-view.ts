@@ -2,10 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { questionModel } from '../../../model/alcanyiz/questionsModel_Alan';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-unrouted-alcanyiz-user-view',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './unrouted-alcanyiz-user-view.html',
   styleUrls: ['./unrouted-alcanyiz-user-view.css'],
 })

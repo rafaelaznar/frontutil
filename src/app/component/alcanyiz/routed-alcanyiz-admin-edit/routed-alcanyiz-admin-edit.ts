@@ -5,10 +5,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule,  Validators } from '@angul
 import { ActivatedRoute, Router } from '@angular/router';
 import { jsQuestionService } from '../../../service/alcanyiz/jsquestions';
 import { RouterLink } from '@angular/router';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-routed-alcanyiz-admin-edit',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, MatDialogModule, MatSnackBarModule],
   templateUrl: './routed-alcanyiz-admin-edit.html',
   styleUrl: './routed-alcanyiz-admin-edit.css',
 })
@@ -17,6 +20,8 @@ export class RoutedAlcanyizAdminEdit {
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private questionService = inject(jsQuestionService);
+    private dialog = inject(MatDialog);
+    private snackBar = inject(MatSnackBar);
 
     questionForm!: FormGroup;
     questionId: number | null = null;
@@ -49,6 +54,9 @@ export class RoutedAlcanyizAdminEdit {
             answer3: ['', [Validators.required]],
             answer4: ['', [Validators.required]],
             correct: [1, [Validators.required, Validators.min(1), Validators.max(4)]],
+            // nuevos controles
+            tema: ['backend', [Validators.required]],
+            publicado: [false]
         });
     }
 
@@ -63,6 +71,9 @@ export class RoutedAlcanyizAdminEdit {
                     answer3: question.answer3,
                     answer4: question.answer4,
                     correct: question.correct,
+                    // nuevos campos
+                    tema: (question as any).tema ?? 'backend',
+                    publicado: !!(question as any).publicado
                 });
                 this.loading = false;
             },
@@ -89,11 +100,17 @@ export class RoutedAlcanyizAdminEdit {
             answer3: this.questionForm.value.answer3,
             answer4: this.questionForm.value.answer4,
             correct: Number(this.questionForm.value.correct),
+            tema: this.questionForm.value.tema,
+            publicado: !!this.questionForm.value.publicado,
         };
 
         this.questionService.update(payload).subscribe({
             next: () => {
                 this.submitting = false;
+                if (this.questionForm) {
+                        this.questionForm.markAsPristine();
+                }
+                this.snackBar.open('Pregunta guardada', 'Cerrar', { duration: 3000 });
                 this.router.navigate(['/alcanyiz/questionlist']);
             },
             error: (err: HttpErrorResponse) => {
@@ -102,6 +119,20 @@ export class RoutedAlcanyizAdminEdit {
                 console.error(err);
             },
         });
+    }
+
+    // Guard: ask confirmation if the form has unsaved changes
+    canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+        if (!this.questionForm || !this.questionForm.dirty) {
+            return true;
+        }
+        const ref = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'Cambios sin guardar',
+                message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+            }
+        });
+        return ref.afterClosed();
     }
 
   get question() {
@@ -123,5 +154,13 @@ export class RoutedAlcanyizAdminEdit {
 
   get correct() {
     return this.questionForm.get('correct');
+  }
+
+  get tema() {
+    return this.questionForm.get('tema');
+  }
+
+  get publicado() {
+    return this.questionForm.get('publicado');
   }
 }
