@@ -31,6 +31,9 @@ export class SalinasRoutedAdminPlist {
   emptying: boolean = false;
   emptyOk: number | null = null;
   emptyError: string | null = null;
+  totalElementsCount: number = 0;
+  publishingId: number | null = null;
+  publishingAction: 'publicar' | 'despublicar' | null = null;
 
   message: string | null = null;
   totalRecords: number = 0;
@@ -39,6 +42,8 @@ export class SalinasRoutedAdminPlist {
   constructor(private oSalinasService: SalinasService, private dialog: MatDialog, private route: ActivatedRoute, private snackBar: MatSnackBar) { }
 
   oBotonera: string[] = [];
+  orderField: string = 'id';
+  orderDirection: string = 'asc';
 
   ngOnInit() {
     this.getPage();
@@ -49,6 +54,9 @@ export class SalinasRoutedAdminPlist {
     this.oSalinasService.getPage(this.numPage, this.numRpp, 'id', 'asc').subscribe({ 
       next: (data: IPage<ISalinasReceta>) => {
         this.oPage = data;
+        // actualizar contador actual
+        this.totalElementsCount = data.totalElements ?? 0;
+        this.rellenaOk = this.totalElementsCount;
         // La variable rellenaOk ahora solo muestra el éxito del bulkCreate, no el total
         // this.rellenaOk = this.oPage.totalElements; // LINEA ELIMINADA (confunde el mensaje de éxito)
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
@@ -60,6 +68,18 @@ export class SalinasRoutedAdminPlist {
         console.error(error);
       },
     });
+  }
+
+  onOrder(order: string) {
+    if (this.orderField === order) {
+      this.orderDirection = this.orderDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.orderField = order;
+      this.orderDirection = 'asc';
+    }
+    this.numPage = 0;
+    this.getPage();
+    return false;
   }
 
   goToPage(numPage: number) {
@@ -83,20 +103,21 @@ export class SalinasRoutedAdminPlist {
     this.rellenaOk = null;
     this.rellenaError = null;
     this.rellenando = true;
-    
+    this.snackBar.open(`Generando ${this.rellenaCantidad} posts... (actual: ${this.totalElementsCount})`, 'Cerrar', { duration: 3000 });
     // ¡CORRECCIÓN AQUÍ! Llama al método bulkCreate del servicio
     this.oSalinasService.bulkCreate(this.rellenaCantidad).subscribe({ 
       next: (count: number) => {
         this.rellenando = false;
         // El backend devuelve el total. Aquí mostramos la cantidad generada.
         this.rellenaOk = this.rellenaCantidad; 
-        this.numPage = 0; // Ir a la primera página para ver los nuevos datos
-        this.getPage(); // refrescamos listado
+        this.getPage();
+        this.snackBar.open(`Generados ${count} posts. Total ahora: ${this.totalElementsCount + count}`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
         console.error(err);
+        this.snackBar.open('Error generando datos de prueba', 'Cerrar', { duration: 4000 });
       }
     });
   }
@@ -138,5 +159,41 @@ export class SalinasRoutedAdminPlist {
         this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
       }
     });
+  }
+
+  publicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'publicar';
+    this.oSalinasService.publicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
+  }
+
+  despublicar(id: number) {
+    this.publishingId = id;
+    this.publishingAction = 'despublicar';
+    this.oSalinasService.despublicar(id).subscribe({
+      next: () => {
+        this.publishingId = null;
+        this.publishingAction = null;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.publishingId = null;
+        this.publishingAction = null;
+      }
+    });
+    return false;
   }
 }
