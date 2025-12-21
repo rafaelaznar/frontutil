@@ -110,7 +110,7 @@ export class SemperteguiRoutedAdminPlist {
     });
   }
 
-  openEmptyConfirm() {
+  openEmptyConfirm(): void {
     const dialogRef = this.dialog.open(ConfirmDeleteAllDialog, {
       data: {
         title: 'Vaciar Registros de la Tabla Película',
@@ -125,7 +125,7 @@ export class SemperteguiRoutedAdminPlist {
     });
   }
 
-  private doEmpty() {
+  private doEmpty(): void {
     this.emptyError = null;
     this.emptying = true;
     // notificar inicio con el conteo actual

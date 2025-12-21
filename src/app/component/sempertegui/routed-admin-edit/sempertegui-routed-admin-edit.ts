@@ -6,7 +6,7 @@ import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmLeaveDialog } from '../confirm-dialog/confirm-leave-dialog';
 import { Location } from '@angular/common';
 
 @Component({
@@ -149,13 +149,13 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
         if (!this.movieForm || !this.movieForm.dirty) {
             return true;
         }
-        const ref = this.dialog.open(ConfirmDialogComponent, {
+        const dialogRef = this.dialog.open(ConfirmLeaveDialog, {
             data: {
                 title: 'Cambios sin guardar',
                 message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
             }
         });
-        return ref.afterClosed();
+        return dialogRef.afterClosed();
     }
 
     get titulo() {
