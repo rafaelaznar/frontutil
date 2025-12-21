@@ -10,7 +10,7 @@
       <div class="card shadow-sm p-3 w-100" style="max-width: 720px">
         <div class="d-flex flex-wrap align-items-center gap-3">
           <label for="rellenaSelect" class="form-label m-0 fw-semibold"
-            >Generar datos falsos:</label
+            >Generar datos:</label
           >
           <select
             #cantidadSel
@@ -41,7 +41,7 @@
           <button
             class="btn btn-outline-danger btn-sm position-relative"
             [disabled]="rellenando || deletingAll"
-            (click)="deleteAll()"
+            (click)="confirmDelete()"
           >
             @if (deletingAll) {
             <span
@@ -56,7 +56,7 @@
 
           @if (rellenaOk) {
           <div class="text-success small d-flex align-items-center">
-            <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} posts
+            <i class="bi bi-check-circle me-1"></i>{{ rellenaOk }} registros generados
           </div>
           } @if (rellenaError) {
           <div class="text-danger small d-flex align-items-center">

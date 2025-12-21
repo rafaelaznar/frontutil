@@ -8,10 +8,20 @@ import { IVisita } from '../../types/visitas';
 import { RouterLink } from "@angular/router";
 import { RegistroTablaComponent } from '../../components/registro-tabla-private/registro-tabla-private.component';
 import { BotoneraRpp } from "../../../shared/botonera-rpp/botonera-rpp";
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { ConfirmDeleteDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin.page',
-  imports: [CommonModule, RouterLink, Paginacion, RegistroTablaComponent, BotoneraRpp],
+  imports: [
+    CommonModule,
+    RouterLink,
+    Paginacion,
+    RegistroTablaComponent,
+    BotoneraRpp,
+    MatIconModule
+  ],
   templateUrl: './admin.page.html',
   styleUrl: './admin.page.css',
 })
@@ -29,7 +39,10 @@ export class UskiAdminPage {
   column: string = 'fechaCreacion';
   direction: 'asc' | 'desc' = 'desc';
 
-  constructor(private oVisitasService: VisitasService) { }
+  constructor(
+    private oVisitasService: VisitasService,
+    private dialog: MatDialog,
+  ) { }
 
   oBotonera: string[] = [];
 
@@ -90,7 +103,7 @@ export class UskiAdminPage {
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
-        this.rellenaError = 'Error generando datos fake';
+        this.rellenaError = 'Error generando datos';
         console.error(err);
       }
     });
@@ -114,5 +127,23 @@ export class UskiAdminPage {
         console.error(err);
       }
     });
+  }
+
+  confirmDelete(): void {
+    this.dialog
+      .open(ConfirmDeleteDialogComponent, {
+        width: '420px',
+        disableClose: true,
+        data: {
+          title: 'Borrar todo',
+          message: '¿Seguro que quieres borrar?'
+        }
+      })
+      .afterClosed()
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.deleteAll();
+        }
+      });
   }
 }
