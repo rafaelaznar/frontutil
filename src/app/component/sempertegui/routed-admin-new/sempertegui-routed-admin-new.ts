@@ -31,6 +31,11 @@ export class SemperteguiRoutedAdminNew implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(100)
       ]],
+      sinopsis: ['', [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(1024)
+      ]],
       generos: ['', [
         Validators.required,
         Validators.minLength(3),
@@ -50,7 +55,8 @@ export class SemperteguiRoutedAdminNew implements OnInit {
         Validators.min(1901),
         Validators.max(2155),
         Validators.pattern('^[0-9]*$')
-      ]]
+      ]],
+      publicado: [false],
     });
   }
 
@@ -76,7 +82,7 @@ export class SemperteguiRoutedAdminNew implements OnInit {
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
-        this.error = 'Error al añadir un post de película';
+        this.error = 'Error al crear el nuevo registro ';
         console.error(err);
       },
     });
@@ -84,6 +90,9 @@ export class SemperteguiRoutedAdminNew implements OnInit {
 
   get titulo() {
     return this.movieForm.get('titulo');
+  }
+  get sinopsis() {
+    return this.movieForm.get('sinopsis');
   }
 
   get generos() {
@@ -100,5 +109,9 @@ export class SemperteguiRoutedAdminNew implements OnInit {
   
   get anyo() {
     return this.movieForm.get('anyo');
+  }
+
+  get publicado() {
+    return this.movieForm.get('publicado');
   }
 }

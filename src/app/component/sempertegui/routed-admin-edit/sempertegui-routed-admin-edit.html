@@ -41,9 +41,9 @@
               @if (titulo?.errors?.['required']) {
                 <span>El campo título no puedo estar vacío.</span>
               } @else if (titulo?.errors?.['minlength']) {
-                <span>El campo título debe tener al menos 2 caracteres.</span>
+                <span>Debe contener al menos 2 caracteres.</span>
               } @else if (titulo?.errors?.['maxlength']) {
-                <span>El campo título no puede superar 100 caracteres.</span>
+                <span>No puede superar 100 caracteres.</span>
               }
             </div>
             }
@@ -66,9 +66,9 @@
               @if (sinopsis?.errors?.['required']) {
                 <span>La sinopsis no puede estar vacía.</span>
               } @else if (sinopsis?.errors?.['minlength']) {
-                <span>La sinopsis debe tener al menos 10 caracteres.</span>
+                <span>Debe contener al menos 10 caracteres.</span>
               } @else if(sinopsis?.errors?.['maxlength']) {
-                <span>La sinopsis no puede ser más larga de 1024 caracteres.</span>
+                <span>No puede contener más de 1024 caracteres.</span>
               }
             </div>
             }
@@ -91,9 +91,9 @@
               @if (generos?.errors?.['required']) {
                 <span>El campo género no puede estar vacío.</span>
               } @else if (generos?.errors?.['minlength']) {
-                <span>El campo género debe tener al menos 3 caracteres.</span>
+                <span>Debe contener al menos 3 caracteres.</span>
               } @else if (generos?.errors?.['maxlength']) {
-                <span>El campo género no puede superar 100 caracteres.</span>
+                <span>No puede superar los 100 caracteres.</span>
               }
             </div>
             }
@@ -117,9 +117,9 @@
               @if (director?.errors?.['required']) {
                 <span>El campo director no puede estar vacío.</span>
               } @else if (director?.errors?.['minlength']) {
-                <span>El campo director debe tener al menos 3 caracteres.</span>
+                <span>Debe contener al menos 3 caracteres.</span>
               } @else if (director?.errors?.['maxlength']) {
-                <span>El campo director no puede superar 100 caracteres.</span>
+                <span>No puede superar los 100 caracteres.</span>
               }
             </div>
             }
@@ -160,11 +160,11 @@
             @if (anyo?.invalid && anyo?.touched) {
             <div class="invalid-feedback">
               @if (anyo?.errors?.['required']) {
-                <span>El campo año es obligatorio.</span>
+                <span>El campo año no puede estar vacío.</span>
               } @else if (anyo?.errors?.['min']) {
-                <span>El campo año no puede ser menor a 1901.</span>
+                <span>No puede ser inferior a 1901.</span>
               } @else if(anyo?.errors?.['max']) {
-                  <span>El campo año no puede ser superior a 2155.</span>
+                  <span>No puede ser superior a 2155.</span>
               } @else if(anyo?.errors?.['pattern']){
                   <span>El campo año solo admite números enteros.</span>
               }

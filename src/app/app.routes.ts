@@ -90,6 +90,7 @@ import { AlcaldeRoutedAdminRemove } from './component/alcalde/routed-admin-remov
 import { AlcaldeRoutedUserPlist } from './component/alcalde/routed-user-plist/routed-user-plist';
 import { AlcaldeRoutedUserView } from './component/alcalde/routed-user-view/routed-user-view';
 //
+import { SemperteguiRoutedUserView } from './component/sempertegui/routed-user-view/sempertegui-routed-user-view';
 import { SemperteguiRoutedUserPlist } from './component/sempertegui/routed-user-plist/sempertegui-routed-user-plist';
 import { SemperteguiRoutedAdminPlist } from './component/sempertegui/routed-admin-plist/sempertegui-routed-admin-plist';
 import { SemperteguiRoutedAdminView } from './component/sempertegui/routed-admin-view/sempertegui-routed-admin-view';
@@ -155,6 +156,7 @@ import { RoutedAdminNewZanon } from './component/zanon/routed-admin-new/routed-a
 import { RoutedAdminRemoveZanon } from './component/zanon/routed-admin-remove/routed-admin-remove';
 import { AdminGuard } from './guards/admin.guard';
 import { PendingChangesGuard } from './guards/pending-changes.guard';
+
 //
 export const routes: Routes = [
   { path: '', component: Home },
@@ -276,6 +278,7 @@ export const routes: Routes = [
   { path: 'alcalde/remove/:id', component: AlcaldeRoutedAdminRemove },
   //
   { path: 'sempertegui', component: SemperteguiRoutedUserPlist },
+  { path: 'sempertegui/post/:id', component: SemperteguiRoutedUserView },
   { path: 'sempertegui/plist', component: SemperteguiRoutedAdminPlist, canActivate: [AdminGuard] },
   { path: 'sempertegui/view/:id', component: SemperteguiRoutedAdminView, canActivate: [AdminGuard] },
   { path: 'sempertegui/new', component: SemperteguiRoutedAdminNew, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },

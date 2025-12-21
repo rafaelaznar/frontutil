@@ -75,7 +75,7 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                 Validators.max(2155),
                 Validators.pattern('^[0-9]*$')
             ]],
-            publicado: [false]
+            publicado: [false],
         });
     }
 

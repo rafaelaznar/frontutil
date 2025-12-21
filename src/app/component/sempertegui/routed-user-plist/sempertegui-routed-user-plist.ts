@@ -16,7 +16,7 @@ import { MovieCardComponent } from "../movie-card/movie-card";
 export class SemperteguiRoutedUserPlist {
   oPage: IPage<IPelicula> | null = null;
   numPage: number = 0;
-  numRpp: number = 4;
+  numRpp: number = 3;
   // contador actual de elementos en la tabla pública
   totalElementsCount: number = 0;
 
