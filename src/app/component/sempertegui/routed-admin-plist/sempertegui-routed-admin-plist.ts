@@ -10,7 +10,7 @@ import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 import { MatDialog } from '@angular/material/dialog'; // MatDialogModule
 import { MatSnackBar } from '@angular/material/snack-bar'; // , MatSnackBarModule
-import { ConfirmDeleteAllDialog } from '../confirm-dialog/confirm-delete-all-dialog';
+import { ConfirmDeleteAllDialog, ConfirmDeleteDialog } from '../confirm-dialog/confirm-dialog.component';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -148,6 +148,41 @@ export class SemperteguiRoutedAdminPlist {
         this.emptyError = 'Error vaciando la tabla';
         console.error(err);
         this.snackBar.open('Error al vaciar la tabla', 'Cerrar', { duration: 4000 });
+      }
+    });
+  }
+
+
+  openConfirmDelete(id: number, titulo: string): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {
+      data: {
+        id,
+        titulo,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.confirmDelete(id, titulo);
+      }
+    });
+  }
+
+  confirmDelete(id: number, titulo: string) {
+    let error;
+    let deleting = true;
+    this.semperteguiService.delete(id).subscribe({
+      next: () => {
+        deleting = false;
+        this.snackBar.open(`Se ha eliminado ${titulo}`, 'Cerrar', { duration: 3000 });
+        this.getPage();
+        // this.router.navigate(['/sempertegui/plist']);
+      },
+      error: (err: HttpErrorResponse) => {
+        deleting = false;
+        error = 'Error borrando el post';
+        this.snackBar.open('Error al borrar el registro', 'Cerrar', { duration: 4000 });
+        console.error(err);
       }
     });
   }

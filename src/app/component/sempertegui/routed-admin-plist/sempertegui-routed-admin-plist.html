@@ -153,9 +153,12 @@
                         } @else { <i class="bi bi-eye-slash"></i> }
                       </button>
                     }
-                    <a [routerLink]="['/sempertegui/remove', movie.id]" class="btn btn-outline-danger" title="Eliminar">
+                    <button class="btn btn-outline-danger" title="Eliminar" (click)="openConfirmDelete(movie.id, movie.titulo)">
                       <i class="bi bi-trash"></i>
-                    </a>
+                    </button>
+                    <!-- <a [routerLink]="['/sempertegui/remove', movie.id]" class="btn btn-outline-danger" title="Eliminar">
+                      <i class="bi bi-trash"></i>
+                    </a> -->
                   </div>
                 </td>
               </tr>
