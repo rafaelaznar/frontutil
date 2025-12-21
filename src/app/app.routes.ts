@@ -246,11 +246,11 @@ export const routes: Routes = [
   // Rutas de Joan Salinas
   { path: 'receta', component: SalinasRoutedUserPlist, },
   { path: 'receta/post/:id', component: SalinasRoutedUserView },
-  { path: 'receta/plist', component: SalinasRoutedAdminPlist },
-  { path: 'receta/view/:id', component: SalinasRoutedAdminView },
-  { path: 'receta/new', component: SalinasRoutedAdminNew },
-  { path: 'receta/edit/:id', component: SalinasRoutedAdminEdit },
-  { path: 'receta/remove/:id', component: SalinasRoutedAdminRemove },
+  { path: 'receta/plist', component: SalinasRoutedAdminPlist, canActivate: [AdminGuard] },
+  { path: 'receta/view/:id', component: SalinasRoutedAdminView, canActivate: [AdminGuard] },
+  { path: 'receta/new', component: SalinasRoutedAdminNew, canActivate: [AdminGuard] },
+  { path: 'receta/edit/:id', component: SalinasRoutedAdminEdit, canActivate: [AdminGuard] },
+  { path: 'receta/remove/:id', component: SalinasRoutedAdminRemove, canActivate: [AdminGuard] },
   //
   { path: 'pallas/plist', component: PallasPlist },
   { path: 'pallas/new', component: PallasNew },
