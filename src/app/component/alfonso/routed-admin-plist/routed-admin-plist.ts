@@ -25,6 +25,8 @@ export class RoutedAlfonsoAdminPlist {
   rellenando: boolean = false;
   rellenaOk: number | null = null;
   rellenaError: string | null = null;
+  emptying: boolean = false;
+  statusMsg: string | null = null;
 
   constructor(private oService: AlfonsoRespuestaService) { }
 
@@ -89,6 +91,43 @@ export class RoutedAlfonsoAdminPlist {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos fake';
         console.error(err);
+      }
+    });
+  }
+
+  togglePublicado(item: IAlfonsoRespuesta) {
+    this.statusMsg = null;
+    const obs = item.publicado ? this.oService.despublicar(item.id) : this.oService.publicar(item.id);
+    obs.subscribe({
+      next: () => {
+        this.statusMsg = 'Estado actualizado';
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.statusMsg = 'No se pudo cambiar el estado';
+      }
+    });
+  }
+
+  emptyTable() {
+    if (this.emptying) return;
+    if (!confirm('Vaciar todas las respuestas? Esta acción es irreversible')) {
+      return;
+    }
+    this.emptying = true;
+    this.statusMsg = null;
+    this.oService.empty().subscribe({
+      next: (count: number) => {
+        this.emptying = false;
+        this.statusMsg = `Tabla vaciada (${count} registros)`;
+        this.numPage = 0;
+        this.getPage();
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.emptying = false;
+        this.statusMsg = 'No se pudo vaciar la tabla';
       }
     });
   }

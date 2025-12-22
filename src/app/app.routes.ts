@@ -267,11 +267,11 @@ export const routes: Routes = [
   //
   { path: 'alfonso', component: RoutedAlfonsoUserPlist },
   { path: 'alfonso/respuesta/:id', component: RoutedAlfonsoUserView },
-  { path: 'alfonso/plist', component: RoutedAlfonsoAdminPlist },
-  { path: 'alfonso/view/:id', component: RoutedAlfonsoAdminView },
-  { path: 'alfonso/new', component: RoutedAlfonsoAdminNew },
-  { path: 'alfonso/edit/:id', component: RoutedAlfonsoAdminEdit },
-  { path: 'alfonso/remove/:id', component: RoutedAlfonsoAdminRemove },
+  { path: 'alfonso/plist', component: RoutedAlfonsoAdminPlist, canActivate: [AdminGuard] },
+  { path: 'alfonso/view/:id', component: RoutedAlfonsoAdminView, canActivate: [AdminGuard] },
+  { path: 'alfonso/new', component: RoutedAlfonsoAdminNew, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'alfonso/edit/:id', component: RoutedAlfonsoAdminEdit, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'alfonso/remove/:id', component: RoutedAlfonsoAdminRemove, canActivate: [AdminGuard] },
   //
   { path: 'alcalde', component: AlcaldeRoutedUserPlist },
   { path: 'alcalde/post/:id', component: AlcaldeRoutedUserView },
