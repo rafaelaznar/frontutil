@@ -242,11 +242,11 @@ export const routes: Routes = [
   //
   { path: 'palomares', component: RoutedUserPlistPalomares },
   { path: 'palomares/task/:id', component: RoutedUserViewPalomares },
-  { path: 'palomares/plist', component: RoutedAdminPlistPalomares },
-  { path: 'palomares/view/:id', component: RoutedAdminViewPalomares },
-  { path: 'palomares/new', component: RoutedAdminNewPalomares },
-  { path: 'palomares/edit/:id', component: RoutedAdminEditPalomares },
-  { path: 'palomares/remove/:id', component: RoutedAdminRemovePalomares },
+  { path: 'palomares/plist', component: RoutedAdminPlistPalomares, canActivate: [AdminGuard] },
+  { path: 'palomares/view/:id', component: RoutedAdminViewPalomares, canActivate: [AdminGuard] },
+  { path: 'palomares/new', component: RoutedAdminNewPalomares, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'palomares/edit/:id', component: RoutedAdminEditPalomares, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'palomares/remove/:id', component: RoutedAdminRemovePalomares, canActivate: [AdminGuard] },
   // Rutas de Joan Salinas
   { path: 'receta', component: SalinasRoutedUserPlist, },
   { path: 'receta/post/:id', component: SalinasRoutedUserView },
