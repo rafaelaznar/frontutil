@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-routed-admin-new',
-  imports: [ReactiveFormsModule, RouterLink, MatSnackBarModule],
+  imports: [ReactiveFormsModule, RouterLink, MatSnackBarModule, MatDialogModule],
   templateUrl: './routed-admin-new.html',
   styleUrl: './routed-admin-new.css',
 })
@@ -31,10 +31,22 @@ export class RoutedAdminNew implements OnInit {
 
   initForm(): void {
     this.silvestreForm = this.fb.group({
-  titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1024)]],
-  descripcion: ['', [Validators.required, Validators.minLength(3)]],
+  titulo: ['', [
+    Validators.required, 
+    Validators.minLength(3), 
+    Validators.maxLength(1024)
+  ]],
+  descripcion: ['', [
+    Validators.required, 
+    Validators.minLength(3)
+  ]],
   // backend requires min length 5 for urlImagen
-  urlImagen: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(2048)]],
+  urlImagen: ['', [
+    Validators.required, 
+    Validators.minLength(5), 
+    Validators.maxLength(2048)
+  ]],
+  publicado: [false]
     });
   }
 
@@ -59,19 +71,24 @@ export class RoutedAdminNew implements OnInit {
     }
 
     this.submitting = true;
-
     const payload = {
       titulo: this.silvestreForm.value.titulo!,
       descripcion: this.silvestreForm.value.descripcion!,
       urlImagen: this.silvestreForm.value.urlImagen!,
-      publicado: false,
+      publicado: this.silvestreForm.value.publicado,
     };
+    // debug: ensure published value is correct before sending
+    console.debug('Silvestre create payload', payload);
 
     this.silvestreService.create(payload).subscribe({
       next: () => {
         this.submitting = false;
-  this.router.navigate(['/silvestre/plist']);
-  this.snackBar.open('Publicación creada', 'Cerrar', { duration: 3000 });
+        // mark form as pristine so canDeactivate guard won't ask confirmation
+        if (this.silvestreForm) {
+          this.silvestreForm.markAsPristine();
+        }
+        this.snackBar.open('Publicación creada', 'Cerrar', { duration: 3000 });
+        this.router.navigate(['/silvestre/plist']);
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
@@ -83,15 +100,15 @@ export class RoutedAdminNew implements OnInit {
   }
 
   // Guard: ask confirmation if the form has unsaved changes
-  canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+  canDeactivate(): boolean | Promise<boolean> | import('rxjs').Observable<boolean> {
     if (!this.silvestreForm || !this.silvestreForm.dirty) {
       return true;
     }
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Cambios sin guardar',
-        message: 'Hay cambios sin guardar. \u00bfDesea salir sin guardar los cambios?'
-      }
+        message: 'Hay cambios sin guardar. \u00bfDesea salir sin guardar los cambios?',
+      },
     });
     return ref.afterClosed();
   }
@@ -106,5 +123,9 @@ export class RoutedAdminNew implements OnInit {
 
   get urlImagen() {
     return this.silvestreForm.get('urlImagen');
+  }
+
+    get publicado() {
+    return this.silvestreForm.get('publicado');
   }
 }
