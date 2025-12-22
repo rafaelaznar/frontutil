@@ -27,15 +27,24 @@ export class RoutedAlfonsoAdminPlist {
   rellenaError: string | null = null;
   emptying: boolean = false;
   statusMsg: string | null = null;
+  filter: string = '';
+  totalRegistros: number | null = null;
 
   constructor(private oService: AlfonsoRespuestaService) { }
 
   ngOnInit() {
+    this.loadTotals();
     this.getPage();
   }
 
+  loadTotals() {
+    this.oService.count().subscribe({
+      next: (total) => this.totalRegistros = total,
+    });
+  }
+
   getPage() {
-    this.oService.getPage(this.numPage, this.numRpp, this.order, this.direction).subscribe({
+    this.oService.getPage(this.numPage, this.numRpp, this.order, this.direction, this.filter).subscribe({
       next: (data: IPage<IAlfonsoRespuesta>) => {
         this.oPage = data;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
@@ -74,6 +83,16 @@ export class RoutedAlfonsoAdminPlist {
 
   onCantidadChange(value: string) {
     this.rellenaCantidad = +value;
+    return false;
+  }
+
+  onFilterChange(value: string) {
+    this.filter = value;
+  }
+
+  applyFilter() {
+    this.numPage = 0;
+    this.getPage();
     return false;
   }
 
