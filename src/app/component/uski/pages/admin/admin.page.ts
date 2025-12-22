@@ -10,7 +10,7 @@ import { RegistroTablaComponent } from '../../components/registro-tabla-private/
 import { BotoneraRpp } from "../../../shared/botonera-rpp/botonera-rpp";
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ConfirmDeleteDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin.page',
@@ -129,21 +129,20 @@ export class UskiAdminPage {
     });
   }
 
-  confirmDelete(): void {
+  confirmDeleteDB(): void {
     this.dialog
-      .open(ConfirmDeleteDialogComponent, {
-        width: '420px',
+      .open(ConfirmDialogComponent, {
         disableClose: true,
         data: {
-          title: 'Borrar todo',
-          message: '¿Seguro que quieres borrar?'
+          title: 'Vaciar todos los datos',
+          message: '¿Está seguro de que desea borrar TODOS los registros? Esta acción es irreversible.'
         }
       })
       .afterClosed()
-      .subscribe(confirmed => {
-        if (confirmed) {
-          this.deleteAll();
-        }
-      });
+      .subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteAll();
+      }
+    });
   }
 }

@@ -29,11 +29,12 @@ import { RoutedUserPlist as RoutedUserPlistSilvestre } from './component/silvest
 import { RoutedUserView as RoutedUserViewSilvestre } from './component/silvestre/routed-user-view/routed-user-view';
 //
 import { UskiVisitasPage } from './component/uski/pages/visitas/visitas.page';
+import { UskiVisitasNewPage } from './component/uski/pages/visitas-new/visitas-new.page';
+import { UskiVisitasViewPage } from './component/uski/pages/visitas-view/visitas-view.page';
 import { UskiAdminPage } from './component/uski/pages/admin/admin.page';
 import { UskiAdminRemovePage } from './component/uski/pages/admin-remove/admin-remove.page';
 import { UskiAdminViewPage } from './component/uski/pages/admin-view/admin-view.page';
-import { UskiVisitasNewPage } from './component/uski/pages/visitas-new/visitas-new.page';
-import { UskiVisitasViewPage } from './component/uski/pages/visitas-view/visitas-view.page';
+import { UskiAdminEditPage } from './component/uski/pages/admin-edit/admin-edit.page';
 //
 import { RoutedAdminPlistCalinescu } from './component/calinescu/routed-admin-plist/routed-admin-plist';
 import { RoutedAdminViewCalinescu } from './component/calinescu/routed-admin-view/routed-admin-view';
