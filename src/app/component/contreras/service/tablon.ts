@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { serverURL } from '../../../environment/environment';
 import { IPage } from '../model/plist';
 import { ITablon } from '../model/tablon';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,27 +19,111 @@ export class TablonService {
     if (direction === '') {
       direction = 'asc';
     }
-    return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras?page=${page}&size=${rpp}&sort=${order},${direction}`);
+    return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras?page=${page}&size=${rpp}&sort=${order},${direction}`)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.getPage error:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+    getPublicPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<ITablon>> {
+    if (order === '') {
+      order = 'id';
+    }
+    if (direction === '') {
+      direction = 'asc';
+    }
+    return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras?page=${page}&size=${rpp}&sort=${order},${direction}&publicado=true`)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.getPublicPage error:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   get(id: number): Observable<ITablon> {
-    return this.oHttp.get<ITablon>(serverURL + '/contreras/' + id);
+    return this.oHttp.get<ITablon>(serverURL + '/contreras/' + id)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.get error:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   create(Tablon: Partial<ITablon>): Observable<number> {
-    return this.oHttp.post<number>(serverURL + '/contreras', Tablon);
+    return this.oHttp.post<number>(serverURL + '/contreras', Tablon)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.create error:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   update(Tablon: Partial<ITablon>): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/contreras', Tablon);
+    return this.oHttp.put<number>(serverURL + '/contreras', Tablon)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.update error:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   delete(id: number): Observable<number> {
-    return this.oHttp.delete<number>(serverURL + '/contreras/' + id);
+    return this.oHttp.delete<number>(serverURL + '/contreras/' + id)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.delete error:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  deleteAll(): Observable<void> {
+    return this.oHttp.delete<void>(serverURL + '/contreras')
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.deleteAll error:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   rellenaTablon(numPosts: number): Observable<number> {
-    return this.oHttp.get<number>(serverURL + '/contreras/rellena/' + numPosts);
+    return this.oHttp.get<number>(serverURL + '/contreras/rellena/' + numPosts)
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.rellenaTablon error:', err);
+          return throwError(() => err);
+        })
+      );
   }
+
+  publicar(id: number): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/contreras/publicar/' + id, {})
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.publicar error:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  despublicar(id: number): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/contreras/despublicar/' + id, {})
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.despublicar error:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+
 
 }

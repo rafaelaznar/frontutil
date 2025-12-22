@@ -31,16 +31,15 @@ export class RoutedUserPlist {
   }
 
   getPage() {
-    this.oTablonService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oTablonService.getPublicPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
       next: (data: IPage<ITablon>) => {
+        console.log('Respuesta backend getPublicPage:', data);
         const filteredContent = data.content.filter(post => post.publico === true);
-        
         this.oPage = {
           ...data,
           content: filteredContent,
           numberOfElements: filteredContent.length
         };
-        
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.getPage();

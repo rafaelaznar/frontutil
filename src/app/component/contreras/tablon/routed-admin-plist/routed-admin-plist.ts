@@ -34,6 +34,7 @@ export class RoutedAdminPlist {
   getPage() {
     this.oTablonService.getPage(this.numPage, this.numRpp).subscribe({
       next: (data: IPage<ITablon>) => {
+        console.log('Respuesta backend getPage (admin):', data);
         this.oPage = data;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;

@@ -302,11 +302,11 @@ export const routes: Routes = [
   //
   { path: 'tablon', component: TablonRoutedUserPlist },
   { path: 'tablon/post/:id', component: TablonRoutedUserView },
-  { path: 'tablon/plist', component: TablonRoutedAdminPlist },
-  { path: 'tablon/view/:id', component: TablonRoutedAdminView },
-  { path: 'tablon/new', component: TablonRoutedAdminNew },
-  { path: 'tablon/edit/:id', component: TablonRoutedAdminEdit },
-  { path: 'tablon/remove/:id', component: TablonRoutedAdminRemove },
+  { path: 'tablon/plist', component: TablonRoutedAdminPlist, canActivate: [AdminGuard] },
+  { path: 'tablon/view/:id', component: TablonRoutedAdminView, canActivate: [AdminGuard] },
+  { path: 'tablon/new', component: TablonRoutedAdminNew, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'tablon/edit/:id', component: TablonRoutedAdminEdit, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'tablon/remove/:id', component: TablonRoutedAdminRemove, canActivate: [AdminGuard] },
   //
   { path: 'zanon', component: RoutedUserPlistZanon },
   { path: 'zanon/post/:id', component: RoutedUserViewZanon },
