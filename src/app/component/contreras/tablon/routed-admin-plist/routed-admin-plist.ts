@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IPage } from '../../model/plist';
 import { ITablon } from '../../model/tablon';
@@ -17,6 +16,39 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './routed-admin-plist.css',
 })
 export class RoutedAdminPlist {
+  // GESTION FILTRADOS TABLA
+  get postsTablaFiltrada(): ITablon[] {
+    if (this.filtro.trim()) {
+      return this.postsFiltrados;
+    }
+    return this.oPage?.content || [];
+  }
+    filtro: string = '';
+      filtroInput: string = '';
+    postsFiltrados: ITablon[] = [];
+  filtrar() {
+    this.filtro = this.filtroInput;
+    this.filtrarPosts();
+  }
+
+  quitarFiltro() {
+    this.filtro = '';
+    this.filtroInput = '';
+    this.filtrarPosts();
+  }
+
+  filtrarPosts() {
+    if (!this.oPage?.content) {
+      this.postsFiltrados = [];
+      return;
+    }
+    const filtroLower = this.filtro.toLowerCase();
+    this.postsFiltrados = this.oPage.content.filter(post => {
+      if (!this.filtro.trim()) return true;
+      return post.etiquetas?.toLowerCase().includes(filtroLower);
+    });
+    console.log('Filtro:', this.filtro, 'Filtrados:', this.postsFiltrados);
+  }
   oPage: IPage<ITablon> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
@@ -36,6 +68,11 @@ export class RoutedAdminPlist {
   }
 
   rellenarTablon(num: number) {
+    // En caso de meter demasiados de golpe, aviso usuario
+    if (num > 150) {
+      const nSuperior = confirm('Estás mandando muchas peticiones, ¿seguro que quieres continuar? Puedes sobrecargar la base de datos.');
+      if (!nSuperior) return;
+    }
     if (num > 0) {
       this.oTablonService.rellenaTablon(num).subscribe({
         next: () => {
@@ -65,6 +102,7 @@ export class RoutedAdminPlist {
       next: (data: IPage<ITablon>) => {
         console.log('Respuesta backend getPage (admin):', data);
         this.oPage = data;
+        this.filtrarPosts();
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.getPage();
