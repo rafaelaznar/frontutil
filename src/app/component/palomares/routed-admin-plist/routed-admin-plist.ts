@@ -21,7 +21,7 @@ import { debug } from '../../../environment/environment';
 export class RoutedAdminPlist {
   oPage: IPage<IPalomares> | null = null;
   numPage: number = 0;
-  numRpp: number = 2;
+  numRpp: number = 5;
   rellenaCantidad: number = 10;
   rellenando: boolean = false;
   rellenaOk: number | null = null;
