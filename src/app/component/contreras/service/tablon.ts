@@ -99,6 +99,7 @@ export class TablonService {
       );
   }
 
+  // poner/quitar publico en los posts
   publicar(id: number): Observable<number> {
     return this.oHttp.put<number>(serverURL + '/contreras/publicar/' + id, {})
       .pipe(
