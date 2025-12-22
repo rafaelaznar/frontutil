@@ -36,6 +36,18 @@ export class AlfonsoRespuestaService {
     return this.oHttp.get<number>(serverURL + '/alfonsorespuesta/rellena/' + cantidad);
   }
 
+  empty(): Observable<number> {
+    return this.oHttp.delete<number>(serverURL + '/alfonsorespuesta/empty');
+  }
+
+  publicar(id: number): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/alfonsorespuesta/publicar/' + id, {});
+  }
+
+  despublicar(id: number): Observable<number> {
+    return this.oHttp.put<number>(serverURL + '/alfonsorespuesta/despublicar/' + id, {});
+  }
+
   count(): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/alfonsorespuesta/count');
   }

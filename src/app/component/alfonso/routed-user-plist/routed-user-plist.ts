@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { IPage } from '../../../model/plist';
 import { IAlfonsoRespuesta } from '../../../model/alfonso-respuesta';
 import { AlfonsoRespuestaService } from '../../../service/alfonso-respuesta';
@@ -9,7 +8,7 @@ import { UnroutedAlfonsoUserCard } from "../unrouted-user-card/unrouted-user-car
 
 @Component({
   selector: 'app-alfonso-user-plist',
-  imports: [Paginacion, UnroutedAlfonsoUserCard, RouterLink],
+  imports: [Paginacion, UnroutedAlfonsoUserCard],
   templateUrl: './routed-user-plist.html',
   styleUrl: './routed-user-plist.css',
 })
