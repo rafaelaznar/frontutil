@@ -38,6 +38,17 @@ export class TablonService {
         })
       );
   }
+  
+  // Obtener todos los posts sin paginación (para filtrado completo)
+  getAll(): Observable<ITablon[]> {
+    return this.oHttp.get<ITablon[]>(serverURL + '/contreras/all')
+      .pipe(
+        catchError((err) => {
+          console.error('TablonService.getAll error:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 
   get(id: number): Observable<ITablon> {
     return this.oHttp.get<ITablon>(serverURL + '/contreras/' + id)
@@ -79,6 +90,7 @@ export class TablonService {
       );
   }
 
+  // Borrar todos los posts
   deleteAll(): Observable<void> {
     return this.oHttp.delete<void>(serverURL + '/contreras/all')
       .pipe(
@@ -89,6 +101,7 @@ export class TablonService {
       );
   }
 
+  // Rellenar Tabla con posts
   rellenaTablon(numPosts: number): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/contreras/rellena/' + numPosts)
       .pipe(
@@ -99,26 +112,7 @@ export class TablonService {
       );
   }
 
-  // poner/quitar publico en los posts
-  publicar(id: number): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/contreras/publicar/' + id, {})
-      .pipe(
-        catchError((err) => {
-          console.error('TablonService.publicar error:', err);
-          return throwError(() => err);
-        })
-      );
-  }
 
-  despublicar(id: number): Observable<number> {
-    return this.oHttp.put<number>(serverURL + '/contreras/despublicar/' + id, {})
-      .pipe(
-        catchError((err) => {
-          console.error('TablonService.despublicar error:', err);
-          return throwError(() => err);
-        })
-      );
-  }
 
 
 

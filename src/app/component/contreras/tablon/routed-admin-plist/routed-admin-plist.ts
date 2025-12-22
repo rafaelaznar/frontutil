@@ -26,33 +26,44 @@ export class RoutedAdminPlist {
     filtro: string = '';
       filtroInput: string = '';
     postsFiltrados: ITablon[] = [];
+
+  // filtrar posts
   filtrar() {
     this.filtro = this.filtroInput;
-    this.filtrarPosts();
+    if (this.filtro.trim()) {
+      // Filtrar numero posts total, getpage antes
+      this.oTablonService.getPage(0, 10000).subscribe({
+        next: (data) => {
+          const posts = data.content || [];
+          const filtroLower = this.filtro.toLowerCase();
+          this.postsFiltrados = posts.filter(post =>
+            post.etiquetas?.toLowerCase().includes(filtroLower)
+          );
+        },
+        error: (error: HttpErrorResponse) => {
+          alert('Error al filtrar los posts');
+          console.error(error);
+        }
+      });
+    } else {
+      this.postsFiltrados = [];
+    }
   }
 
+  // quitar filtros
   quitarFiltro() {
     this.filtro = '';
     this.filtroInput = '';
-    this.filtrarPosts();
+    this.getPage(); //
   }
 
-  filtrarPosts() {
-    if (!this.oPage?.content) {
-      this.postsFiltrados = [];
-      return;
-    }
-    const filtroLower = this.filtro.toLowerCase();
-    this.postsFiltrados = this.oPage.content.filter(post => {
-      if (!this.filtro.trim()) return true;
-      return post.etiquetas?.toLowerCase().includes(filtroLower);
-    });
-    console.log('Filtro:', this.filtro, 'Filtrados:', this.postsFiltrados);
-  }
+
   oPage: IPage<ITablon> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
   numRellenar: number = 10;
+  
+  // Borrar todos los posts
   borrarTodos() {
     if (confirm('¿Seguro que quieres borrar todos los posts?')) {
       this.oTablonService.deleteAll().subscribe({
@@ -67,6 +78,7 @@ export class RoutedAdminPlist {
     }
   }
 
+  // Rellenar con posts
   rellenarTablon(num: number) {
     // En caso de meter demasiados de golpe, aviso usuario
     if (num > 150) {
@@ -97,12 +109,13 @@ export class RoutedAdminPlist {
     this.getPage();
   }
 
+  // Paginacion de posts normal
   getPage() {
     this.oTablonService.getPage(this.numPage, this.numRpp).subscribe({
       next: (data: IPage<ITablon>) => {
         console.log('Respuesta backend getPage (admin):', data);
         this.oPage = data;
-        this.filtrarPosts();
+        this.postsFiltrados = [];
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.getPage();
