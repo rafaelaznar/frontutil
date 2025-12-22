@@ -17,7 +17,7 @@ import { SessionService } from '../../../service/session.service';
 export class SemperteguiRoutedUserPlist {
   oPage: IPage<IPelicula> | null = null;
   numPage: number = 0;
-  numRpp: number = 3;
+  numRpp: number = 2;
   // contador actual de elementos en la tabla pública
   totalElementsCount: number = 0;
   isSessionActive: boolean = false;

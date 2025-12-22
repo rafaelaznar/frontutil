@@ -1,29 +1,39 @@
 import { Component } from '@angular/core';
 import { SemperteguiService } from '../../../service/sempertegui/sempertegui.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IPelicula } from '../../../model/sempertegui/sempertegui.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TrimPipe } from "../../../pipe/trim-pipe";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
 import { Location } from "@angular/common";
+import { SessionService } from '../../../service/session.service';
+
 @Component({
   selector: 'app-sempertegui-routed-user-view',
-  imports: [TrimPipe, DatetimePipe],
+  imports: [TrimPipe, DatetimePipe, RouterLink],
   templateUrl: './sempertegui-routed-user-view.html',
   styleUrl: './sempertegui-routed-user-view.css',
 })
 export class SemperteguiRoutedUserView {
-movie: IPelicula | null = null;
+  movie: IPelicula | null = null;
+  loading: boolean = true;
+  error: string | null = null;
+  isSessionActive: boolean = false;
 
-  constructor(private semperteguiService: SemperteguiService, private route: ActivatedRoute, private location: Location) {
-    // Obtener el ID del blog desde la ruta
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const movieId = idParam ? Number(idParam) : NaN;
-    if (isNaN(movieId)) {
-      console.error('Invalid movie id:', idParam);
-      return;
+  constructor(
+    private semperteguiService: SemperteguiService, 
+    private route: ActivatedRoute, 
+    private sessionService: SessionService
+  ) {
+    this.isSessionActive = this.sessionService.isSessionActive();
+    // Obtener el ID del la película desde la ruta
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+        this.getMovie(+id);
+    } else {
+        this.error = 'ID de película no válido';
+        this.loading = false;
     }
-    this.getMovie(movieId);
   }
 
   ngOnInit() { }
@@ -32,14 +42,14 @@ movie: IPelicula | null = null;
     this.semperteguiService.get(movieId).subscribe({
       next: (data: IPelicula) => {
         this.movie = data;
+        this.loading = false;
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error fetching blog:', error);
+        this.error = 'Error cargando el registro o no existe';
+        this.loading = false;
+        console.error(error);
       },
     });
   }
 
-  goBack(){
-    this.location.back();
-  }
 }

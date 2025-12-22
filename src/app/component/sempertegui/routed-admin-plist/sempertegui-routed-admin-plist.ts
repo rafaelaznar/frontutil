@@ -33,12 +33,11 @@ export class SemperteguiRoutedAdminPlist {
   // track id being published/unpublished to show spinner per-row
   publishingId: number | null = null;
   publishingAction: 'publicar' | 'despublicar' | null = null;
-
-  constructor(private semperteguiService: SemperteguiService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
-
   oBotonera: string[] = [];
   orderField: string = 'id';
   orderDirection: string = 'asc';
+
+  constructor(private semperteguiService: SemperteguiService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getPage();

@@ -90,7 +90,7 @@ export class SemperteguiRoutedAdminNew implements OnInit {
           this.movieForm.markAsPristine();
         }
         // inform the user
-        this.snackBar.open('Registro creado correctamente', 'Cerrar', { duration: 3000 });
+        this.snackBar.open('Película añadida correctamente', 'Cerrar', { duration: 3000 });
         this.router.navigate(['/sempertegui/plist']);
       },
       error: (err: HttpErrorResponse) => {

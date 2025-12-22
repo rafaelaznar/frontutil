@@ -26,13 +26,13 @@ export class SemperteguiRoutedAdminRemove implements OnInit {
   deleting: boolean = false;
 
   ngOnInit(): void {
-        const id = this.route.snapshot.paramMap.get('id');
-        if (id) {
-            this.getMovie(+id);
-        } else {
-            this.error = 'ID de película no válido';
-            this.loading = false;
-        }
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+        this.getMovie(+id);
+    } else {
+        this.error = 'ID de película no válido';
+        this.loading = false;
+    }
   }
 
   getMovie(id: number) {

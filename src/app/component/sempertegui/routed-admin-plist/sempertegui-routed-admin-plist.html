@@ -67,16 +67,22 @@
   </div>
 
   @if(totalElementsCount > 0) {
-    <div class="d-flex justify-content-between my-1">
-      <app-paginacion
-        [numPage]="numPage"
-        [numPages]="oPage?.totalPages || 1"
-        (pageChange)="goToPage($event)"
-      >
-      </app-paginacion>
-
-      <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
-    </div>
+     @if(totalElementsCount <= numRpp) {
+      <div class="d-flex justify-content-end my-1">
+        <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
+      </div>
+     } @else {
+       <div class="d-flex justify-content-between my-1">
+         <app-paginacion
+           [numPage]="numPage"
+           [numPages]="oPage?.totalPages || 1"
+           (pageChange)="goToPage($event)"
+         >
+         </app-paginacion>
+   
+         <app-botonera-rpp [numRpp]="numRpp" (rppChange)="onRppChange($event)"> </app-botonera-rpp>
+       </div>
+     }
   }
 
   <div class="row">

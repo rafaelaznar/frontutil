@@ -128,7 +128,7 @@ export class SemperteguiRoutedAdminEdit implements OnInit {
                     this.movieForm.markAsPristine();
                 }
                 // inform the user
-                this.snackBar.open('Registro guardado correctamente', 'Cerrar', { duration: 3000 });
+                this.snackBar.open('Se ha guardado correctamente', 'Cerrar', { duration: 3000 });
                 this.router.navigate(['/sempertegui/plist']);
             },
             error: (err: HttpErrorResponse) => {

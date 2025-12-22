@@ -1,17 +1,17 @@
 :host {
   display: block;
   background-color: #fcfcfc;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 /* Poster Placeholder */
 .movie-poster-placeholder {
-  aspect-ratio: 2/3;
+  aspect-ratio: 4/5;
   border-bottom: 4px solid #e63946;
 }
 
 /* Círculo de Puntuación */
-.rating-circle {
+/* .rating-circle {
   width: 80px;
   height: 80px;
   border: 4px solid #f1f1f1;
@@ -22,6 +22,29 @@
   align-items: center;
   justify-content: center;
   color: #1d3557;
+} */
+.rating-circle {
+  width: 90px; /* Un poco más grande para mejor visibilidad */
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d3557;
+  /* Eliminamos el border sólido anterior para usar el gradiente */
+  border: none; 
+  position: relative;
+}
+
+.rating-inner {
+  width: 78px; /* Este tamaño define el grosor del borde (90px - 12px) */
+  height: 78px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Tipografía y Espaciados */
