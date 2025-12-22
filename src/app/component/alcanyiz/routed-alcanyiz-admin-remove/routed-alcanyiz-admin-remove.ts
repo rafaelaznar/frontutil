@@ -40,7 +40,7 @@ export class RoutedAlcanyizAdminRemove {
         this.loading = false;
       },
       error: (err: HttpErrorResponse) => {
-        this.error = 'Error cargando el post';
+        this.error = 'Error cargando la pregunta';
         this.loading = false;
         console.error(err);
       }
@@ -59,7 +59,7 @@ export class RoutedAlcanyizAdminRemove {
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
         this.error = 'Error al borrar la pregunta';
-        this.snackBar.open('Error al borrar el post', 'Cerrar', { duration: 4000 });
+        this.snackBar.open('Error al borrar la pregunta', 'Cerrar', { duration: 4000 });
         console.error(err);
       }
     });

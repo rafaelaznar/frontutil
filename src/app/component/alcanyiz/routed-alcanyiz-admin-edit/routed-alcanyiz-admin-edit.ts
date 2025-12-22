@@ -16,6 +16,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './routed-alcanyiz-admin-edit.css',
 })
 export class RoutedAlcanyizAdminEdit {
+
     private fb = inject(FormBuilder);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
@@ -43,7 +44,6 @@ export class RoutedAlcanyizAdminEdit {
     }
 
     initForm(): void {
-        // use the same control names used elsewhere: question, answer1..4, correct
         this.questionForm = this.fb.group({
             question: ['', [
                 Validators.required,
@@ -54,7 +54,6 @@ export class RoutedAlcanyizAdminEdit {
             answer3: ['', [Validators.required]],
             answer4: ['', [Validators.required]],
             correct: [1, [Validators.required, Validators.min(1), Validators.max(4)]],
-            // nuevos controles
             tema: ['backend', [Validators.required]],
             publicado: [false]
         });
@@ -71,14 +70,13 @@ export class RoutedAlcanyizAdminEdit {
                     answer3: question.answer3,
                     answer4: question.answer4,
                     correct: question.correct,
-                    // nuevos campos
                     tema: (question as any).tema ?? 'backend',
                     publicado: !!(question as any).publicado
                 });
                 this.loading = false;
             },
             error: (err: HttpErrorResponse) => {
-                this.error = 'Error al cargar el post';
+                this.error = 'Error al cargar la pregunta';
                 this.loading = false;
                 console.error(err);
             },
@@ -86,6 +84,7 @@ export class RoutedAlcanyizAdminEdit {
     }
 
     onSubmit(): void {
+
         if (!this.questionForm.valid || !this.questionId) {
             this.questionForm.markAllAsTouched();
             return;
@@ -110,18 +109,17 @@ export class RoutedAlcanyizAdminEdit {
                 if (this.questionForm) {
                         this.questionForm.markAsPristine();
                 }
-                this.snackBar.open('Pregunta guardada', 'Cerrar', { duration: 3000 });
+                this.snackBar.open('Pregunta editada correctamente', 'Cerrar', { duration: 3000 });
                 this.router.navigate(['/alcanyiz/questionlist']);
             },
             error: (err: HttpErrorResponse) => {
                 this.submitting = false;
-                this.error = 'Error al guardar el post';
+                this.error = 'Error al guardar la pregunta';
                 console.error(err);
             },
         });
     }
 
-    // Guard: ask confirmation if the form has unsaved changes
     canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
         if (!this.questionForm || !this.questionForm.dirty) {
             return true;
@@ -129,7 +127,7 @@ export class RoutedAlcanyizAdminEdit {
         const ref = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: 'Cambios sin guardar',
-                message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+                message: 'Se van a revertir los cambios. ¿Seguro que desea salir?'
             }
         });
         return ref.afterClosed();

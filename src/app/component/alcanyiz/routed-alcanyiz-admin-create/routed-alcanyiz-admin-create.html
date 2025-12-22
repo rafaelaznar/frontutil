@@ -13,7 +13,7 @@
         </div>
         }
 
-  <form class="create-form" [formGroup]="questionForm" (ngSubmit)="onSubmit()" novalidate>
+        <form class="create-form" [formGroup]="questionForm" (ngSubmit)="onSubmit()" novalidate>
           <!-- Pregunta -->
           <div class="mb-4">
             <label for="question" class="form-label">Título <span class="text-danger">*</span></label>
@@ -61,8 +61,8 @@
 
           <!-- Correcta -->
       <div class="mb-4">
-            <label class="form-label">Respuesta correcta</label>
-            <select class="form-select" formControlName="correct">
+      <label class="form-label">Respuesta correcta</label>
+      <select class="form-select" style="cursor: pointer;" formControlName="correct">
         <option [value]="1">1</option>
         <option [value]="2">2</option>
         <option [value]="3">3</option>
@@ -72,8 +72,8 @@
 
           <!-- Tema -->
       <div class="mb-4">
-            <label for="tema" class="form-label">Tema <span class="text-danger">*</span></label>
-            <select id="tema" class="form-select" formControlName="tema">
+      <label for="tema" class="form-label">Tema <span class="text-danger">*</span></label>
+      <select id="tema" class="form-select" style="cursor: pointer;" formControlName="tema">
         <option [value]="'backend'">Backend</option>
         <option [value]="'frontend'">Frontend</option>
         <option [value]="'vocabulario'">Vocabulario</option>
@@ -82,8 +82,8 @@
 
           <!-- Publicada -->
           <div class="mb-4 form-check">
-            <input id="publicada" type="checkbox" class="form-check-input" formControlName="publicada" />
-            <label for="publicada" class="form-check-label">Publicado</label>
+            <input id="publicada" style="cursor: pointer;" type="checkbox" class="form-check-input" formControlName="publicada" />
+            <label for="publicada" style="cursor: pointer;" class="form-check-label">Publicado</label>
           </div>
 
           <!-- Botones -->

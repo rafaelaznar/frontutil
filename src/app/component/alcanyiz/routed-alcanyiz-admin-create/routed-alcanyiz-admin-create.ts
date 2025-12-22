@@ -44,6 +44,7 @@ export class RoutedAlcanyizAdminCreate {
   }
 
   onSubmit(): void {
+    
     if (!this.questionForm.valid) {
       this.questionForm.markAllAsTouched();
       return;
@@ -56,7 +57,6 @@ export class RoutedAlcanyizAdminCreate {
       answer2: this.questionForm.value.answer2,
       answer3: this.questionForm.value.answer3,
       answer4: this.questionForm.value.answer4,
-      // ensure numeric
       correct: Number(this.questionForm.value.correct),
       tema: this.questionForm.value.tema,
   publicado: !!this.questionForm.value.publicada,
@@ -69,7 +69,7 @@ export class RoutedAlcanyizAdminCreate {
           this.questionForm.markAsPristine();
         }
 
-        this.snackBar.open('Post creado correctamente', 'Cerrar', { duration: 3000 });
+        this.snackBar.open('Pregunta creada correctamente', 'Cerrar', { duration: 3000 });
         this.router.navigate(['/alcanyiz/questionlist']);
       },
       error: (err: HttpErrorResponse) => {
@@ -81,13 +81,14 @@ export class RoutedAlcanyizAdminCreate {
   }
 
   canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+
       if (!this.questionForm || !this.questionForm.dirty) {
         return true;
       }
       const ref = this.dialog.open(ConfirmDialogComponent, {
         data: {
-          title: 'Cambios sin guardar',
-          message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+          title: 'Cambios por guardar',
+          message: 'Se borrarán los datos de la pregunta. ¿Seguro que desea salir?'
         }
       });
       return ref.afterClosed();

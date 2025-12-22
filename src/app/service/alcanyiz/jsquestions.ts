@@ -52,8 +52,8 @@ export class jsQuestionService{
         return this.oHttp.delete<number>(serverURL + '/alcanyiz/' + id);
       }
 
-      rellenaQuestions(numPosts: number): Observable<number> {
-        return this.oHttp.get<number>(serverURL + '/alcanyiz/rellena/' + numPosts);
+      rellenaQuestions(numQuestions: number): Observable<number> {
+        return this.oHttp.get<number>(serverURL + '/alcanyiz/rellena/' + numQuestions);
       }
 
       cantityQuestions(): Observable<number> {

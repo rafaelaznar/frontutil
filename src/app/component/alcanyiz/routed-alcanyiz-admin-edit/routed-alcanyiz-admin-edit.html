@@ -70,7 +70,7 @@
           <!-- Correcta -->
           <div class="mb-4">
             <label class="form-label">Respuesta correcta</label>
-            <select class="form-select" formControlName="correct">
+            <select class="form-select" style="cursor: pointer;" formControlName="correct">
               <option [value]="1">1</option>
               <option [value]="2">2</option>
               <option [value]="3">3</option>
@@ -81,7 +81,7 @@
           <!-- Tema -->
           <div class="mb-4">
             <label for="tema" class="form-label">Tema <span class="text-danger">*</span></label>
-            <select id="tema" class="form-select" formControlName="tema">
+            <select id="tema" style="cursor: pointer;" class="form-select" formControlName="tema">
               <option [value]="'backend'">Backend</option>
               <option [value]="'frontend'">Frontend</option>
               <option [value]="'vocabulario'">Vocabulario</option>
@@ -90,8 +90,8 @@
 
           <!-- Publicado -->
           <div class="mb-4 form-check">
-            <input id="publicado" type="checkbox" class="form-check-input" formControlName="publicado" />
-            <label for="publicado" class="form-check-label">Publicado</label>
+            <input id="publicado" style="cursor: pointer;" type="checkbox" class="form-check-input" formControlName="publicado" />
+            <label for="publicado" style="cursor: pointer;" class="form-check-label">Publicado</label>
           </div>
 
           <!-- Botones -->

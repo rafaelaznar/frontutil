@@ -38,7 +38,7 @@
               } }
             </span>
           </th>
-          <th scope="col" (click)="onOrder('question')" style="cursor: pointer; width: 35%">
+          <th scope="col" (click)="onOrder('question')" style="cursor: pointer">
             <span class="header-inline"
               >Pregunta @if (orderField === 'question') { @if (orderDirection === 'asc') {
               <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
@@ -92,7 +92,7 @@
           </td>
           <td>{{ oQuestion.create_date | datetime }}</td>
           <td>{{ oQuestion.modify_date | datetime }}</td>
-          <td>
+          <td class="d-flex justify-content-center flex-column">
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
               <a [routerLink]="['/alcanyiz/questionview', oQuestion.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
@@ -167,6 +167,7 @@
           #cantidadSel
           id="rellenaSelect"
           class="form-select form-select-sm w-auto"
+          style="cursor: pointer;"
           (change)="onCantidadChange(cantidadSel.value)"
         >
           <option [selected]="rellenaCantidad === 10" value="10">10</option>
@@ -188,7 +189,7 @@
           <i class="bi bi-gear-fill me-2"></i>
           } Generar
         </button>
-
+        @if(totalElementsCount > 0){
         <button
           class="btn btn-danger btn-sm position-relative"
           [disabled]="emptying"
@@ -205,6 +206,15 @@
           <i class="bi bi-trash me-2"></i>
           } Vaciar tabla
         </button>
+        } @else {
+          <button
+          style="background-color: rgb(197, 197, 197); border: 1px solid rgb(190, 190, 190); pointer-events: none; color: white;"
+          class="btn btn-sm position-relative"
+          title="Vaciar tabla">
+          <i class="bi bi-trash me-2"></i>
+           Vaciar tabla
+        </button>
+        }
 
         @if (rellenaOk) {
         <div class="d-flex align-items-center mensaje-preguntas pregunta-ok">
@@ -220,7 +230,7 @@
   </div>
     <div>
       <div class="d-flex justify-content-center my-3 ">
-        <a [routerLink]="['/alcanyiz/questioncreate']" class="crear-pregunta">
+        <a [routerLink]="['/alcanyiz/questioncreate']" class="btn btn-success">
           <i class="bi bi-plus-circle me-2"></i>Crear Pregunta
         </a>
       </div>

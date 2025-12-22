@@ -13,7 +13,6 @@ import { RouterLink } from '@angular/router';
 export class UnroutedAlcanyizUserView implements OnInit {
   @Input() oQuestion: questionModel | null = null;
 
-  // single control to hold selected answer (number 1..4)
   form: FormGroup = new FormGroup({
     selected: new FormControl<number | null>(null, [Validators.required]),
   });
@@ -22,7 +21,6 @@ export class UnroutedAlcanyizUserView implements OnInit {
   correctAnswerText: string | null = null;
 
   ngOnInit(): void {
-    // reset state on init
     this.result = null;
     this.correctAnswerText = null;
     this.form.reset();
@@ -39,22 +37,22 @@ export class UnroutedAlcanyizUserView implements OnInit {
 
   onSubmit(): void {
     if (!this.oQuestion) return;
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+    
   const raw = this.form.get('selected')!.value;
   const selected = raw === null ? null : Number(raw);
   if (selected === this.oQuestion.correct) {
       this.result = 'correct';
       this.correctAnswerText = null;
-  // lock form to prevent changes after answer
   this.form.disable({ emitEvent: false });
     } else {
       this.result = 'incorrect';
       const correctIndex = this.oQuestion.correct;
       this.correctAnswerText = this.getAnswerText(correctIndex);
-  // lock form to prevent changes after answer
   this.form.disable({ emitEvent: false });
     }
   }

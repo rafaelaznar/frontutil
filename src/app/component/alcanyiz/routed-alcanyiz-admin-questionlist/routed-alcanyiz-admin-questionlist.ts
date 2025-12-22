@@ -29,7 +29,6 @@ oPage: IPage<questionModel> | null = null;
   emptying: boolean = false;
   emptyOk: number | null = null;
   emptyError: string | null = null;
-
   publishingId: number | null = null;
   publishingAction: 'publicar' | 'despublicar' | null = null;
 
@@ -49,7 +48,6 @@ oPage: IPage<questionModel> | null = null;
         this.oPage = data;
         this.totalElementsCount = data.totalElements ?? 0;
         this.rellenaOk = this.totalElementsCount;
-        // si estamos en una página que supera el límite entonces nos situamos en la ultima disponible
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.getPage();
@@ -98,11 +96,11 @@ oPage: IPage<questionModel> | null = null;
       next: (count: number) => {
         this.rellenando = false;
         this.rellenaOk = count;
-        this.getPage(); // refrescamos listado
+        this.getPage();
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
-        this.rellenaError = 'Error generando datos fake';
+        this.rellenaError = 'Error generando datos';
         console.error(err);
       }
     });
@@ -147,8 +145,8 @@ oPage: IPage<questionModel> | null = null;
   openEmptyConfirm() {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
-          title: 'Vaciar tabla de Posts',
-          message: '¿Está seguro de que desea borrar TODOS los posts? Esta acción es irreversible.'
+          title: 'Borrar todas las preguntas',
+          message: '¿Estas seguro de que quieres eliminar todas las preguntas? Esta acción es irreversible.'
         }
       });
 
@@ -163,16 +161,14 @@ oPage: IPage<questionModel> | null = null;
       this.emptying = true;
       this.emptyOk = null;
       this.emptyError = null;
-      // notificar inicio con el conteo actual
-      this.snackBar.open(`Vaciando tabla... (actual: ${this.totalElementsCount})`, 'Cerrar', { duration: 3000 });
+      this.snackBar.open(`Borrando preguntas... (actual: ${this.totalElementsCount})`, 'Cerrar', { duration: 3000 });
       this.oQuestionService.empty().subscribe({
         next: (count: number) => {
           this.emptying = false;
           this.emptyOk = count;
-          // refrescar listado
           this.numPage = 0;
           this.getPage();
-          this.snackBar.open(`Tabla vaciada. Eliminados: ${count}. Total ahora: 0`, 'Cerrar', { duration: 4000 });
+          this.snackBar.open(`Preguntas borradas. Eliminados: ${count}. Total ahora: 0`, 'Cerrar', { duration: 4000 });
         },
         error: (err: HttpErrorResponse) => {
           this.emptying = false;
