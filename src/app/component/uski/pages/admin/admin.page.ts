@@ -8,10 +8,10 @@ import { IVisita } from '../../types/visitas';
 import { RouterLink } from "@angular/router";
 import { RegistroTablaComponent } from '../../components/registro-tabla-private/registro-tabla-private.component';
 import { BotoneraRpp } from "../../../shared/botonera-rpp/botonera-rpp";
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin.page',
@@ -21,7 +21,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     Paginacion,
     RegistroTablaComponent,
     BotoneraRpp,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   templateUrl: './admin.page.html',
   styleUrl: './admin.page.css',
@@ -65,6 +67,7 @@ export class UskiAdminPage {
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
+        this.snackBar.open('Error cargando los registros', 'Cerrar', { duration: 4000 });
       },
     });
   }
@@ -109,6 +112,7 @@ export class UskiAdminPage {
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
         this.rellenaError = 'Error generando datos';
+        this.snackBar.open('Error generando datos', 'Cerrar', { duration: 4000 });
         console.error(err);
       }
     });
@@ -120,7 +124,7 @@ export class UskiAdminPage {
     this.deleteAllError = null;
     this.rellenaError = null;
     this.deletingAll = true;
-    this.snackBar.open(`Borrando ${this.rellenaCantidad}todos los registros...`, 'Cerrar', { duration: 4000 });
+    this.snackBar.open('Borrando todos los registros...', 'Cerrar', { duration: 4000 });
     this.oVisitasService.deleteAll().subscribe({
       next: (count: number) => {
         this.deletingAll = false;
@@ -131,6 +135,7 @@ export class UskiAdminPage {
       error: (err: HttpErrorResponse) => {
         this.deletingAll = false;
         this.deleteAllError = 'Error eliminando registros';
+        this.snackBar.open('Error eliminando registros', 'Cerrar', { duration: 4000 });
         console.error(err);
       }
     });

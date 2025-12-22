@@ -5,11 +5,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { VisitasService } from '../../services/visitas.service';
 import { IVisita } from '../../types/visitas';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-edit.page',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, MatDialogModule, MatSnackBarModule],
   templateUrl: './admin-edit.page.html',
   styleUrl: './admin-edit.page.css',
 })
@@ -19,6 +20,7 @@ export class UskiAdminEditPage implements OnInit {
   private router = inject(Router);
   private visitasService = inject(VisitasService);
   private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
 
   visitaForm!: FormGroup;
   visitaId: number | null = null;
@@ -72,6 +74,7 @@ export class UskiAdminEditPage implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.error = 'Error al cargar el registro';
         this.loading = false;
+        this.snackBar.open('Error al cargar el registro', 'Cerrar', { duration: 4000 });
         console.error(err);
       },
     });
@@ -94,11 +97,16 @@ export class UskiAdminEditPage implements OnInit {
     this.visitasService.update(payload).subscribe({
       next: () => {
         this.submitting = false;
+        this.snackBar.open('Registro actualizado correctamente', 'Cerrar', { duration: 3000 });
+        if (this.visitaForm) {
+          this.visitaForm.markAsPristine();
+        }
         this.router.navigate(['/visitas/dashboard']);
       },
       error: (err: HttpErrorResponse) => {
         this.submitting = false;
         this.error = 'Error al guardar el registro';
+        this.snackBar.open('Error al guardar el registro', 'Cerrar', { duration: 4000 });
         console.error(err);
       },
     });

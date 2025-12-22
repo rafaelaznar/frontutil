@@ -6,10 +6,11 @@ import { IPage } from '../../types/pageView';
 import { IVisita } from '../../types/visitas';
 import { RouterLink } from "@angular/router";
 import { RegistroCardPublicComponent } from '../../components/registro-card-public/registro-card-public.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-visitas.page',
-  imports: [Paginacion, RouterLink, RegistroCardPublicComponent],
+  imports: [Paginacion, RouterLink, RegistroCardPublicComponent, MatSnackBarModule],
   templateUrl: './visitas.page.html',
   styleUrl: './visitas.page.css',
 })
@@ -18,7 +19,10 @@ export class UskiVisitasPage {
   numPage: number = 0;
   numRpp: number = 6;
 
-  constructor(private oVisitasService: VisitasService) { }
+  constructor(
+    private oVisitasService: VisitasService,
+    private snackBar: MatSnackBar
+  ) { }
 
   oBotonera: string[] = [];
 
@@ -37,6 +41,7 @@ export class UskiVisitasPage {
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
+        this.snackBar.open('Error cargando los registros', 'Cerrar', { duration: 4000 });
       },
     });
   }
