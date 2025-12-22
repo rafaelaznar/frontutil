@@ -143,6 +143,30 @@
             }
           </div>
 
+          <!-- Público -->
+          <div class="mb-4">
+            <label for="publico" class="form-label">¿Es pública? <span class="text-danger">*</span></label>
+            <select
+              id="publico"
+              class="form-select"
+              [class.is-invalid]="publico?.invalid && publico?.touched"
+              [class.is-valid]="publico?.valid && publico?.touched"
+              formControlName="publico"
+            >
+              <option value="" disabled selected>Seleccione una opción:</option>
+              <option [ngValue]="true">Sí</option>
+              <option [ngValue]="false">No</option>
+            </select>
+
+            @if (publico?.invalid && publico?.touched) {
+              <div class="invalid-feedback">
+                @if (publico?.errors?.['required']) {
+                  <span>Debe indicar si la rutina es pública o no.</span>
+                }
+              </div>
+            }
+          </div>
+
           <!-- Imagen -->
           <div class="mb-4">
             <label for="imagen" class="form-label">Imagen <span class="text-danger">*</span></label>

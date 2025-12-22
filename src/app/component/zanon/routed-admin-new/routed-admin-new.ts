@@ -45,6 +45,7 @@ export class RoutedAdminNewZanon implements OnInit {
         Validators.min(0),
       ]],
       dificultad: ['', [Validators.required]],
+      publico: ['', [Validators.required]],
       imagen: ['', [Validators.required]],
     });
   }
@@ -62,6 +63,7 @@ export class RoutedAdminNewZanon implements OnInit {
       etiquetas: this.zanonForm.value.etiquetas,
       duracion: this.zanonForm.value.duracion,
       dificultad: this.zanonForm.value.dificultad,
+      publico: this.zanonForm.value.publico,
       imagen: this.zanonForm.value.imagen,
     };
 
@@ -96,6 +98,10 @@ export class RoutedAdminNewZanon implements OnInit {
 
   get dificultad() {
     return this.zanonForm.get('dificultad');
+  }
+
+  get publico() {
+    return this.zanonForm.get('publico');
   }
 
   get imagen() {

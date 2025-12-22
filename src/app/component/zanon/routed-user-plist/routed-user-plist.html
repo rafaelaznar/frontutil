@@ -29,20 +29,22 @@
   
   <div class="list">
     @for (oZanon of oPage?.content; track oZanon.id ) {
-    <div class="post-row mt-5">
-      <div class="post-item">
-        <app-unrouted-user-view2 [oZanon]="oZanon"></app-unrouted-user-view2>
-      </div>
-    </div>
+      @if (oZanon.publico == true) {
+        <div class="post-row mt-5">
+          <div class="post-item">
+            <app-unrouted-user-view2 [oZanon]="oZanon"></app-unrouted-user-view2>
+          </div>
+        </div>
+      }
     }
   </div>
 
   <div class="d-flex justify-content-center mt-5">
-      <app-paginacion
-        [numPage]="numPage"
-        [numPages]="oPage?.totalPages || 1"
-        (pageChange)="goToPage($event)"
-      >
-      </app-paginacion>
-    </div>
+    <app-paginacion
+      [numPage]="numPage"
+      [numPages]="oPage?.totalPages || 1"
+      (pageChange)="goToPage($event)"
+    >
+    </app-paginacion>
+  </div>
 </div>

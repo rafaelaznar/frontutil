@@ -100,7 +100,8 @@ export class RoutedAdminPlistZanon {
       next: (count: number) => {
         this.rellenando = false;
         this.rellenaOk = count;
-        // refrescamos listado y notificamos resultado
+
+        // Refrescamos el listado y notificamos el resultado
         this.getPage();
         this.snackBar.open(`¡ ${count} rutinas generadas con éxito! Total: ${this.totalElementsCount + count}`, 'Cerrar', { duration: 4000 });
       },

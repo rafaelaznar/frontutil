@@ -158,10 +158,10 @@
           <td>{{ oZanon.fechaModificacion | datetime }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <a [routerLink]="['/blog/view', oZanon.id]" class="btn btn-outline-primary">
+              <a [routerLink]="['/zanon/view', oZanon.id]" class="btn btn-outline-primary">
                 <i class="bi bi-eye"></i>
               </a>
-              <a [routerLink]="['/blog/edit', oZanon.id]" class="btn btn-outline-secondary">
+              <a [routerLink]="['/zanon/edit', oZanon.id]" class="btn btn-outline-secondary">
                 <i class="bi bi-pencil-square"></i>
               </a>
               @if (!oZanon.publico) {
@@ -200,7 +200,7 @@
               </button>
               }
 
-              <a [routerLink]="['/blog/remove', oZanon.id]" class="btn btn-outline-danger">
+              <a [routerLink]="['/zanon/remove', oZanon.id]" class="btn btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
             </div>
