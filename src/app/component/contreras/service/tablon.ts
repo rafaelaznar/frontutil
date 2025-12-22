@@ -12,14 +12,12 @@ export class TablonService {
 
   constructor(private oHttp: HttpClient) { }
 
+  // OBTENER POSTS
+  // posts para admin
   getPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<ITablon>> {
-    if (order === '') {
-      order = 'id';
-    }
-    if (direction === '') {
-      direction = 'asc';
-    }
-    return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras?page=${page}&size=${rpp}&sort=${order},${direction}`)
+    if (order === '') order = 'id';
+    if (direction === '') direction = 'asc';
+    return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras/admin?page=${page}&size=${rpp}&sort=${order},${direction}`)
       .pipe(
         catchError((err) => {
           console.error('TablonService.getPage error:', err);
@@ -28,13 +26,10 @@ export class TablonService {
       );
   }
 
-    getPublicPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<ITablon>> {
-    if (order === '') {
-      order = 'id';
-    }
-    if (direction === '') {
-      direction = 'asc';
-    }
+  // posts para usuario (solo publicos)
+  getPublicPage(page: number, rpp: number, order: string = '', direction: string = ''): Observable<IPage<ITablon>> {
+    if (order === '') order = 'id';
+    if (direction === '') direction = 'asc';
     return this.oHttp.get<IPage<ITablon>>(serverURL + `/contreras?page=${page}&size=${rpp}&sort=${order},${direction}&publicado=true`)
       .pipe(
         catchError((err) => {
@@ -85,7 +80,7 @@ export class TablonService {
   }
 
   deleteAll(): Observable<void> {
-    return this.oHttp.delete<void>(serverURL + '/contreras')
+    return this.oHttp.delete<void>(serverURL + '/contreras/all')
       .pipe(
         catchError((err) => {
           console.error('TablonService.deleteAll error:', err);

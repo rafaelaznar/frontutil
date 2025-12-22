@@ -8,10 +8,11 @@ import { TablonService } from '../../service/tablon';
 import { Paginacion } from "../../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../../pipe/datetime-pipe";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-routed-admin-plist',
-  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe],
+  imports: [RouterLink, Paginacion, BotoneraRpp, DatetimePipe, FormsModule],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -19,6 +20,34 @@ export class RoutedAdminPlist {
   oPage: IPage<ITablon> | null = null;
   numPage: number = 0;
   numRpp: number = 5;
+  numRellenar: number = 10;
+  borrarTodos() {
+    if (confirm('¿Seguro que quieres borrar todos los posts?')) {
+      this.oTablonService.deleteAll().subscribe({
+        next: () => {
+          this.getPage();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert('Error al borrar todos los posts');
+          console.error(error);
+        },
+      });
+    }
+  }
+
+  rellenarTablon(num: number) {
+    if (num > 0) {
+      this.oTablonService.rellenaTablon(num).subscribe({
+        next: () => {
+          this.getPage();
+        },
+        error: (error: HttpErrorResponse) => {
+          alert('Error al rellenar el tablón');
+          console.error(error);
+        },
+      });
+    }
+  }
 
   constructor(private oTablonService: TablonService, private router: Router) { }
   volver() {
