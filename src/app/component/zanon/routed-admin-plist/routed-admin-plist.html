@@ -101,7 +101,15 @@
               } }
             </span>
           </th>
-          <th scope="col" style="width: 20%">Etiquetas</th>
+          <th scope="col" (click)="onOrder('etiquetas')" style="width: 20%">
+            <span class="header-inline">
+              Etiquetas @if (orderField === 'etiquetas') { @if (orderDirection === 'asc') {
+              <i class="bi bi-caret-up-fill ms-1" aria-hidden="true"></i>
+              } @if (orderDirection === 'desc') {
+              <i class="bi bi-caret-down-fill ms-1" aria-hidden="true"></i>
+              } }
+            </span>
+          </th>
           <th scope="col" (click)="onOrder('publicado')" style="cursor: pointer; width: 10%">
             <span class="header-inline"
               >Estado @if (orderField === 'publicado') { @if (orderDirection === 'asc') {
