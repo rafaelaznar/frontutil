@@ -18,11 +18,19 @@ export class RoutedAlfonsoUserPlist {
   numRpp: number = 6;
   order: string = 'fechaCreacion';
   direction: string = 'desc';
+  totalPublic: number | null = null;
 
   constructor(private oService: AlfonsoRespuestaService) { }
 
   ngOnInit() {
+    this.loadTotal();
     this.getPage();
+  }
+
+  loadTotal() {
+    this.oService.countVisible().subscribe({
+      next: (count) => this.totalPublic = count
+    });
   }
 
   getPage() {

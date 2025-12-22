@@ -8,6 +8,7 @@ import { AlfonsoRespuestaService } from '../../../service/alfonso-respuesta';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
 import { DatetimePipe } from "../../../pipe/datetime-pipe";
+import { Subject, debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-alfonso-admin-plist',
@@ -29,10 +30,17 @@ export class RoutedAlfonsoAdminPlist {
   statusMsg: string | null = null;
   filter: string = '';
   totalRegistros: number | null = null;
+  private filterSubject = new Subject<string>();
 
   constructor(private oService: AlfonsoRespuestaService) { }
 
   ngOnInit() {
+    this.filterSubject.pipe(debounceTime(400)).subscribe({
+      next: (value) => {
+        this.filter = value;
+        this.applyFilter();
+      }
+    });
     this.loadTotals();
     this.getPage();
   }
@@ -87,7 +95,7 @@ export class RoutedAlfonsoAdminPlist {
   }
 
   onFilterChange(value: string) {
-    this.filter = value;
+    this.filterSubject.next(value);
   }
 
   applyFilter() {

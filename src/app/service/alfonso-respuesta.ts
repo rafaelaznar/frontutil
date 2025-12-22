@@ -51,4 +51,8 @@ export class AlfonsoRespuestaService {
   count(): Observable<number> {
     return this.oHttp.get<number>(serverURL + '/alfonsorespuesta/count');
   }
+
+  countVisible(): Observable<number> {
+    return this.oHttp.get<number>(serverURL + '/alfonsorespuesta/count/visible');
+  }
 }
