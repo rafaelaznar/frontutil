@@ -228,8 +228,8 @@ export const routes: Routes = [
   // Rutas de Fernandez Ideas - Administración (protegidas con AdminGuard)
   { path: 'fernandez-idea/admin/plist', component: FernandezRoutedAdminPlist, canActivate: [AdminGuard] },
   { path: 'fernandez-idea/admin/view/:id', component: FernandezRoutedAdminView, canActivate: [AdminGuard] },
-  { path: 'fernandez-idea/admin/new', component: FernandezRoutedAdminNew, canActivate: [AdminGuard] },
-  { path: 'fernandez-idea/admin/edit/:id', component: FernandezRoutedAdminEdit, canActivate: [AdminGuard] },
+  { path: 'fernandez-idea/admin/new', component: FernandezRoutedAdminNew, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
+  { path: 'fernandez-idea/admin/edit/:id', component: FernandezRoutedAdminEdit, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
   { path: 'fernandez-idea/admin/remove/:id', component: FernandezRoutedAdminRemove, canActivate: [AdminGuard] },
   // Rutas de Fernandez Ideas - Usuario (públicas)
   { path: 'fernandez-idea/user/plist', component: FernandezRoutedUserPlist },

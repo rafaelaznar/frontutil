@@ -6,11 +6,12 @@ import { IFernandezIdea } from '../../../model/fernandez-idea';
 import { FernandezIdeaService, IPageWithTotal } from '../../../service/fernandez-idea.service';
 import { Paginacion } from "../../shared/paginacion/paginacion";
 import { BotoneraRpp } from "../../shared/botonera-rpp/botonera-rpp";
+import { DatetimePipe } from '../../../pipe/datetime-pipe';
 import { debug } from '../../../environment/environment';
 
 @Component({
   selector: 'app-fernandez-routed-admin-plist',
-  imports: [RouterLink, FormsModule, Paginacion, BotoneraRpp],
+  imports: [RouterLink, FormsModule, Paginacion, BotoneraRpp, DatetimePipe],
   templateUrl: './routed-admin-plist.html',
   styleUrl: './routed-admin-plist.css',
 })
@@ -56,7 +57,8 @@ export class FernandezRoutedAdminPlist {
         this.orderField,
         this.orderDirection,
         undefined,
-        this.searchTerm
+        this.searchTerm,
+        this.categoriaFilter
       )
       .subscribe({
         next: (data: IPageWithTotal<IFernandezIdea>) => {

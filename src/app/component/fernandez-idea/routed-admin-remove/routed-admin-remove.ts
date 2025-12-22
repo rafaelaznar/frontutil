@@ -4,6 +4,7 @@ import { FernandezIdeaService } from '../../../service/fernandez-idea.service';
 import { IFernandezIdea } from '../../../model/fernandez-idea';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FernandezUnroutedAdminView } from "../unrouted-admin-view/unrouted-admin-view";
+import { debug } from '../../../environment/environment';
 
 @Component({
   selector: 'app-fernandez-routed-admin-remove',
@@ -15,6 +16,7 @@ export class FernandezRoutedAdminRemove implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly ideaService = inject(FernandezIdeaService);
+  protected readonly debugging = debug;
 
   oIdea: IFernandezIdea | null = null;
   loading: boolean = true;
@@ -41,7 +43,7 @@ export class FernandezRoutedAdminRemove implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.error = 'Error cargando la idea';
         this.loading = false;
-        console.error(err);
+        this.debugging && console.error(err);
       }
     });
   }
@@ -69,7 +71,7 @@ export class FernandezRoutedAdminRemove implements OnInit {
       error: (err: HttpErrorResponse) => {
         this.deleting = false;
         this.error = 'Error borrando la idea';
-        console.error(err);
+        this.debugging && console.error(err);
       }
     });
   }

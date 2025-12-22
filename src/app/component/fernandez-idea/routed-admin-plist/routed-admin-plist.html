@@ -121,6 +121,12 @@
   <div class="d-flex justify-content-between align-items-center my-3 toolbar-grid">
     <div class="toolbar-left d-flex gap-2 align-items-center">
       <input type="search" class="form-control form-control-sm" placeholder="Buscar ideas..." aria-label="Buscar ideas" [(ngModel)]="searchTerm" (input)="onSearchDebounce()" (keyup.enter)="onSearchImmediate()" />
+      <select class="form-select form-select-sm" [(ngModel)]="categoriaFilter" (change)="onCategoriaChange()" aria-label="Filtrar por categoría" style="width: auto;">
+        <option value="ALL">Todas las categorías</option>
+        <option value="IDEA">IDEA</option>
+        <option value="MEJORA">MEJORA</option>
+        <option value="BUG">BUG</option>
+      </select>
     </div>
 
     <div class="toolbar-center d-flex justify-content-center align-items-center">
@@ -153,27 +159,45 @@
     </small>
   </div>
 
-  <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center table-responsive">
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('id')">ID</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('id')">
+            ID
+            @if (orderField === 'id') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('titulo')">Título</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('titulo')">
+            Título
+            @if (orderField === 'titulo') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('categoria')">Categoría</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('categoria')">
+            Categoría
+            @if (orderField === 'categoria') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('publico')">Publicado</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('publico')">
+            Publicado
+            @if (orderField === 'publico') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('fechaCreacion')">Creación</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('fechaCreacion')">
+            Creación
+            @if (orderField === 'fechaCreacion') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
-          <th scope="col">
-            <button class="btn btn-link p-0" type="button" (click)="onHeaderSort('fechaModificacion')">Modificación</button>
+          <th scope="col" class="sortable-header" style="cursor: pointer;" (click)="onHeaderSort('fechaModificacion')">
+            Modificación
+            @if (orderField === 'fechaModificacion') {
+              <i class="bi" [class.bi-sort-up]="orderDirection === 'asc'" [class.bi-sort-down]="orderDirection === 'desc'"></i>
+            }
           </th>
           <th scope="col">Operaciones</th>
         </tr>
@@ -198,8 +222,8 @@
               <i class="bi bi-x-circle-fill text-danger" title="No publicado"></i>
             }
           </td>
-          <td>{{ oIdea.fechaCreacion }}</td>
-          <td>{{ oIdea.fechaModificacion }}</td>
+          <td>{{ oIdea.fechaCreacion | datetime:'solofechacompleta' }}</td>
+          <td>{{ oIdea.fechaModificacion | datetime:'solofechacompleta' }}</td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
               @if (oIdea.publico) {

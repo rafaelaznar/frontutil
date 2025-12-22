@@ -22,13 +22,15 @@ export class FernandezIdeaService {
     order: string = 'id',
     direction: string = 'asc',
     publico?: boolean,
-    search?: string
+    search?: string,
+    categoria?: string
   ): Observable<IPageWithTotal<IFernandezIdea>> {
     const hasSearch = search && search.trim() !== '';
+    const hasCategoria = categoria && categoria !== 'ALL';
     const isDateOrder = order === 'fechaCreacion' || order === 'fechaModificacion';
     
-    // Si hay búsqueda O ordenamos por fecha (para desempate por ID), pedimos TODOS los registros
-    const needsLocalProcessing = hasSearch || isDateOrder;
+    // Si hay búsqueda, filtro de categoría O ordenamos por fecha (para desempate por ID), pedimos TODOS los registros
+    const needsLocalProcessing = hasSearch || hasCategoria || isDateOrder;
     
     let params = new HttpParams()
       .set('page', needsLocalProcessing ? '0' : page.toString())
@@ -49,6 +51,11 @@ export class FernandezIdeaService {
           content = content.filter((i: IFernandezIdea) => i.publico);
         }
         
+        // FILTRO POR CATEGORÍA
+        if (hasCategoria) {
+          content = content.filter((i: IFernandezIdea) => i.categoria === categoria);
+        }
+        
         // BÚSQUEDA LOCAL: filtrar por título o comentario
         if (hasSearch) {
           const term = search!.trim().toLowerCase();
@@ -58,7 +65,7 @@ export class FernandezIdeaService {
           );
         }
         
-        // Si necesitamos procesamiento local (búsqueda o fecha), ordenar y paginar localmente
+        // Si necesitamos procesamiento local (búsqueda, categoría o fecha), ordenar y paginar localmente
         if (needsLocalProcessing) {
           // ORDENAMIENTO LOCAL con desempate por ID
           content = this.sortContent(content, order, direction);
