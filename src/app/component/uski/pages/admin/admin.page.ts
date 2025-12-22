@@ -35,10 +35,6 @@ export class UskiAdminPage {
   rellenaCantidad: number = 5;
   rellenando: boolean = false;
   deletingAll: boolean = false;
-  rellenaOk: number | null = null;
-  deleteAllOk: number | null = null;
-  rellenaError: string | null = null;
-  deleteAllError: string | null = null;
   column: string = 'fechaCreacion';
   direction: 'asc' | 'desc' = 'desc';
   totalElementsCount: number = 0;
@@ -97,21 +93,16 @@ export class UskiAdminPage {
   }
 
   generarFake() {
-    this.rellenaOk = null;
-    this.rellenaError = null;
-    this.deleteAllError = null;
     this.rellenando = true;
     this.snackBar.open(`Generando ${this.rellenaCantidad} registros... (actual: ${this.totalElementsCount})`, 'Cerrar', { duration: 3000 });
     this.oVisitasService.rellenaBlog(this.rellenaCantidad).subscribe({
       next: (count: number) => {
         this.rellenando = false;
-        this.rellenaOk = this.rellenaCantidad;
         this.getPage(); // refrescamos listado
         this.snackBar.open(`Generados ${count} registros. Total ahora: ${this.totalElementsCount + count}`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
-        this.rellenaError = 'Error generando datos';
         this.snackBar.open('Error generando datos', 'Cerrar', { duration: 4000 });
         console.error(err);
       }
@@ -119,22 +110,16 @@ export class UskiAdminPage {
   }
 
   deleteAll() {
-    this.deleteAllOk = null;
-    this.rellenaOk = null;
-    this.deleteAllError = null;
-    this.rellenaError = null;
     this.deletingAll = true;
     this.snackBar.open('Borrando todos los registros...', 'Cerrar', { duration: 4000 });
     this.oVisitasService.deleteAll().subscribe({
       next: (count: number) => {
         this.deletingAll = false;
-        this.deleteAllOk = count;
         this.getPage();
         this.snackBar.open(`La tabla está vacia.`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
         this.deletingAll = false;
-        this.deleteAllError = 'Error eliminando registros';
         this.snackBar.open('Error eliminando registros', 'Cerrar', { duration: 4000 });
         console.error(err);
       }

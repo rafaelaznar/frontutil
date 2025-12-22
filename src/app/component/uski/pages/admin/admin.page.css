@@ -38,3 +38,8 @@
 .badge {
   font-size: 0.75rem;
 }
+
+.generator-card {
+  max-width: 560px;
+  width: 100%;
+}
