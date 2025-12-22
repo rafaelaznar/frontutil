@@ -32,7 +32,7 @@ export class RoutedUserPlistZanon {
   }
 
   getPage() {
-    this.oZanonService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc').subscribe({
+    this.oZanonService.getPage(this.numPage, this.numRpp, 'fechaCreacion', 'desc', true).subscribe({
       next: (data: IPage<IZanon>) => {
         this.oPage = data;
         this.totalElementsCount = data.totalElements ?? 0;

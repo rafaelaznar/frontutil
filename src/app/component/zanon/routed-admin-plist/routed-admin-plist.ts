@@ -52,7 +52,7 @@ export class RoutedAdminPlistZanon {
   }
 
   getPage() {
-    this.oZanonService.getPage(this.numPage, this.numRpp).subscribe({
+    this.oZanonService.getPage(this.numPage, this.numRpp, this.orderField, this.orderDirection, false).subscribe({
       next: (data: IPage<IZanon>) => {
         this.oPage = data;
 
