@@ -1,10 +1,11 @@
-import { UskiVisitasPage } from './../visitas/visitas.page';
 import { VisitasService } from '../../services/visitas.service';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IVisita } from '../../types/visitas';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-visitas-new',
@@ -16,6 +17,7 @@ export class UskiVisitasNewPage implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private visitasService = inject(VisitasService);
+  private dialog = inject(MatDialog);
 
   visitaForm!: FormGroup;
   error: string | null = null;
@@ -63,6 +65,19 @@ export class UskiVisitasNewPage implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+    if (!this.visitaForm || !this.visitaForm.dirty) {
+      return true;
+    }
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Cambios sin guardar',
+        message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+      }
+    });
+    return ref.afterClosed();
   }
 
   get nombre() {

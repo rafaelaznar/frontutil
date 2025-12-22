@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IVisita } from '../../types/visitas';
 import { VisitasService } from '../../services/visitas.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-registro-tabla-actions',
@@ -18,9 +19,12 @@ export class RegistroTablaActionsComponent {
 
   onTogglePublish() {
     const nuevoEstado = !this.visita.estaPublicado;
-    this.oVisitasService.publish({ id: this.visita.id, estaPublicado: nuevoEstado }).subscribe({
-      next: () => (this.visita.estaPublicado = nuevoEstado),
-      error: (err) => console.error('No se pudo actualizar', err),
-    });
+    this.oVisitasService
+      .publish({ id: this.visita.id, estaPublicado: nuevoEstado })
+      .pipe(switchMap(() => this.oVisitasService.get(this.visita.id)))
+      .subscribe({
+        next: (visitaActualizada) => Object.assign(this.visita, visitaActualizada),
+        error: (err) => console.error('No se pudo actualizar', err),
+      });
   }
 }

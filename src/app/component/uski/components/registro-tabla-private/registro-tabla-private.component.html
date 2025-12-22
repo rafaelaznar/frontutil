@@ -1,7 +1,7 @@
 <th scope="row">{{ visita.id }}</th>
-<td class="fw-semibold">{{ visita.nombre }}</td>
-<td class="text-truncate" style="max-width: 320px;" title="{{ visita.comentario }}">{{ visita.comentario }}</td>
-<td>
+<td class="fw-semibold text-truncate" style="max-width: 160px;" title="{{ visita.nombre }}">{{ visita.nombre }}</td>
+<td class="text-truncate" style="max-width: 340px;" title="{{ visita.comentario }}">{{ visita.comentario }}</td>
+<td class="text-center">
   @if (visita.estaPublicado) {
     <span class="badge bg-success">Publicado</span>
   } @else {

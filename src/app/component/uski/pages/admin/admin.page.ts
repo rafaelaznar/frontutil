@@ -11,6 +11,7 @@ import { BotoneraRpp } from "../../../shared/botonera-rpp/botonera-rpp";
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin.page',
@@ -38,10 +39,12 @@ export class UskiAdminPage {
   deleteAllError: string | null = null;
   column: string = 'fechaCreacion';
   direction: 'asc' | 'desc' = 'desc';
+  totalElementsCount: number = 0;
 
   constructor(
     private oVisitasService: VisitasService,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) { }
 
   oBotonera: string[] = [];
@@ -54,6 +57,7 @@ export class UskiAdminPage {
     this.oVisitasService.getPageAdmin(this.numPage, this.numRpp, this.column, this.direction).subscribe({
       next: (data: IPage<IVisita>) => {
         this.oPage = data;
+        this.totalElementsCount = data.totalElements ?? 0;
         if (this.numPage > 0 && this.numPage >= data.totalPages) {
           this.numPage = data.totalPages - 1;
           this.getPage();
@@ -91,15 +95,16 @@ export class UskiAdminPage {
 
   generarFake() {
     this.rellenaOk = null;
-    this.deleteAllOk = null;
     this.rellenaError = null;
     this.deleteAllError = null;
     this.rellenando = true;
+    this.snackBar.open(`Generando ${this.rellenaCantidad} registros... (actual: ${this.totalElementsCount})`, 'Cerrar', { duration: 3000 });
     this.oVisitasService.rellenaBlog(this.rellenaCantidad).subscribe({
       next: (count: number) => {
         this.rellenando = false;
-        this.rellenaOk = count;
+        this.rellenaOk = this.rellenaCantidad;
         this.getPage(); // refrescamos listado
+        this.snackBar.open(`Generados ${count} registros. Total ahora: ${this.totalElementsCount + count}`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
         this.rellenando = false;
@@ -115,11 +120,13 @@ export class UskiAdminPage {
     this.deleteAllError = null;
     this.rellenaError = null;
     this.deletingAll = true;
+    this.snackBar.open(`Borrando ${this.rellenaCantidad}todos los registros...`, 'Cerrar', { duration: 4000 });
     this.oVisitasService.deleteAll().subscribe({
       next: (count: number) => {
         this.deletingAll = false;
         this.deleteAllOk = count;
         this.getPage();
+        this.snackBar.open(`La tabla está vacia.`, 'Cerrar', { duration: 4000 });
       },
       error: (err: HttpErrorResponse) => {
         this.deletingAll = false;

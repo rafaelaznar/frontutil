@@ -187,12 +187,12 @@ export const routes: Routes = [
   { path: 'silvestre/remove/:id', component: RoutedAdminRemoveSilvestre },
   // Vladislav Uski
   { path: 'visitas', component: UskiVisitasPage },
-  { path: 'visitas/new', component: UskiVisitasNewPage },
+  { path: 'visitas/new', component: UskiVisitasNewPage, canDeactivate: [PendingChangesGuard]  },
   { path: 'visitas/view/:id', component: UskiVisitasViewPage },
   { path: 'visitas/dashboard', component: UskiAdminPage, canActivate: [AdminGuard] },
   { path: 'visitas/dashboard/view/:id', component: UskiAdminViewPage, canActivate: [AdminGuard] },
+  { path: 'visitas/dashboard/edit/:id', component: UskiAdminEditPage, canActivate: [AdminGuard], canDeactivate: [PendingChangesGuard] },
   { path: 'visitas/dashboard/remove/:id', component: UskiAdminRemovePage, canActivate: [AdminGuard] },
-  { path: 'visitas/dashboard/edit/:id', component: UskiAdminEditPage, canActivate: [AdminGuard] },
   // Reyna (Frases Motivacionales) routes
   { path: 'reyna', component: ReynaUserPlist },
   { path: 'reyna/post/:id', component: ReynaUserView },

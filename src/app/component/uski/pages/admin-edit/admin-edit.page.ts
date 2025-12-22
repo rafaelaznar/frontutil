@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpErrorResponse } from '@angular/common/http';
 import { VisitasService } from '../../services/visitas.service';
 import { IVisita } from '../../types/visitas';
+import { ConfirmDialogComponent } from '../../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-edit.page',
@@ -16,6 +18,7 @@ export class UskiAdminEditPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private visitasService = inject(VisitasService);
+  private dialog = inject(MatDialog);
 
   visitaForm!: FormGroup;
   visitaId: number | null = null;
@@ -100,6 +103,20 @@ export class UskiAdminEditPage implements OnInit {
       },
     });
   }
+
+  canDeactivate(): boolean | Promise<boolean> | import("rxjs").Observable<boolean> {
+    if (!this.visitaForm || !this.visitaForm.dirty) {
+      return true;
+    }
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Cambios sin guardar',
+        message: 'Hay cambios sin guardar. ¿Desea salir sin guardar los cambios?'
+      }
+    });
+    return ref.afterClosed();
+  }
+
 
   get nombre() {
     return this.visitaForm.get('nombre');
